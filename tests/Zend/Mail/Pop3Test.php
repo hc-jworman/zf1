@@ -44,11 +44,11 @@
  * @group      Zend_Mail
  */
 #[AllowDynamicProperties]
-class Zend_Mail_Pop3Test extends PHPUnit_Framework_TestCase
+class Zend_Mail_Pop3Test extends \PHPUnit\Framework\TestCase
 {
     protected $_params;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_params = array('host'     => TESTS_ZEND_MAIL_POP3_HOST,
                                'user'     => TESTS_ZEND_MAIL_POP3_USER,

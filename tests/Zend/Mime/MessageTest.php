@@ -34,7 +34,7 @@
  * @group      Zend_Mime
  */
 #[AllowDynamicProperties]
-class Zend_Mime_MessageTest extends PHPUnit_Framework_TestCase
+class Zend_Mime_MessageTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testMultiPart()

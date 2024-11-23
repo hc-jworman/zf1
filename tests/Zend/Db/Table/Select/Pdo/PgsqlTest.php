@@ -70,7 +70,7 @@ class Zend_Db_Table_Select_Pdo_PgsqlTest extends Zend_Db_Table_Select_TestCommon
 
         $sql = $this->_db->select()->from($table, '*', $schema);
 
-        $this->assertRegExp("/FROM \"$schema\".\"$table\"/", $sql->__toString());
+        $this->assertMatchesRegularExpression("/FROM \"$schema\".\"$table\"/", $sql->__toString());
 
         $rowset = $this->_db->fetchAll($sql);
 
@@ -91,7 +91,7 @@ class Zend_Db_Table_Select_Pdo_PgsqlTest extends Zend_Db_Table_Select_TestCommon
 
         $sql = $this->_db->select()->from($name);
 
-        $this->assertRegExp("/FROM \"$schema\".\"$table\"/", $sql->__toString());
+        $this->assertMatchesRegularExpression("/FROM \"$schema\".\"$table\"/", $sql->__toString());
 
         $rowset = $this->_db->fetchAll($sql);
 
@@ -112,7 +112,7 @@ class Zend_Db_Table_Select_Pdo_PgsqlTest extends Zend_Db_Table_Select_TestCommon
 
         $sql = $this->_db->select()->from($name, '*', 'ignored');
 
-        $this->assertRegExp("/FROM \"$schema\".\"$table\"/", $sql->__toString());
+        $this->assertMatchesRegularExpression("/FROM \"$schema\".\"$table\"/", $sql->__toString());
 
         $rowset = $this->_db->fetchAll($sql);
 

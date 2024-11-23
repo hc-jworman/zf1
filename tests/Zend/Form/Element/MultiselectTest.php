@@ -40,7 +40,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Element_MultiselectTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -49,8 +49,12 @@ class Zend_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Element_MultiselectTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Element_MultiselectTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -64,7 +68,7 @@ class Zend_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->element = new Zend_Form_Element_Multiselect('foo');
     }
@@ -75,7 +79,7 @@ class Zend_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -218,7 +222,7 @@ class Zend_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCase
         $this->element->addMultiOptions($options);
         $html = $this->element->render($this->getView());
         foreach ($options as $value => $label) {
-            $this->assertRegexp('/<option.*value="' . $value . '"[^>]*>' . $label . '/s', $html, $html);
+            $this->assertMatchesRegularExpression('/<option.*value="' . $value . '"[^>]*>' . $label . '/s', $html, $html);
         }
     }
 
@@ -242,8 +246,8 @@ class Zend_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCase
 
         $html = $this->element->render($this->getView());
         foreach ($options as $value => $label) {
-            $this->assertNotContains($label, $html, $html);
-            $this->assertRegexp('/<option.*value="' . $value . '"[^>]*>' . $translations[$label] . '/s', $html, $html);
+            $this->assertStringNotContainsString($label, $html, $html);
+            $this->assertMatchesRegularExpression('/<option.*value="' . $value . '"[^>]*>' . $translations[$label] . '/s', $html, $html);
         }
     }
 
@@ -317,7 +321,7 @@ class Zend_Form_Element_MultiselectTest extends PHPUnit_Framework_TestCase
         $this->element->setValue('barValue');
 
         $html = $this->element->render($this->getView());
-        $this->assertContains($translations['ThisIsTheLabel'], $html, $html);
+        $this->assertStringContainsString($translations['ThisIsTheLabel'], $html, $html);
     }
 
     /**

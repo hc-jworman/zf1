@@ -38,7 +38,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Element_SelectTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Element_SelectTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -47,8 +47,12 @@ class Zend_Form_Element_SelectTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Element_SelectTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Element_SelectTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -57,7 +61,7 @@ class Zend_Form_Element_SelectTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->element = new Zend_Form_Element_Select('foo');
     }
@@ -68,7 +72,7 @@ class Zend_Form_Element_SelectTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -123,7 +127,7 @@ class Zend_Form_Element_SelectTest extends PHPUnit_Framework_TestCase
             if (!preg_match('/(<option[^>]*?(value="' . $test . '")[^>]*>)/', $html, $m)) {
                 $this->fail('Unable to find matching disabled option for ' . $test);
             }
-            $this->assertRegexp('/<option[^>]*?(disabled="disabled")/', $m[1]);
+            $this->assertMatchesRegularExpression('/<option[^>]*?(disabled="disabled")/', $m[1]);
         }
         foreach (array('foo', 'bat') as $test) {
             if (!preg_match('/(<option[^>]*?(value="' . $test . '")[^>]*>)/', $html, $m)) {
@@ -176,7 +180,7 @@ class Zend_Form_Element_SelectTest extends PHPUnit_Framework_TestCase
         if (!preg_match('#(<option[^>]*(?:value="somewhat")[^>]*>)#s', $html, $matches)) {
             $this->fail('Could not find option: ' . $html);
         }
-        $this->assertNotContains('selected', $matches[1]);
+        $this->assertStringNotContainsString('selected', $matches[1]);
     }
 
     /**
@@ -192,8 +196,8 @@ class Zend_Form_Element_SelectTest extends PHPUnit_Framework_TestCase
         ));
         $this->element->setView($this->getView());
         $html = $this->element->render();
-        $this->assertNotContains('unused', $html, $html);
-        $this->assertContains('bar', $html, $html);
+        $this->assertStringNotContainsString('unused', $html, $html);
+        $this->assertStringContainsString('bar', $html, $html);
     }
 
     /**
@@ -246,7 +250,7 @@ class Zend_Form_Element_SelectTest extends PHPUnit_Framework_TestCase
     {
         $this->element->addMultiOption('1', '£' . number_format(1));
         $html = $this->element->render($this->getView());
-        $this->assertContains('>£', $html);
+        $this->assertStringContainsString('>£', $html);
     }
 
     /**

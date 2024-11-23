@@ -49,7 +49,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Dojo_Form
  */
 #[AllowDynamicProperties]
-class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
+class Zend_Dojo_Form_Element_ComboBoxTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -58,8 +58,12 @@ class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Dojo_Form_Element_ComboBoxTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Dojo_Form_Element_ComboBoxTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -68,7 +72,7 @@ class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         Zend_Registry::_unsetInstance();
         Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
@@ -84,7 +88,7 @@ class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -166,7 +170,7 @@ class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
     public function testShouldRenderComboBoxDijit()
     {
         $html = $this->element->render();
-        $this->assertContains('dojoType="dijit.form.ComboBox"', $html);
+        $this->assertStringContainsString('dojoType="dijit.form.ComboBox"', $html);
     }
 
     /**
@@ -187,7 +191,7 @@ class Zend_Dojo_Form_Element_ComboBoxTest extends PHPUnit_Framework_TestCase
         $subform->addElement($this->element);
         $html = $this->element->render();
         $dojo = $this->view->dojo()->__toString();
-        $this->assertContains('"store":"foo"', $dojo, $dojo);
+        $this->assertStringContainsString('"store":"foo"', $dojo, $dojo);
     }
 }
 

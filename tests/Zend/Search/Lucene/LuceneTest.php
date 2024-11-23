@@ -38,12 +38,16 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Search_Lucene
  */
 #[AllowDynamicProperties]
-class Zend_Search_Lucene_LuceneTest extends PHPUnit_Framework_TestCase
+class Zend_Search_Lucene_LuceneTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     private function _clearDirectory($dirName)
@@ -62,7 +66,7 @@ class Zend_Search_Lucene_LuceneTest extends PHPUnit_Framework_TestCase
         closedir($dir);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_clearDirectory(__DIR__ . '/_index/_files');
     }

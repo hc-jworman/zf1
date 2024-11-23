@@ -46,7 +46,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_PlaceholderTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_PlaceholderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_View_Helper_Placeholder
@@ -61,8 +61,12 @@ class Zend_View_Helper_PlaceholderTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_PlaceholderTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_PlaceholderTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -71,7 +75,7 @@ class Zend_View_Helper_PlaceholderTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->placeholder = new Zend_View_Helper_Placeholder();
     }
@@ -82,7 +86,7 @@ class Zend_View_Helper_PlaceholderTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->placeholder);
         Zend_Registry::getInstance()->offsetUnset(Zend_View_Helper_Placeholder_Registry::REGISTRY_KEY);

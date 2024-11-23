@@ -34,15 +34,19 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class Zend_Stdlib_PriorityQueueTest extends PHPUnit_Framework_TestCase
+class Zend_Stdlib_PriorityQueueTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->queue = new Zend_Stdlib_PriorityQueue();
         $this->queue->insert('foo', 3);

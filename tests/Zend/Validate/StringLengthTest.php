@@ -34,7 +34,7 @@
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_StringLengthTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_StringLengthTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Default instance created for all test methods
@@ -48,7 +48,7 @@ class Zend_Validate_StringLengthTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_validator = new Zend_Validate_StringLength();
     }

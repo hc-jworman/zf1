@@ -38,7 +38,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Translate
  */
 #[AllowDynamicProperties]
-class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
+class Zend_Translate_Adapter_ArrayTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Error flag
@@ -54,11 +54,15 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Translate_Adapter_ArrayTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Translate_Adapter_ArrayTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (Zend_Translate_Adapter_Array::hasCache()) {
             Zend_Translate_Adapter_Array::clearCache();
@@ -66,7 +70,7 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if (Zend_Translate_Adapter_Array::hasCache()) {
             Zend_Translate_Adapter_Array::clearCache();
@@ -85,14 +89,14 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
             $adapter = new Zend_Translate_Adapter_Array('hastofail', 'en');
             $this->fail('Exception expected');
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('Error including array or file', $e->getMessage());
+            $this->assertStringContainsString('Error including array or file', $e->getMessage());
         }
 
         try {
             $adapter = new Zend_Translate_Adapter_Array(__DIR__ . '/_files/failed.php', 'en');
             $this->fail('Exception expected');
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('Error including array or file', $e->getMessage());
+            $this->assertStringContainsString('Error including array or file', $e->getMessage());
         }
     }
 
@@ -139,7 +143,7 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
             $adapter->addTranslation(__DIR__ . '/_files/translation_en.php', 'xx');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('does not exist', $e->getMessage());
+            $this->assertStringContainsString('does not exist', $e->getMessage());
         }
 
         $adapter->addTranslation(__DIR__ . '/_files/translation_en2.php', 'de', array('clear' => true));
@@ -198,7 +202,7 @@ class Zend_Translate_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
             $adapter->setLocale('nolocale');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('does not exist', $e->getMessage());
+            $this->assertStringContainsString('does not exist', $e->getMessage());
         }
 
         set_error_handler(array($this, 'errorHandlerIgnore'));

@@ -20,6 +20,8 @@
  * @version    $Id$
  */
 
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'Zend_Wildfire_WildfireTest::main');
 }
@@ -63,7 +65,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Wildfire
  */
 #[AllowDynamicProperties]
-class Zend_Wildfire_WildfireTest extends PHPUnit_Framework_TestCase
+class Zend_Wildfire_WildfireTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $_controller;
@@ -78,18 +80,22 @@ class Zend_Wildfire_WildfireTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Wildfire_WildfireTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty('Zend_Wildfire_WildfireTest');
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         date_default_timezone_set('America/Los_Angeles');
         Zend_Wildfire_Channel_HttpHeaders::destroyInstance();
         Zend_Wildfire_Plugin_FirePhp::destroyInstance();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Controller_Front::getInstance()->resetInstance();
         Zend_Wildfire_Channel_HttpHeaders::destroyInstance();
@@ -186,6 +192,7 @@ class Zend_Wildfire_WildfireTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($channel->isReady());
     }
 
+    #[DoesNotPerformAssertions]
     public function testFirePhpPluginInstanciation()
     {
         $this->_setupWithoutFrontController();
@@ -738,6 +745,7 @@ class Zend_Wildfire_WildfireTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($protocol->getMessages());
     }
 
+    #[DoesNotPerformAssertions]
     public function testChannelInstanciation()
     {
         $this->_setupWithoutFrontController();
@@ -1028,6 +1036,7 @@ class Zend_Wildfire_WildfireTest extends PHPUnit_Framework_TestCase
     /**
      * @group ZF-10537
      */
+    #[DoesNotPerformAssertions]
     public function testFileLineOffsets()
     {
         $this->_setupWithoutFrontController();

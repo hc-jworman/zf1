@@ -41,7 +41,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Controller_Router
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Router_Route_ModuleTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Router_Route_ModuleTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $_request;
@@ -57,11 +57,15 @@ class Zend_Controller_Router_Route_ModuleTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Router_Route_ModuleTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Router_Route_ModuleTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $front = Zend_Controller_Front::getInstance();
         $front->resetInstance();
@@ -482,7 +486,7 @@ class Zend_Controller_Router_Route_ModuleTest extends PHPUnit_Framework_TestCase
             'module' => 'default',
         );
         $url = $this->route->assemble($params);
-        $this->assertNotContains('"><script>alert(11639)<', $url);
+        $this->assertStringNotContainsString('"><script>alert(11639)<', $url);
     }
 }
 

@@ -33,7 +33,7 @@
 class Zend_Cache_FactoryException extends PHPUnit_Extensions_ExceptionTestCase
 {
     function setUp(){
-        $this->setExpectedException('Zend_Cache_Exception');
+        $this->expectException('Zend_Cache_Exception');
     }
 
     public function testBadFrontend()

@@ -55,7 +55,7 @@ class Zend_View_Helper_Navigation_LinksTest
     private $_doctypeHelper;
     private $_oldDoctype;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -71,7 +71,7 @@ class Zend_View_Helper_Navigation_LinksTest
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->_doctypeHelper->setDoctype($this->_oldDoctype);
     }
@@ -531,7 +531,7 @@ class Zend_View_Helper_Navigation_LinksTest
             $this->fail('An invalid value was given, but a ' .
                         'Zend_View_Exception was not thrown');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('Invalid argument: $rel', $e->getMessage());
+            $this->assertStringContainsString('Invalid argument: $rel', $e->getMessage());
         }
     }
 
@@ -543,7 +543,7 @@ class Zend_View_Helper_Navigation_LinksTest
             $this->fail('An invalid value was given, but a ' .
                         'Zend_View_Exception was not thrown');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('Invalid relation attribute', $e->getMessage());
+            $this->assertStringContainsString('Invalid relation attribute', $e->getMessage());
         }
     }
 

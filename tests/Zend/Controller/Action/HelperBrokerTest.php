@@ -44,7 +44,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Controller_Action_Helper
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Action_HelperBrokerTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Action_HelperBrokerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Controller_Front
@@ -60,11 +60,15 @@ class Zend_Controller_Action_HelperBrokerTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Action_HelperBrokerTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Action_HelperBrokerTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->front = Zend_Controller_Front::getInstance();
         $this->front->resetInstance();
@@ -188,7 +192,7 @@ class Zend_Controller_Action_HelperBrokerTest extends PHPUnit_Framework_TestCase
 
         $this->front->returnResponse(true);
         $response = $this->front->dispatch($request);
-        $this->assertContains('not found', $response->getBody());
+        $this->assertStringContainsString('not found', $response->getBody());
     }
 
     public function testCustomHelperRegistered()
@@ -232,8 +236,8 @@ class Zend_Controller_Action_HelperBrokerTest extends PHPUnit_Framework_TestCase
         $helpers = Zend_Controller_Action_HelperBroker::getExistingHelpers();
         $this->assertTrue(is_array($helpers));
         $this->assertEquals(2, count($helpers));
-        $this->assertContains('ViewRenderer', array_keys($helpers));
-        $this->assertContains('Redirector', array_keys($helpers));
+        $this->assertStringContainsString('ViewRenderer', array_keys($helpers));
+        $this->assertStringContainsString('Redirector', array_keys($helpers));
     }
 
     public function testGetHelperStatically()

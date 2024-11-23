@@ -32,7 +32,7 @@
  * @group      Zend_Test
  */
 #[AllowDynamicProperties]
-class Zend_Test_PHPUnit_Db_DataSet_DbTableDataSetTest extends PHPUnit_Framework_TestCase
+class Zend_Test_PHPUnit_Db_DataSet_DbTableDataSetTest extends \PHPUnit\Framework\TestCase
 {
     public function testAddTableAppendedToTableNames()
     {
@@ -66,7 +66,7 @@ class Zend_Test_PHPUnit_Db_DataSet_DbTableDataSetTest extends PHPUnit_Framework_
 
     public function testGetUnknownTableThrowsException()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $dataSet = new Zend_Test_PHPUnit_Db_DataSet_DbTableDataSet();
         $dataSet->getTable('unknown');
     }

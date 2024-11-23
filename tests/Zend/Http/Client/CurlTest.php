@@ -63,11 +63,15 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
 
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!extension_loaded('curl')) {
             $this->markTestSkipped('cURL is not installed, marking all Http Client Curl Adapter tests skipped.');
@@ -165,8 +169,8 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
         $this->assertEquals(3, $this->client->getRedirectionsCount(), 'Redirection counter is not as expected');
 
         // Make sure the body does *not* contain the set parameters
-        $this->assertNotContains('swallow', $res->getBody());
-        $this->assertNotContains('Camelot', $res->getBody());
+        $this->assertStringNotContainsString('swallow', $res->getBody());
+        $this->assertStringNotContainsString('Camelot', $res->getBody());
     }
 
     /**
@@ -241,7 +245,7 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
 
     public function testWritingAndNotConnectedWithCurlHandleThrowsException()
     {
-        $this->setExpectedException("Zend_Http_Client_Adapter_Exception", "Trying to write but we are not connected");
+        $this->expectException("Zend_Http_Client_Adapter_Exception", "Trying to write but we are not connected");
 
         $adapter = new Zend_Http_Client_Adapter_Curl();
         $adapter->write("GET", "someUri");
@@ -249,7 +253,7 @@ class Zend_Http_Client_CurlTest extends Zend_Http_Client_CommonHttpTests
 
     public function testSetConfigIsNotArray()
     {
-        $this->setExpectedException("Zend_Http_Client_Adapter_Exception");
+        $this->expectException("Zend_Http_Client_Adapter_Exception");
 
         $adapter = new Zend_Http_Client_Adapter_Curl();
         $adapter->setConfig("foo");

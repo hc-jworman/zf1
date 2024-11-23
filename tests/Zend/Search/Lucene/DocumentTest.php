@@ -59,7 +59,7 @@
  * @group      Zend_Search_Lucene
  */
 #[AllowDynamicProperties]
-class Zend_Search_Lucene_DocumentTest extends PHPUnit_Framework_TestCase
+class Zend_Search_Lucene_DocumentTest extends \PHPUnit\Framework\TestCase
 {
 
     private function _clearDirectory($dirName)

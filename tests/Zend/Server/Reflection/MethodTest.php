@@ -35,13 +35,13 @@
  * @group      Zend_Server
  */
 #[AllowDynamicProperties]
-class Zend_Server_Reflection_MethodTest extends PHPUnit_Framework_TestCase
+class Zend_Server_Reflection_MethodTest extends \PHPUnit\Framework\TestCase
 {
     protected $_classRaw;
     protected $_class;
     protected $_method;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->_classRaw = new ReflectionClass('Zend_Server_Reflection');
         $this->_method   = $this->_classRaw->getMethod('reflectClass');
@@ -99,7 +99,7 @@ class Zend_Server_Reflection_MethodTest extends PHPUnit_Framework_TestCase
     {
         $r = new Zend_Server_Reflection_Method($this->_class, $this->_method);
         if (PHP_VERSION_ID >= 70400) {
-            $this->setExpectedException('Exception', "Serialization of 'ReflectionMethod' is not allowed");
+            $this->expectException('Exception', "Serialization of 'ReflectionMethod' is not allowed");
         }
         $s = serialize($r);
         $u = unserialize($s);

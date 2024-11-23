@@ -33,7 +33,7 @@
  * @group      Zend_Pdf
  */
 #[AllowDynamicProperties]
-class Zend_Pdf_Filter_Ascii85Test extends PHPUnit_Framework_TestCase
+class Zend_Pdf_Filter_Ascii85Test extends \PHPUnit\Framework\TestCase
 {
     public function testStringDivisibleBy4Encode()
     {

@@ -40,7 +40,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Decorator_FormTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Decorator_FormTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -49,8 +49,12 @@ class Zend_Form_Decorator_FormTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Decorator_FormTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Decorator_FormTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -59,7 +63,7 @@ class Zend_Form_Decorator_FormTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->decorator = new Zend_Form_Decorator_Form();
     }
@@ -70,7 +74,7 @@ class Zend_Form_Decorator_FormTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -121,7 +125,7 @@ class Zend_Form_Decorator_FormTest extends PHPUnit_Framework_TestCase
              ->setAttrib('id', 'bazbat')
              ->setView($this->getView());
         $html = $form->render();
-        $this->assertContains('id="bazbat"', $html, $html);
+        $this->assertStringContainsString('id="bazbat"', $html, $html);
     }
 
     public function testEmptyFormNameShouldNotRenderEmptyFormId()
@@ -131,7 +135,7 @@ class Zend_Form_Decorator_FormTest extends PHPUnit_Framework_TestCase
              ->setAction('/foo/bar')
              ->setView($this->getView());
         $html = $form->render();
-        $this->assertNotContains('id=""', $html, $html);
+        $this->assertStringNotContainsString('id=""', $html, $html);
     }
 }
 

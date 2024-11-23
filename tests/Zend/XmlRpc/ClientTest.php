@@ -43,7 +43,7 @@
  * @group      Zend_XmlRpc
  */
 #[AllowDynamicProperties]
-class Zend_XmlRpc_ClientTest extends PHPUnit_Framework_TestCase
+class Zend_XmlRpc_ClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Http_Client_Adapter_Abstract
@@ -60,7 +60,7 @@ class Zend_XmlRpc_ClientTest extends PHPUnit_Framework_TestCase
      */
     protected $xmlrpcClient;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->httpAdapter = new Zend_Http_Client_Adapter_Test();
         $this->httpClient = new Zend_Http_Client('http://foo',
@@ -526,7 +526,7 @@ class Zend_XmlRpc_ClientTest extends PHPUnit_Framework_TestCase
         try {
             $i->getSignatureForEachMethodByMulticall();
         } catch (Zend_XmlRpc_Client_IntrospectException $e) {
-            $this->assertRegexp('/bad number/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/bad number/i', $e->getMessage());
         }
     }
 
@@ -548,7 +548,7 @@ class Zend_XmlRpc_ClientTest extends PHPUnit_Framework_TestCase
         try {
             $i->getSignatureForEachMethodByMulticall();
         } catch (Zend_XmlRpc_Client_IntrospectException $e) {
-            $this->assertRegexp('/got integer/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/got integer/i', $e->getMessage());
         }
     }
 

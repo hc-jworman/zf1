@@ -36,12 +36,16 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Log
  */
 #[AllowDynamicProperties]
-class Zend_Log_Writer_SyslogTest extends PHPUnit_Framework_TestCase
+class Zend_Log_Writer_SyslogTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testWrite()
@@ -72,7 +76,7 @@ class Zend_Log_Writer_SyslogTest extends PHPUnit_Framework_TestCase
             $writer->setFacility(LOG_USER * 1000);
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Log_Exception);
-            $this->assertContains('Invalid log facility provided', $e->getMessage());
+            $this->assertStringContainsString('Invalid log facility provided', $e->getMessage());
         }
     }
 
@@ -89,7 +93,7 @@ class Zend_Log_Writer_SyslogTest extends PHPUnit_Framework_TestCase
             $writer->setFacility(LOG_AUTH);
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Log_Exception);
-            $this->assertContains('Only LOG_USER is a valid', $e->getMessage());
+            $this->assertStringContainsString('Only LOG_USER is a valid', $e->getMessage());
         }
     }
 

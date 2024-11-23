@@ -45,7 +45,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Text
  */
 #[AllowDynamicProperties]
-class Zend_Text_FigletTest extends PHPUnit_Framework_TestCase
+class Zend_Text_FigletTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -54,8 +54,12 @@ class Zend_Text_FigletTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Text_FigletTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Text_FigletTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testStandardAlignLeft()
@@ -110,7 +114,7 @@ class Zend_Text_FigletTest extends PHPUnit_Framework_TestCase
             $figlet->render(1);
             $this->fail('An expected InvalidArgumentException has not been raised');
         } catch (InvalidArgumentException $expected) {
-            $this->assertContains('$text must be a string', $expected->getMessage());
+            $this->assertStringContainsString('$text must be a string', $expected->getMessage());
         }
     }
 
@@ -156,7 +160,7 @@ class Zend_Text_FigletTest extends PHPUnit_Framework_TestCase
             $figlet = new Zend_Text_Figlet(array('font' => __DIR__ . '/Figlet/NonExistentFont.flf'));
             $this->fail('An expected Zend_Text_Figlet_Exception has not been raised');
         } catch (Zend_Text_Figlet_Exception $expected) {
-            $this->assertContains('Font file not found', $expected->getMessage());
+            $this->assertStringContainsString('Font file not found', $expected->getMessage());
         }
     }
 
@@ -166,7 +170,7 @@ class Zend_Text_FigletTest extends PHPUnit_Framework_TestCase
             $figlet = new Zend_Text_Figlet(array('font' => __DIR__ . '/Figlet/InvalidFont.flf'));
             $this->fail('An expected Zend_Text_Figlet_Exception has not been raised');
         } catch (Zend_Text_Figlet_Exception $expected) {
-            $this->assertContains('Not a FIGlet 2 font file', $expected->getMessage());
+            $this->assertStringContainsString('Not a FIGlet 2 font file', $expected->getMessage());
         }
     }
 

@@ -35,7 +35,7 @@ class Zend_EventManager_TestAsset_ClassWithEvents
 {
     protected $events;
 
-    public function events(Zend_EventManager_EventCollection $events = null)
+    public function events(Zend_EventManager_EventCollection|null $events = null)
     {
         if (null !== $events) {
             $this->events = $events;

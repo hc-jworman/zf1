@@ -40,12 +40,12 @@ require_once __DIR__ . '/_files/ZF9018TestClass.php';
  * @group      Zend_Reflection_Method
  */
 #[AllowDynamicProperties]
-class Zend_Reflection_MethodTest extends PHPUnit_Framework_TestCase
+class Zend_Reflection_MethodTest extends \PHPUnit\Framework\TestCase
 {
 
     static protected $_sampleClassFileRequired = false;
 
-    public function setup()
+    public function setUp(): void
     {
         if (self::$_sampleClassFileRequired === false) {
             $fileToRequire = __DIR__ . '/_files/TestSampleClass.php';

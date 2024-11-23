@@ -73,17 +73,17 @@ class Zend_Validate_AllTests
      */
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     /**
      * Creates and returns this test suite
      *
-     * @return PHPUnit_Framework_TestSuite
+     * @return \PHPUnit\Framework\TestSuite
      */
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Validate');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Validate');
 
         $suite->addTestSuite('Zend_Validate_AbstractTest');
         $suite->addTestSuite('Zend_Validate_AlnumTest');

@@ -34,7 +34,7 @@
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_IbanTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_IbanTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Ensures that the validator follows expected behavior
@@ -63,7 +63,7 @@ class Zend_Validate_IbanTest extends PHPUnit_Framework_TestCase
             $validator->setLocale('de_QA');
             $this->fail();
         } catch (Zend_Validate_Exception $e) {
-            $this->assertContains('IBAN validation', $e->getMessage());
+            $this->assertStringContainsString('IBAN validation', $e->getMessage());
         }
 
         $validator->setLocale('de_DE');

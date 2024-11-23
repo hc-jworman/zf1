@@ -35,7 +35,7 @@
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_CcnumTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_CcnumTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Zend_Validate_Ccnum object
@@ -49,7 +49,7 @@ class Zend_Validate_CcnumTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         set_error_handler(array($this, 'errorHandlerIgnore'));
         $this->_validator = new Zend_Validate_Ccnum();

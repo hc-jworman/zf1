@@ -31,7 +31,7 @@
 // require_once 'Zend/Paginator/Adapter/Null.php';
 
 /**
- * @see PHPUnit_Framework_TestCase
+ * @see \PHPUnit\Framework\TestCase
  */
 
 /**
@@ -43,7 +43,7 @@
  * @group      Zend_Paginator
  */
 #[AllowDynamicProperties]
-class Zend_Paginator_Adapter_NullTest extends PHPUnit_Framework_TestCase
+class Zend_Paginator_Adapter_NullTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Paginator_Adapter_Array
@@ -53,7 +53,7 @@ class Zend_Paginator_Adapter_NullTest extends PHPUnit_Framework_TestCase
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp ()
+    protected function setUp (): void
     {
         parent::setUp();
         $this->_adapter = new Zend_Paginator_Adapter_Null(101);
@@ -61,7 +61,7 @@ class Zend_Paginator_Adapter_NullTest extends PHPUnit_Framework_TestCase
     /**
      * Cleans up the environment after running a test.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->_adapter = null;
         parent::tearDown();

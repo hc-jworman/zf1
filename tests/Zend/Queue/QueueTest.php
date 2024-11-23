@@ -46,9 +46,9 @@
  * @group      Zend_Queue
  */
 #[AllowDynamicProperties]
-class Zend_Queue_QueueTest extends PHPUnit_Framework_TestCase
+class Zend_Queue_QueueTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // Test Zend_Config
         $this->config = array(
@@ -59,7 +59,7 @@ class Zend_Queue_QueueTest extends PHPUnit_Framework_TestCase
         $this->queue = new Zend_Queue('array', $this->config);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

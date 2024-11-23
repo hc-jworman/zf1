@@ -75,7 +75,7 @@ class Zend_Memory_Manager_Dummy extends Zend_Memory_Manager
  * @group      Zend_Memory
  */
 #[AllowDynamicProperties]
-class Zend_Memory_Container_MovableTest extends PHPUnit_Framework_TestCase
+class Zend_Memory_Container_MovableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * tests the Movable memory container object creation

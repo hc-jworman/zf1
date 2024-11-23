@@ -31,7 +31,7 @@
 // require_once 'Zend/Paginator/ScrollingStyle/All.php';
 
 /**
- * @see PHPUnit_Framework_TestCase
+ * @see \PHPUnit\Framework\TestCase
  */
 
 /**
@@ -43,7 +43,7 @@
  * @group      Zend_Paginator
  */
 #[AllowDynamicProperties]
-class Zend_Paginator_ScrollingStyle_AllTest extends PHPUnit_Framework_TestCase
+class Zend_Paginator_ScrollingStyle_AllTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Paginator_ScrollingStyle_All
@@ -54,7 +54,7 @@ class Zend_Paginator_ScrollingStyle_AllTest extends PHPUnit_Framework_TestCase
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->_scrollingStyle = new Zend_Paginator_ScrollingStyle_All();
@@ -64,7 +64,7 @@ class Zend_Paginator_ScrollingStyle_AllTest extends PHPUnit_Framework_TestCase
     /**
      * Cleans up the environment after running a test.
      */
-    protected function tearDown ()
+    protected function tearDown (): void
     {
         $this->_scrollingStyle = null;
         $this->_paginator = null;

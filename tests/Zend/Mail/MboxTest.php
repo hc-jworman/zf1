@@ -40,13 +40,13 @@
  * @group      Zend_Mail
  */
 #[AllowDynamicProperties]
-class Zend_Mail_MboxTest extends PHPUnit_Framework_TestCase
+class Zend_Mail_MboxTest extends \PHPUnit\Framework\TestCase
 {
     protected $_mboxOriginalFile;
     protected $_mboxFile;
     protected $_tmpdir;
 
-    public function setUp()
+    public function setUp(): void
     {
         if ($this->_tmpdir == null) {
             if (TESTS_ZEND_MAIL_TEMPDIR != null) {
@@ -75,7 +75,7 @@ class Zend_Mail_MboxTest extends PHPUnit_Framework_TestCase
         copy($this->_mboxOriginalFile, $this->_mboxFile);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unlink($this->_mboxFile);
     }

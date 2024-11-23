@@ -36,7 +36,7 @@
  * @group Zend_CodeGenerator_Php
  */
 #[AllowDynamicProperties]
-class Zend_CodeGenerator_Php_ClassTest extends PHPUnit_Framework_TestCase
+class Zend_CodeGenerator_Php_ClassTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testConstruction()
@@ -102,14 +102,14 @@ class Zend_CodeGenerator_Php_ClassTest extends PHPUnit_Framework_TestCase
         $codeGenClass = new Zend_CodeGenerator_Php_Class();
         $codeGenClass->setProperty(array('name' => 'prop3'));
 
-        $this->setExpectedException("Zend_CodeGenerator_Php_Exception");
+        $this->expectException("Zend_CodeGenerator_Php_Exception");
 
         $codeGenClass->setProperty(array('name' => 'prop3'));
     }
 
     public function testSetProperty_NoArrayOrProperty_ThrowsException()
     {
-        $this->setExpectedException("Zend_CodeGenerator_Php_Exception");
+        $this->expectException("Zend_CodeGenerator_Php_Exception");
 
         $codeGenClass = new Zend_CodeGenerator_Php_Class();
         $codeGenClass->setProperty("propertyName");
@@ -138,7 +138,7 @@ class Zend_CodeGenerator_Php_ClassTest extends PHPUnit_Framework_TestCase
 
     public function testSetMethod_NoMethodOrArray_ThrowsException()
     {
-        $this->setExpectedException("Zend_CodeGenerator_Php_Exception",
+        $this->expectException("Zend_CodeGenerator_Php_Exception",
             'setMethod() expects either an array of method options or an instance of Zend_CodeGenerator_Php_Method'
         );
 
@@ -156,7 +156,7 @@ class Zend_CodeGenerator_Php_ClassTest extends PHPUnit_Framework_TestCase
         $codeGenClass = new Zend_CodeGenerator_Php_Class();
         $codeGenClass->setMethod($methodA);
 
-        $this->setExpectedException("Zend_CodeGenerator_Php_Exception", 'A method by name foo already exists in this class.');
+        $this->expectException("Zend_CodeGenerator_Php_Exception", 'A method by name foo already exists in this class.');
 
         $codeGenClass->setMethod($methodB);
     }
@@ -242,7 +242,7 @@ EOS;
 
         $code = $codeGen->generate();
         $expectedClassDef = 'class Zend_CodeGenerator_Php_ClassWithInterface implements Zend_Code_Generator_Php_OneInterface, Zend_Code_Generator_Php_TwoInterface';
-        $this->assertContains($expectedClassDef, $code);
+        $this->assertStringContainsString($expectedClassDef, $code);
     }
 
     /**
@@ -263,7 +263,7 @@ EOS;
         $code = $codeGen->generate();
 
         $expectedClassDef = 'class Zend_CodeGenerator_Php_NewClassWithInterface extends Zend_CodeGenerator_Php_ClassWithInterface implements Zend_Code_Generator_Php_ThreeInterface';
-        $this->assertContains($expectedClassDef, $code);
+        $this->assertStringContainsString($expectedClassDef, $code);
     }
 
     /**

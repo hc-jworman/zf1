@@ -46,7 +46,7 @@ require_once 'Zend/Session/SessionHelper.php';
  * @group      Zend_Controller_Action_Helper
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Action_Helper_FlashMessengerTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Action_Helper_FlashMessengerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Controller_Action
@@ -81,11 +81,15 @@ class Zend_Controller_Action_Helper_FlashMessengerTest extends PHPUnit_Framework
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Action_Helper_FlashMessengerTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Action_Helper_FlashMessengerTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $savePath = ini_get('session.save_path');
         if (strpos((string) $savePath, ';')) {
@@ -112,7 +116,7 @@ class Zend_Controller_Action_Helper_FlashMessengerTest extends PHPUnit_Framework
         $this->helper     = new Zend_Controller_Action_Helper_FlashMessenger;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Session_SessionHelper::reset();
     }

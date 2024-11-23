@@ -42,7 +42,7 @@ class Zend_Soap_Wsdl_AllTests
 {
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Soap_Wsdl');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Soap_Wsdl');
 
         $suite->addTestSuite('Zend_Soap_Wsdl_ArrayOfTypeComplexStrategyTest');
         $suite->addTestSuite('Zend_Soap_Wsdl_ArrayOfTypeSequenceStrategyTest');

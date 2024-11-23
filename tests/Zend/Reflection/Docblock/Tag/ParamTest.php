@@ -35,13 +35,13 @@
  * @group      Zend_Reflection_Docblock_Tag_Param
  */
 #[AllowDynamicProperties]
-class Zend_Reflection_Docblock_Tag_ParamTest extends PHPUnit_Framework_TestCase
+class Zend_Reflection_Docblock_Tag_ParamTest extends \PHPUnit\Framework\TestCase
 {
 
 
     static protected $_sampleClassFileRequired = false;
 
-    public function setup()
+    public function setUp(): void
     {
         if (self::$_sampleClassFileRequired === false) {
             $fileToRequire = dirname(dirname(__DIR__)) . '/_files/TestSampleClass.php';

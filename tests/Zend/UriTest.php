@@ -43,22 +43,26 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Uri
  */
 #[AllowDynamicProperties]
-class Zend_UriTest extends PHPUnit_Framework_TestCase
+class Zend_UriTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_UriTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_UriTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->notices = array();
         $this->errorReporting = error_reporting();
         $this->displayErrors  = ini_get('display_errors');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         error_reporting($this->errorReporting);
         ini_set('display_errors', $this->displayErrors);
@@ -148,7 +152,7 @@ class Zend_UriTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(empty($text));
         $this->assertTrue(isset($this->error));
-        $this->assertContains('Exception in getUri()', $this->error);
+        $this->assertStringContainsString('Exception in getUri()', $this->error);
 
     }
 
@@ -175,7 +179,7 @@ class Zend_UriTest extends PHPUnit_Framework_TestCase
         try {
             $uri = Zend_Uri::factory($uri);
         } catch (Zend_Uri_Exception $e) {
-            $this->assertRegExp($regex, $e->getMessage());
+            $this->assertMatchesRegularExpression($regex, $e->getMessage());
             return;
         }
         $this->fail('Zend_Uri_Exception was expected but not thrown');
@@ -195,13 +199,13 @@ class Zend_UriTest extends PHPUnit_Framework_TestCase
 
     public function testFactoryWithUnExistingClassThrowException()
     {
-        $this->setExpectedException('Zend_Uri_Exception', '"This_Is_An_Unknown_Class" not found');
+        $this->expectException('Zend_Uri_Exception', '"This_Is_An_Unknown_Class" not found');
         Zend_Uri::factory('http://example.net', 'This_Is_An_Unknown_Class');
     }
 
     public function testFactoryWithExistingClassButNotImplementingZendUriThrowException()
     {
-        $this->setExpectedException('Zend_Uri_Exception', '"Fake_Zend_Uri" is not an instance of Zend_Uri');
+        $this->expectException('Zend_Uri_Exception', '"Fake_Zend_Uri" is not an instance of Zend_Uri');
         Zend_Uri::factory('http://example.net', 'Fake_Zend_Uri');
     }
 

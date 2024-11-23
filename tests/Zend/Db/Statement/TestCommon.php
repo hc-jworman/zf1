@@ -330,9 +330,9 @@ abstract class Zend_Db_Statement_TestCommon extends Zend_Db_TestSetup
                 'Expecting object of type Zend_Db_Statement_Exception, got '.get_class($e));
             if (PHP_VERSION_ID >= 80000 && substr((string) $this->getDriver(), 0, 4) === 'Pdo_') {
                 // PDO on PHP 8.0+ throws different error message on invalid arguments
-                $this->assertContains('must be a bitmask of PDO::FETCH_* constants', $e->getMessage());
+                $this->assertStringContainsString('must be a bitmask of PDO::FETCH_* constants', $e->getMessage());
             } else {
-                $this->assertRegExp('#invalid fetch mode#i', $e->getMessage());
+                $this->assertMatchesRegularExpression('#invalid fetch mode#i', $e->getMessage());
             }
         }
     }
@@ -812,7 +812,7 @@ abstract class Zend_Db_Statement_TestCommon extends Zend_Db_TestSetup
             $meta = $stmt->getColumnMeta($i);
             $this->assertTrue(is_array($meta));
             foreach ($this->_getColumnMetaKeys as $key) {
-                $this->assertContains($key, array_keys($meta));
+                $this->assertStringContainsString($key, array_keys($meta));
             }
         }
     }
@@ -843,13 +843,13 @@ abstract class Zend_Db_Statement_TestCommon extends Zend_Db_TestSetup
         try {
             $stmt->setAttribute(1234, $value);
         } catch (Zend_Exception $e) {
-            $this->assertContains('This driver doesn\'t support setting attributes', $e->getMessage());
+            $this->assertStringContainsString('This driver doesn\'t support setting attributes', $e->getMessage());
         }
 
         try {
             $this->assertEquals($value, $stmt->getAttribute(1234), "Expected '$value' #1");
         } catch (Zend_Exception $e) {
-            $this->assertContains('driver doesn\'t support getting', $e->getMessage());
+            $this->assertStringContainsString('driver doesn\'t support getting', $e->getMessage());
             return;
         }
 

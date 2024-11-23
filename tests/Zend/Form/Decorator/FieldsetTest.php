@@ -42,7 +42,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Decorator_FieldsetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -52,8 +52,12 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Decorator_FieldsetTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Decorator_FieldsetTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -62,7 +66,7 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->decorator = new Zend_Form_Decorator_Fieldset();
     }
@@ -73,7 +77,7 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -138,7 +142,7 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
         $html = $this->decorator->setElement($form)
                                 ->setOption('id', 'foo-id')
                                 ->render('content');
-        $this->assertContains('foo-id', $html);
+        $this->assertStringContainsString('foo-id', $html);
     }
 
     /**
@@ -152,9 +156,9 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
              ->setView($this->getView());
         $this->decorator->setElement($form);
         $test = $this->decorator->render('content');
-        $this->assertContains('<fieldset', $test, $test);
-        $this->assertNotContains('action="', $test);
-        $this->assertNotContains('method="', $test);
+        $this->assertStringContainsString('<fieldset', $test, $test);
+        $this->assertStringNotContainsString('action="', $test);
+        $this->assertStringNotContainsString('method="', $test);
     }
 
     /**#@+
@@ -169,7 +173,7 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
              ->setView($this->getView());
         $this->decorator->setElement($form);
         $test = $this->decorator->render('content');
-        $this->assertContains('id="fieldset-foobar"', $test);
+        $this->assertStringContainsString('id="fieldset-foobar"', $test);
     }
 
     public function testElementWithNoIdShouldNotCreateFieldsetId()
@@ -180,7 +184,7 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
              ->setView($this->getView());
         $this->decorator->setElement($form);
         $test = $this->decorator->render('content');
-        $this->assertNotContains('id="', $test);
+        $this->assertStringNotContainsString('id="', $test);
     }
     /**#@-*/
 
@@ -196,8 +200,8 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
              ->setView($this->getView());
         $this->decorator->setElement($form);
         $test = $this->decorator->render('content');
-        $this->assertContains('<fieldset', $test, $test);
-        $this->assertNotContains('enctype="', $test);
+        $this->assertStringContainsString('<fieldset', $test, $test);
+        $this->assertStringNotContainsString('enctype="', $test);
     }
 
     /**
@@ -212,8 +216,8 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
              ->setView($this->getView());
         $this->decorator->setElement($form);
         $test = $this->decorator->render('content');
-        $this->assertContains('<fieldset', $test, $test);
-        $this->assertNotContains('helper="', $test);
+        $this->assertStringContainsString('<fieldset', $test, $test);
+        $this->assertStringNotContainsString('helper="', $test);
     }
 
     /**
@@ -228,7 +232,7 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
         $html = $this->decorator->setElement($form)
                                 ->setOption('id', 'fieldset-id')
                                 ->render('content');
-        $this->assertContains('<fieldset id="fieldset-id"', $html);
+        $this->assertStringContainsString('<fieldset id="fieldset-id"', $html);
     }
 
     /**
@@ -256,7 +260,7 @@ class Zend_Form_Decorator_FieldsetTest extends PHPUnit_Framework_TestCase
 
         $html = $this->decorator->setElement($form)->render('content');
 
-        $this->assertContains('<fieldset id="fieldset-form-id"', $html);
+        $this->assertStringContainsString('<fieldset id="fieldset-form-id"', $html);
     }
 }
 

@@ -36,7 +36,7 @@
  * @group Zend_CodeGenerator_Php
  */
 #[AllowDynamicProperties]
-class Zend_CodeGenerator_Php_Docblock_Tag_ReturnTest extends PHPUnit_Framework_TestCase
+class Zend_CodeGenerator_Php_Docblock_Tag_ReturnTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -44,12 +44,12 @@ class Zend_CodeGenerator_Php_Docblock_Tag_ReturnTest extends PHPUnit_Framework_T
      */
     protected $_tag = null;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->_tag = new Zend_CodeGenerator_Php_Docblock_Tag_Return();
     }
 
-    public function teardown()
+    public function tearDown(): void
     {
         $this->_tag = null;
     }

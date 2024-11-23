@@ -41,7 +41,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_File_MimeTypeTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_File_MimeTypeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -50,8 +50,12 @@ class Zend_Validate_File_MimeTypeTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Validate_File_MimeTypeTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Validate_File_MimeTypeTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -171,7 +175,7 @@ class Zend_Validate_File_MimeTypeTest extends PHPUnit_Framework_TestCase
         try {
             $validator->setMagicFile('/unknown/magic/file');
         } catch (Zend_Validate_Exception $e) {
-            $this->assertContains('can not be', $e->getMessage());
+            $this->assertStringContainsString('can not be', $e->getMessage());
         }
     }
 

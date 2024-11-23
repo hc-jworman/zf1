@@ -34,6 +34,8 @@
 // require_once 'Zend/XmlRpc/Value/Nil.php';
 // require_once 'Zend/XmlRpc/Value/Struct.php';
 // require_once 'Zend/Crypt/Math/BigInteger.php';
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+
 require_once 'Zend/XmlRpc/TestProvider.php';
 // require_once 'Zend/Date.php';
 
@@ -48,9 +50,9 @@ require_once 'Zend/XmlRpc/TestProvider.php';
  * @group      Zend_XmlRpc
  */
 #[AllowDynamicProperties]
-class Zend_XmlRpc_BigIntegerValueTest extends PHPUnit_Framework_TestCase
+class Zend_XmlRpc_BigIntegerValueTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         try {
             $XmlRpcBigInteger = new Zend_XmlRpc_Value_BigInteger(0);
@@ -159,6 +161,7 @@ class Zend_XmlRpc_BigIntegerValueTest extends PHPUnit_Framework_TestCase
     /**
      * @group ZF-6445
      */
+    #[DoesNotPerformAssertions]
     public function testMarschalBigIntegerFromCryptObjectThrowsException()
     {
         try {

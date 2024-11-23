@@ -38,7 +38,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class Zend_Filter_Compress_ZipTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_Compress_ZipTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs this test suite
@@ -47,11 +47,15 @@ class Zend_Filter_Compress_ZipTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Filter_Compress_ZipTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty('Zend_Filter_Compress_ZipTest');
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!extension_loaded('zip')) {
             $this->markTestSkipped('This adapter needs the zip extension');
@@ -89,7 +93,7 @@ class Zend_Filter_Compress_ZipTest extends PHPUnit_Framework_TestCase
         }*/
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $files = array(
             __DIR__ . '/../_files/compressed.zip',
@@ -198,7 +202,7 @@ class Zend_Filter_Compress_ZipTest extends PHPUnit_Framework_TestCase
             $filter->setTarget('/unknown/path/to/file.txt');
             $this->fails('Exception expected');
         } catch(Zend_Filter_Exception $e) {
-            $this->assertContains('does not exist', $e->getMessage());
+            $this->assertStringContainsString('does not exist', $e->getMessage());
         }
     }
 

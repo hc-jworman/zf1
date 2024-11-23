@@ -34,7 +34,7 @@
  * @group      Zend_Measure
  */
 #[AllowDynamicProperties]
-class Zend_Measure_Flow_VolumeTest extends PHPUnit_Framework_TestCase
+class Zend_Measure_Flow_VolumeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * test for Volume initialisation

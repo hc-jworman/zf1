@@ -39,7 +39,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Element_ButtonTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Element_ButtonTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Form_Element_Button
@@ -54,8 +54,12 @@ class Zend_Form_Element_ButtonTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Element_ButtonTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Element_ButtonTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -64,7 +68,7 @@ class Zend_Form_Element_ButtonTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->element = new Zend_Form_Element_Button('foo');
     }
@@ -75,7 +79,7 @@ class Zend_Form_Element_ButtonTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -132,7 +136,7 @@ class Zend_Form_Element_ButtonTest extends PHPUnit_Framework_TestCase
         $decorator = $this->element->getDecorator('ViewHelper');
         $decorator->setElement($this->element);
         $html = $decorator->render('');
-        $this->assertRegexp('/<(input|button)[^>]*?>Submit Button/', $html, $html);
+        $this->assertMatchesRegularExpression('/<(input|button)[^>]*?>Submit Button/', $html, $html);
     }
 
     /**
@@ -143,8 +147,8 @@ class Zend_Form_Element_ButtonTest extends PHPUnit_Framework_TestCase
         $this->element->setLabel('Button Label')
                       ->setView($this->getView());
         $html = $this->element->render();
-        $this->assertContains('Button Label', $html, $html);
-        $this->assertNotContains('value="', $html);
+        $this->assertStringContainsString('Button Label', $html, $html);
+        $this->assertStringNotContainsString('value="', $html);
     }
 
     public function testSetDefaultIgnoredToTrueWhenNotDefined()

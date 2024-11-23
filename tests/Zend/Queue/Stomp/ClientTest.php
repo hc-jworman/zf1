@@ -119,7 +119,7 @@ class Zend_Queue_Stomp_Connection_Mock
  * @group      Zend_Queue
  */
 #[AllowDynamicProperties]
-class Zend_Queue_Stomp_ClientTest extends PHPUnit_Framework_TestCase
+class Zend_Queue_Stomp_ClientTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstruct()
     {

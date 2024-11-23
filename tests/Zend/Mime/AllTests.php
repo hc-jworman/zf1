@@ -40,12 +40,12 @@ class Zend_Mime_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Mime');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Mime');
 
         $suite->addTestSuite('Zend_Mime_PartTest');
         $suite->addTestSuite('Zend_Mime_MessageTest');

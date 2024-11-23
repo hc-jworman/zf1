@@ -38,10 +38,10 @@
  * @group      Zend_Mobile_Push_Mpns
  */
 #[AllowDynamicProperties]
-class Zend_Mobile_Push_MpnsTest extends PHPUnit_Framework_TestCase
+class Zend_Mobile_Push_MpnsTest extends \PHPUnit\Framework\TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = new Zend_Http_Client_Adapter_Test();
         $this->client = new Zend_Http_Client();

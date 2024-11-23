@@ -47,12 +47,12 @@ class Zend_Translate_Adapter_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Translate_Adapter');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Translate_Adapter');
 
         $suite->addTestSuite('Zend_Translate_Adapter_ArrayTest');
         $suite->addTestSuite('Zend_Translate_Adapter_CsvTest');

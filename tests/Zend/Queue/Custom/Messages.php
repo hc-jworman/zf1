@@ -139,6 +139,7 @@ implements ArrayAccess
     /**
      * @see SPL ArrayAccess::offsetGet
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset) {
         return $this->_data[$offset];
     }

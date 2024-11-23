@@ -40,13 +40,13 @@
  * @group      Zend_Mail
  */
 #[AllowDynamicProperties]
-class Zend_Mail_SmtpTest extends PHPUnit_Framework_TestCase
+class Zend_Mail_SmtpTest extends \PHPUnit\Framework\TestCase
 {
     protected $_params;
     protected $_transport;
     protected $_connection;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_params = array('host'     => TESTS_ZEND_MAIL_SMTP_HOST,
                                'port'     => TESTS_ZEND_MAIL_SMTP_PORT,

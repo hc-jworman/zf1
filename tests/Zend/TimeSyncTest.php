@@ -34,7 +34,7 @@
  * @group      Zend_TimeSync
  */
 #[AllowDynamicProperties]
-class Zend_TimeSyncTest extends PHPUnit_Framework_TestCase
+class Zend_TimeSyncTest extends \PHPUnit\Framework\TestCase
 {
     public $timeservers = array(
         // invalid servers
@@ -251,7 +251,7 @@ class Zend_TimeSyncTest extends PHPUnit_Framework_TestCase
             $result = $server->getDate();
             $this->assertTrue($result instanceof Zend_Date);
         } catch (Zend_TimeSync_Exception $e) {
-            $this->assertContains('all timeservers are bogus', $e->getMessage());
+            $this->assertStringContainsString('all timeservers are bogus', $e->getMessage());
         }
     }
 
@@ -268,7 +268,7 @@ class Zend_TimeSyncTest extends PHPUnit_Framework_TestCase
             $result = $server->getDate();
             $this->assertTrue($result instanceof Zend_Date);
         } catch (Zend_TimeSync_Exception $e) {
-            $this->assertContains('all timeservers are bogus', $e->getMessage());
+            $this->assertStringContainsString('all timeservers are bogus', $e->getMessage());
         }
     }
 
@@ -285,7 +285,7 @@ class Zend_TimeSyncTest extends PHPUnit_Framework_TestCase
             $result = $server->getDate();
             $this->assertTrue($result instanceof Zend_Date);
         } catch (Zend_TimeSync_Exception $e) {
-            $this->assertContains('all timeservers are bogus', $e->getMessage());
+            $this->assertStringContainsString('all timeservers are bogus', $e->getMessage());
         }
     }
 

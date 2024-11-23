@@ -36,7 +36,7 @@
  * @group      Zend_Cache
  */
 #[AllowDynamicProperties]
-class Zend_Cache_FileFrontendTest extends PHPUnit_Framework_TestCase {
+class Zend_Cache_FileFrontendTest extends \PHPUnit\Framework\TestCase {
 
     private $_instance1;
     private $_instance2;
@@ -47,7 +47,7 @@ class Zend_Cache_FileFrontendTest extends PHPUnit_Framework_TestCase {
     private $_masterFile2;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         if (strtoupper((string) substr((string) PHP_OS, 0, 3)) === 'WIN') {
             $this->_masterFile = $this->_getTmpDirWindows() . DIRECTORY_SEPARATOR . 'zend_cache_master';
@@ -94,7 +94,7 @@ class Zend_Cache_FileFrontendTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->_instance1);
         unlink($this->_masterFile);

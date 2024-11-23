@@ -38,7 +38,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Element_RadioTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -47,8 +47,12 @@ class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Element_RadioTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Element_RadioTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -57,7 +61,7 @@ class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->element = new Zend_Form_Element_Radio('foo');
     }
@@ -68,7 +72,7 @@ class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -129,7 +133,7 @@ class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
             if (!preg_match('/(<input[^>]*?(value="' . $test . '")[^>]*>)/', $html, $m)) {
                 $this->fail('Unable to find matching disabled option for ' . $test);
             }
-            $this->assertRegexp('/<input[^>]*?(disabled="disabled")/', $m[1]);
+            $this->assertMatchesRegularExpression('/<input[^>]*?(disabled="disabled")/', $m[1]);
         }
         foreach (array('foo', 'bar', 'bat') as $test) {
             if (!preg_match('/(<input[^>]*?(value="' . $test . '")[^>]*>)/', $html, $m)) {
@@ -150,7 +154,7 @@ class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
             ))
             ->setSeparator('--FooBarFunSep--');
         $html = $this->element->render($this->getView());
-        $this->assertContains($this->element->getSeparator(), $html);
+        $this->assertStringContainsString($this->element->getSeparator(), $html);
         $count = substr_count($html, $this->element->getSeparator());
         $this->assertEquals(4, $count);
     }
@@ -165,7 +169,7 @@ class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
                 'test' => 'Test',
             ));
         $html = $this->element->render($this->getView());
-        $this->assertRegexp('#<dt[^>]*>&\#160;</dt>.*?<dd#s', $html, $html);
+        $this->assertMatchesRegularExpression('#<dt[^>]*>&\#160;</dt>.*?<dd#s', $html, $html);
     }
 
     /**
@@ -196,7 +200,7 @@ class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
              ))
              ->setLabel('Foo');
         $html = $this->element->render($this->getView());
-        $this->assertNotContains('for="foo"', $html);
+        $this->assertStringNotContainsString('for="foo"', $html);
     }
 
     /**
@@ -235,7 +239,7 @@ class Zend_Form_Element_RadioTest extends PHPUnit_Framework_TestCase
         ));
 
         $html = $element->render($this->getView());
-        $this->assertNotContains('<dt id="foo-label">&#160;</dt>', $html);
+        $this->assertStringNotContainsString('<dt id="foo-label">&#160;</dt>', $html);
     }
 
     /**

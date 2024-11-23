@@ -221,7 +221,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         // TableSpecial.php contains class bugs_products too.
         $table = new zfbugs_products(array('db' => $this->_db));
         $info = $table->info();
-        $this->assertContains('name', array_keys($info));
+        $this->assertStringContainsString('name', array_keys($info));
         $this->assertEquals('zfbugs_products', $info['name']);
     }
 
@@ -232,7 +232,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
             array('name' => $tableName)
         );
         $info = $table->info();
-        $this->assertContains('name', array_keys($info));
+        $this->assertStringContainsString('name', array_keys($info));
         $this->assertEquals($tableName, $info['name']);
     }
 
@@ -244,7 +244,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
             array('name' => $tableName, 'schema' => $schemaName)
         );
         $info = $table->info();
-        $this->assertContains('schema', array_keys($info));
+        $this->assertStringContainsString('schema', array_keys($info));
         $this->assertEquals($schemaName, $info['schema']);
     }
 
@@ -469,8 +469,8 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         } catch (Zend_Exception $e) {
             $this->assertTrue($e instanceof Zend_Db_Table_Exception,
                 'Expecting object of type Zend_Db_Table_Exception, got '.get_class($e));
-            $this->assertContains("Primary key column(s)", $e->getMessage());
-            $this->assertContains("are not columns in this table", $e->getMessage());
+            $this->assertStringContainsString("Primary key column(s)", $e->getMessage());
+            $this->assertStringContainsString("are not columns in this table", $e->getMessage());
         }
     }
 
@@ -483,8 +483,8 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         } catch (Zend_Exception $e) {
             $this->assertTrue($e instanceof Zend_Db_Table_Exception,
                 'Expecting object of type Zend_Db_Table_Exception, got '.get_class($e));
-            $this->assertContains("Primary key column(s)", $e->getMessage());
-            $this->assertContains("are not columns in this table", $e->getMessage());
+            $this->assertStringContainsString("Primary key column(s)", $e->getMessage());
+            $this->assertStringContainsString("are not columns in this table", $e->getMessage());
         }
     }
 
@@ -724,7 +724,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
 
         $qp = $this->_db->getProfiler()->getLastQueryProfile();
         $tableSpec = $this->_db->quoteIdentifier($identifier, true);
-        $this->assertContains("INSERT INTO $tableSpec ", $qp->getQuery());
+        $this->assertStringContainsString("INSERT INTO $tableSpec ", $qp->getQuery());
     }
 
     public function testTableInsertSequence()
@@ -933,7 +933,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         $this->assertEquals(1, $result);
         $qp = $this->_db->getProfiler()->getLastQueryProfile();
         $tableSpec = $this->_db->quoteIdentifier($identifier, true);
-        $this->assertContains("UPDATE $tableSpec ", $qp->getQuery());
+        $this->assertStringContainsString("UPDATE $tableSpec ", $qp->getQuery());
     }
 
     public function testTableUpdateWhereArray()
@@ -993,7 +993,7 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
 
         $qp = $this->_db->getProfiler()->getLastQueryProfile();
         $tableSpec = $this->_db->quoteIdentifier($identifier, true);
-        $this->assertContains("DELETE FROM $tableSpec ", $qp->getQuery());
+        $this->assertStringContainsString("DELETE FROM $tableSpec ", $qp->getQuery());
     }
 
     public function testTableDeleteWhereArray()
@@ -1414,8 +1414,8 @@ abstract class Zend_Db_Table_TestCommon extends Zend_Db_Table_TestSetup
         try {
             $bugsTable = $this->_getTable('My_ZendDbTable_TableBugs');
             $primary = $bugsTable->info(Zend_Db_Table_Abstract::PRIMARY);
-            $this->fail('Expected to catch PHPUnit_Framework_Error');
-        } catch (PHPUnit_Framework_Error $e) {
+            $this->fail('Expected to catch \PHPUnit\Framework\AssertionFailedError');
+        } catch (\PHPUnit\Framework\AssertionFailedError $e) {
             $this->assertEquals(E_USER_NOTICE, $e->getCode(), 'Error type not E_USER_NOTICE');
             $this->assertEquals('Failed saving metadata to metadataCache', $e->getMessage());
         }

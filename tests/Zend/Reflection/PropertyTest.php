@@ -35,12 +35,12 @@
  * @group      Zend_Reflection_Property
  */
 #[AllowDynamicProperties]
-class Zend_Reflection_PropertyTest extends PHPUnit_Framework_TestCase
+class Zend_Reflection_PropertyTest extends \PHPUnit\Framework\TestCase
 {
 
     static protected $_sampleClassFileRequired = false;
 
-    public function setup()
+    public function setUp(): void
     {
         if (self::$_sampleClassFileRequired === false) {
             $fileToRequire = __DIR__ . '/_files/TestSampleClass.php';

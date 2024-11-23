@@ -34,12 +34,12 @@
  * @group      Zend_Reflection_Class
  */
 #[AllowDynamicProperties]
-class Zend_Reflection_ClassTest extends PHPUnit_Framework_TestCase
+class Zend_Reflection_ClassTest extends \PHPUnit\Framework\TestCase
 {
 
     static protected $_sampleClassFileRequired = false;
 
-    public function setup()
+    public function setUp(): void
     {
         // ensure we are only required this file once per runtime
         if (self::$_sampleClassFileRequired === false) {
@@ -143,7 +143,7 @@ EOS;
     public function testGetDeclaringFileReturnsFilename()
     {
         $reflectionClass = new Zend_Reflection_Class('Zend_Reflection_TestSampleClass2');
-        $this->assertContains('TestSampleClass.php', $reflectionClass->getDeclaringFile()->getFileName()); //ns(, $reflectionClass->getDeclaringFile());
+        $this->assertStringContainsString('TestSampleClass.php', $reflectionClass->getDeclaringFile()->getFileName()); //ns(, $reflectionClass->getDeclaringFile());
     }
 
 }

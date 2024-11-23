@@ -34,7 +34,7 @@
  * @group      Zend_Debug
  */
 #[AllowDynamicProperties]
-class Zend_DebugTest extends PHPUnit_Framework_TestCase
+class Zend_DebugTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testDebugDefaultSapi()
@@ -53,7 +53,7 @@ class Zend_DebugTest extends PHPUnit_Framework_TestCase
         $result = Zend_Debug::Dump($data, null, false);
         $result = str_replace(array(PHP_EOL, "\n"), '_', $result);
         $expected = "__.*string\(6\) \"string\"__";
-        $this->assertRegExp('/^' . $expected . '$/', $result);
+        $this->assertMatchesRegularExpression('/^' . $expected . '$/', $result);
     }
 
     public function testDebugCgi()
@@ -62,7 +62,7 @@ class Zend_DebugTest extends PHPUnit_Framework_TestCase
         $data = 'string';
         $result = Zend_Debug::Dump($data, null, false);
 
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/^<pre>.*string\(6\) ("|&quot;)string("|&quot;)' . "\n" . '<\/pre>$/s',
             $result
         );
@@ -77,7 +77,7 @@ class Zend_DebugTest extends PHPUnit_Framework_TestCase
         $result1 = Zend_Debug::Dump($data, null, true);
         $result2 = ob_get_clean();
 
-        $this->assertContains('string(6) "string"', $result1);
+        $this->assertStringContainsString('string(6) "string"', $result1);
         $this->assertEquals($result1, $result2);
     }
 
@@ -89,7 +89,7 @@ class Zend_DebugTest extends PHPUnit_Framework_TestCase
         $result = Zend_Debug::Dump($data, $label, false);
         $result = str_replace(array(PHP_EOL, "\n"), '_', $result);
         $expected = "_{$label} .*_string\(6\) \"string\"__";
-        $this->assertRegExp('/^' . $expected . '$/', $result);
+        $this->assertMatchesRegularExpression('/^' . $expected . '$/', $result);
     }
 
     /**
@@ -106,8 +106,8 @@ class Zend_DebugTest extends PHPUnit_Framework_TestCase
         $a = array("a" => "b");
 
         $result = Zend_Debug::dump($a, "LABEL", false);
-        $this->assertContains("<pre>", $result);
-        $this->assertContains("</pre>", $result);
+        $this->assertStringContainsString("<pre>", $result);
+        $this->assertStringContainsString("</pre>", $result);
     }
 
 }

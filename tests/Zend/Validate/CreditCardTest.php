@@ -34,7 +34,7 @@
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_CreditCardTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_CreditCardTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Ensures that the validator follows expected behavior
@@ -203,7 +203,7 @@ class Zend_Validate_CreditCardTest extends PHPUnit_Framework_TestCase
             $validator->setService(array('Zend_Validate_CreditCardTest', 'nocallback'));
             $this->fail('Exception expected');
         } catch(Zend_Exception $e) {
-            $this->assertContains('Invalid callback given', $e->getMessage());
+            $this->assertStringContainsString('Invalid callback given', $e->getMessage());
         }
     }
 
@@ -256,7 +256,7 @@ class Zend_Validate_CreditCardTest extends PHPUnit_Framework_TestCase
         $validator      = new Zend_Validate_CreditCard(array('type' => Zend_Validate_CreditCard::MASTERCARD));
         $this->assertFalse($validator->isValid('4111111111111111'));
         $message = $validator->getMessages();
-        $this->assertContains('not from an allowed institute', current($message));
+        $this->assertStringContainsString('not from an allowed institute', current($message));
     }
 
     public static function staticCallback($value)

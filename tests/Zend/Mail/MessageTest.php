@@ -44,11 +44,11 @@
  * @group      Zend_Mail
  */
 #[AllowDynamicProperties]
-class Zend_Mail_MessageTest extends PHPUnit_Framework_TestCase
+class Zend_Mail_MessageTest extends \PHPUnit\Framework\TestCase
 {
     protected $_file;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_file = tempnam(sys_get_temp_dir(), 'zm_');
         $mail = file_get_contents(__DIR__ . '/_files/mail.txt');
@@ -56,7 +56,7 @@ class Zend_Mail_MessageTest extends PHPUnit_Framework_TestCase
         file_put_contents($this->_file, $mail);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if (file_exists((string) $this->_file)) {
             unlink($this->_file);
@@ -522,7 +522,7 @@ class Zend_Mail_MessageTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function invalidHeaders()
+    public static function invalidHeaders()
     {
         return array(
             'name'        => array("Fake\r\n\r\rnevilContent", 'value'),
@@ -538,7 +538,7 @@ class Zend_Mail_MessageTest extends PHPUnit_Framework_TestCase
     public function testRaisesExceptionWhenProvidedWithHeaderContainingCRLFInjection($name, $value)
     {
         $headers = array($name => $value);
-        $this->setExpectedException('Zend_Mail_Exception', 'valid');
+        $this->expectException('Zend_Mail_Exception', 'valid');
         $message = new Zend_Mail_Message(array(
             'headers' => $headers,
         ));

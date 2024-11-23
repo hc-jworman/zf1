@@ -44,7 +44,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_File
  */
 #[AllowDynamicProperties]
-class Zend_File_Transfer_Adapter_HttpTest extends PHPUnit_Framework_TestCase
+class Zend_File_Transfer_Adapter_HttpTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -53,8 +53,12 @@ class Zend_File_Transfer_Adapter_HttpTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_File_Transfer_Adapter_HttpTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_File_Transfer_Adapter_HttpTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -63,7 +67,7 @@ class Zend_File_Transfer_Adapter_HttpTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $_FILES = array(
             'txt' => array(
@@ -81,14 +85,14 @@ class Zend_File_Transfer_Adapter_HttpTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
     public function testEmptyAdapter()
     {
         $files = $this->adapter->getFileName();
-        $this->assertContains('test.txt', $files);
+        $this->assertStringContainsString('test.txt', $files);
     }
 
     public function testAutoSetUploadValidator()
@@ -145,7 +149,7 @@ class Zend_File_Transfer_Adapter_HttpTest extends PHPUnit_Framework_TestCase
         try {
             $this->assertFalse($this->adapter->receive('unknownFile'));
         } catch (Zend_File_Transfer_Exception $e) {
-            $this->assertContains('not find', $e->getMessage());
+            $this->assertStringContainsString('not find', $e->getMessage());
         }
     }
 
@@ -238,7 +242,7 @@ class Zend_File_Transfer_Adapter_HttpTest extends PHPUnit_Framework_TestCase
         }
 
         $status = Zend_File_Transfer_Adapter_HttpTest_MockAdapter::getProgress();
-        $this->assertContains('No upload in progress', $status);
+        $this->assertStringContainsString('No upload in progress', $status);
     }
 
     public function testUploadProgressFailure()
@@ -314,7 +318,7 @@ class Zend_File_Transfer_Adapter_HttpTest extends PHPUnit_Framework_TestCase
         $_FILES = array();
         $adapter = new Zend_File_Transfer_Adapter_HttpTest_MockAdapter();
         $this->assertFalse($adapter->isValidParent());
-        $this->assertContains('exceeds the defined ini size', current($adapter->getMessages()));
+        $this->assertStringContainsString('exceeds the defined ini size', current($adapter->getMessages()));
     }
 }
 

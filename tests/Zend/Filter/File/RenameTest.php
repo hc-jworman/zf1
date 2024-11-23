@@ -38,7 +38,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_File_RenameTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_File_RenameTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Path to test files
@@ -89,15 +89,20 @@ class Zend_Filter_File_RenameTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Filter_File_RenameTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Filter_File_RenameTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
      * Sets the path to test files
      */
-    public function __construct()
+    public function __construct(string $name)
     {
+        parent::__construct($name);
         $this->_filesPath = __DIR__ . DIRECTORY_SEPARATOR
                           . '..' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
         $this->_origFile  = $this->_filesPath . 'original.file';
@@ -112,7 +117,7 @@ class Zend_Filter_File_RenameTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         if (file_exists((string) $this->_origFile)) {
             unlink($this->_origFile);
@@ -134,7 +139,7 @@ class Zend_Filter_File_RenameTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         if (!file_exists((string) $this->_oldFile)) {
             copy($this->_origFile, $this->_oldFile);
@@ -400,7 +405,7 @@ class Zend_Filter_File_RenameTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($this->_newFile, $filter->getNewName($this->_oldFile));
             $this->fail();
         } catch (Zend_Filter_Exception $e) {
-            $this->assertContains('could not be renamed', $e->getMessage());
+            $this->assertStringContainsString('could not be renamed', $e->getMessage());
         }
     }
 
@@ -449,7 +454,7 @@ class Zend_Filter_File_RenameTest extends PHPUnit_Framework_TestCase
             $filter->addFile(1234);
             $this->fail();
         } catch (Zend_Filter_Exception $e) {
-            $this->assertContains('Invalid options', $e->getMessage());
+            $this->assertStringContainsString('Invalid options', $e->getMessage());
         }
     }
 
@@ -462,7 +467,7 @@ class Zend_Filter_File_RenameTest extends PHPUnit_Framework_TestCase
             $filter = new Zend_Filter_File_Rename(1234);
             $this->fail();
         } catch (Zend_Filter_Exception $e) {
-            $this->assertContains('Invalid options', $e->getMessage());
+            $this->assertStringContainsString('Invalid options', $e->getMessage());
         }
     }
 }

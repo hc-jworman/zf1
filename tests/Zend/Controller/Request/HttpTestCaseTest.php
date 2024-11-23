@@ -40,7 +40,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Controller_Request
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Request_HttpTestCaseTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Request_HttpTestCaseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -49,8 +49,12 @@ class Zend_Controller_Request_HttpTestCaseTest extends PHPUnit_Framework_TestCas
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Request_HttpTestCaseTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Request_HttpTestCaseTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -59,7 +63,7 @@ class Zend_Controller_Request_HttpTestCaseTest extends PHPUnit_Framework_TestCas
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new Zend_Controller_Request_HttpTestCase();
         $_GET    = array();
@@ -73,7 +77,7 @@ class Zend_Controller_Request_HttpTestCaseTest extends PHPUnit_Framework_TestCas
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 

@@ -135,7 +135,7 @@ abstract class Zend_Db_Table_Rowset_TestCommon extends Zend_Db_Table_TestSetup
             $this->fail('An exception should have been thrown here');
         }catch(Zend_Db_Table_Rowset_Exception $e){
             // has the exception correctly been overwritten by getRow() ?
-            $this->assertRegExp('#No row could be found at position \d+#',$e->getMessage());
+            $this->assertMatchesRegularExpression('#No row could be found at position \d+#',$e->getMessage());
         }
     }
 
@@ -276,7 +276,7 @@ abstract class Zend_Db_Table_Rowset_TestCommon extends Zend_Db_Table_TestSetup
             $this->fail();
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Db_Table_Rowset_Exception);
-            $this->assertContains('Illegal index', $e->getMessage());
+            $this->assertStringContainsString('Illegal index', $e->getMessage());
         }
 
         $this->assertTrue($rowset[0] instanceof Zend_Db_Table_Row);
@@ -286,7 +286,7 @@ abstract class Zend_Db_Table_Rowset_TestCommon extends Zend_Db_Table_TestSetup
             $this->fail();
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Db_Table_Rowset_Exception);
-            $this->assertContains('Illegal index', $e->getMessage());
+            $this->assertStringContainsString('Illegal index', $e->getMessage());
         }
         $this->assertEquals(0, $rowset->key());
     }
@@ -322,7 +322,7 @@ abstract class Zend_Db_Table_Rowset_TestCommon extends Zend_Db_Table_TestSetup
         $rowset = $table->fetchAll('bug_id IN (1,2,3,4)', 'bug_id ASC');
         $rowset->seek(3);
 
-        $this->setExpectedException('Zend_Db_Table_Rowset_Exception', 'Illegal index 4');
+        $this->expectException('Zend_Db_Table_Rowset_Exception', 'Illegal index 4');
         $rowset->seek(4);
     }
 
@@ -335,7 +335,7 @@ abstract class Zend_Db_Table_Rowset_TestCommon extends Zend_Db_Table_TestSetup
         $rowset = $table->fetchAll('bug_id IN (1,2,3,4)', 'bug_id ASC');
         $rowset->getRow(3);
 
-        $this->setExpectedException('Zend_Db_Table_Rowset_Exception', 'No row could be found at position 4');
+        $this->expectException('Zend_Db_Table_Rowset_Exception', 'No row could be found at position 4');
         $rowset->getRow(4);
     }
 

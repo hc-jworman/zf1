@@ -41,7 +41,7 @@
  * @group      Zend_Soap_Wsdl
  */
 #[AllowDynamicProperties]
-class Zend_Soap_WsdlTest extends PHPUnit_Framework_TestCase
+class Zend_Soap_WsdlTest extends \PHPUnit\Framework\TestCase
 {
     protected function sanitizeWsdlXmlOutputForOsCompability($xmlstring)
     {
@@ -672,7 +672,7 @@ class Zend_Soap_WsdlTest extends PHPUnit_Framework_TestCase
     public function testHtmlAmpersandInUrlInConstructorIsEncodedCorrectly()
     {
         $wsdl = new Zend_Soap_Wsdl("MyService", self::URI_WITH_EXPANDED_AMP);
-        $this->assertContains(self::URI_WITH_EXPANDED_AMP, $wsdl->toXML());
+        $this->assertStringContainsString(self::URI_WITH_EXPANDED_AMP, $wsdl->toXML());
     }
 
     /**
@@ -682,7 +682,7 @@ class Zend_Soap_WsdlTest extends PHPUnit_Framework_TestCase
     {
         $wsdl = new Zend_Soap_Wsdl("MyService", "http://example.com");
         $wsdl->setUri(self::URI_WITH_EXPANDED_AMP);
-        $this->assertContains(self::URI_WITH_EXPANDED_AMP, $wsdl->toXML());
+        $this->assertStringContainsString(self::URI_WITH_EXPANDED_AMP, $wsdl->toXML());
     }
 }
 

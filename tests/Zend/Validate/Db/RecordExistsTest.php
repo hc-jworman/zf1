@@ -22,7 +22,7 @@
 
 
 /**
- * PHPUnit_Framework_TestCase
+ * \PHPUnit\Framework\TestCase
  */
 
 
@@ -65,7 +65,7 @@ require_once __DIR__ . '/_files/Db/MockHasResult.php';
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_Db_RecordExistsTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_Db_RecordExistsTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -83,7 +83,7 @@ class Zend_Validate_Db_RecordExistsTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_adapterHasResult = new Db_MockHasResult();
         $this->_adapterNoResult = new Db_MockNoResult();

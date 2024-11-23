@@ -35,9 +35,9 @@
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_File_EncryptTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_File_EncryptTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (!extension_loaded('mcrypt')) {
             $this->markTestSkipped('This filter needs the mcrypt extension');
@@ -52,7 +52,7 @@ class Zend_Filter_File_EncryptTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if (file_exists((string) __DIR__.'/../_files/newencryption.txt')) {
             unlink(__DIR__.'/../_files/newencryption.txt');
@@ -120,7 +120,7 @@ class Zend_Filter_File_EncryptTest extends PHPUnit_Framework_TestCase
             $filter->filter(__DIR__.'/../_files/nofile.txt');
             $this->fail();
         } catch (Zend_Filter_Exception $e) {
-            $this->assertContains('not found', $e->getMessage());
+            $this->assertStringContainsString('not found', $e->getMessage());
         }
     }
 

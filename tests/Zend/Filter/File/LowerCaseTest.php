@@ -34,7 +34,7 @@
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_File_LowerCaseTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_File_LowerCaseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Path to test files
@@ -60,8 +60,9 @@ class Zend_Filter_File_LowerCaseTest extends PHPUnit_Framework_TestCase
     /**
      * Sets the path to test files
      */
-    public function __construct()
+    public function __construct(string $name)
     {
+        parent::__construct($name);
         $this->_filesPath = __DIR__ . DIRECTORY_SEPARATOR
                           . '..' . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
         $this->_origFile  = $this->_filesPath . 'testfile2.txt';
@@ -73,7 +74,7 @@ class Zend_Filter_File_LowerCaseTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         if (!file_exists((string) $this->_newFile)) {
             copy($this->_origFile, $this->_newFile);
@@ -85,7 +86,7 @@ class Zend_Filter_File_LowerCaseTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         if (file_exists((string) $this->_newFile)) {
             unlink($this->_newFile);
@@ -97,10 +98,10 @@ class Zend_Filter_File_LowerCaseTest extends PHPUnit_Framework_TestCase
      */
     public function testInstanceCreationAndNormalWorkflow()
     {
-        $this->assertContains('This is a File', file_get_contents($this->_newFile));
+        $this->assertStringContainsString('This is a File', file_get_contents($this->_newFile));
         $filter = new Zend_Filter_File_LowerCase();
         $filter->filter($this->_newFile);
-        $this->assertContains('this is a file', file_get_contents($this->_newFile));
+        $this->assertStringContainsString('this is a file', file_get_contents($this->_newFile));
     }
 
     /**
@@ -113,7 +114,7 @@ class Zend_Filter_File_LowerCaseTest extends PHPUnit_Framework_TestCase
             $filter->filter($this->_newFile . 'unknown');
             $this->fail('Unknown file exception expected');
         } catch (Zend_Filter_Exception $e) {
-            $this->assertContains('not found', $e->getMessage());
+            $this->assertStringContainsString('not found', $e->getMessage());
         }
     }
 
@@ -122,13 +123,13 @@ class Zend_Filter_File_LowerCaseTest extends PHPUnit_Framework_TestCase
      */
     public function testCheckSettingOfEncodingInIstance()
     {
-        $this->assertContains('This is a File', file_get_contents($this->_newFile));
+        $this->assertStringContainsString('This is a File', file_get_contents($this->_newFile));
         try {
             $filter = new Zend_Filter_File_LowerCase('ISO-8859-1');
             $filter->filter($this->_newFile);
-            $this->assertContains('this is a file', file_get_contents($this->_newFile));
+            $this->assertStringContainsString('this is a file', file_get_contents($this->_newFile));
         } catch (Zend_Filter_Exception $e) {
-            $this->assertContains('mbstring is required', $e->getMessage());
+            $this->assertStringContainsString('mbstring is required', $e->getMessage());
         }
     }
 
@@ -137,14 +138,14 @@ class Zend_Filter_File_LowerCaseTest extends PHPUnit_Framework_TestCase
      */
     public function testCheckSettingOfEncodingWithMethod()
     {
-        $this->assertContains('This is a File', file_get_contents($this->_newFile));
+        $this->assertStringContainsString('This is a File', file_get_contents($this->_newFile));
         try {
             $filter = new Zend_Filter_File_LowerCase();
             $filter->setEncoding('ISO-8859-1');
             $filter->filter($this->_newFile);
-            $this->assertContains('this is a file', file_get_contents($this->_newFile));
+            $this->assertStringContainsString('this is a file', file_get_contents($this->_newFile));
         } catch (Zend_Filter_Exception $e) {
-            $this->assertContains('mbstring is required', $e->getMessage());
+            $this->assertStringContainsString('mbstring is required', $e->getMessage());
         }
     }
 }

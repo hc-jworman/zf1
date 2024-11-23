@@ -34,7 +34,7 @@
  * @group      Zend_Http_Cookie
  */
 #[AllowDynamicProperties]
-class Zend_Http_CookieTest extends PHPUnit_Framework_TestCase
+class Zend_Http_CookieTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Cookie creation and data accessors tests

@@ -43,7 +43,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_FormPasswordTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_FormPasswordTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -53,8 +53,12 @@ class Zend_View_Helper_FormPasswordTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_FormPasswordTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_FormPasswordTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -63,7 +67,7 @@ class Zend_View_Helper_FormPasswordTest extends PHPUnit_Framework_TestCase
      *
      * @access protected
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (Zend_Registry::isRegistered('Zend_View_Helper_Doctype')) {
             $registry = Zend_Registry::getInstance();
@@ -85,7 +89,7 @@ class Zend_View_Helper_FormPasswordTest extends PHPUnit_Framework_TestCase
             'attribs' => array('disable' => true)
         ));
 
-        $this->assertRegexp('/<input[^>]*?(disabled="disabled")/', $html);
+        $this->assertMatchesRegularExpression('/<input[^>]*?(disabled="disabled")/', $html);
     }
 
     /**
@@ -105,20 +109,20 @@ class Zend_View_Helper_FormPasswordTest extends PHPUnit_Framework_TestCase
     public function testShouldRenderAsHtmlByDefault()
     {
         $test = $this->helper->formPassword('foo', 'bar');
-        $this->assertNotContains(' />', $test);
+        $this->assertStringNotContainsString(' />', $test);
     }
 
     public function testShouldAllowRenderingAsXhtml()
     {
         $this->view->doctype('XHTML1_STRICT');
         $test = $this->helper->formPassword('foo', 'bar');
-        $this->assertContains(' />', $test);
+        $this->assertStringContainsString(' />', $test);
     }
 
     public function testShouldNotRenderValueByDefault()
     {
         $test = $this->helper->formPassword('foo', 'bar');
-        $this->assertNotContains('bar', $test);
+        $this->assertStringNotContainsString('bar', $test);
     }
 
     /**
@@ -127,7 +131,7 @@ class Zend_View_Helper_FormPasswordTest extends PHPUnit_Framework_TestCase
     public function testShouldRenderValueWhenRenderPasswordFlagPresentAndTrue()
     {
         $test = $this->helper->formPassword('foo', 'bar', array('renderPassword' => true));
-        $this->assertContains('value="bar"', $test);
+        $this->assertStringContainsString('value="bar"', $test);
     }
 
     /**
@@ -136,9 +140,9 @@ class Zend_View_Helper_FormPasswordTest extends PHPUnit_Framework_TestCase
     public function testRenderPasswordAttribShouldNeverBeRendered()
     {
         $test = $this->helper->formPassword('foo', 'bar', array('renderPassword' => true));
-        $this->assertNotContains('renderPassword', $test);
+        $this->assertStringNotContainsString('renderPassword', $test);
         $test = $this->helper->formPassword('foo', 'bar', array('renderPassword' => false));
-        $this->assertNotContains('renderPassword', $test);
+        $this->assertStringNotContainsString('renderPassword', $test);
     }
 }
 

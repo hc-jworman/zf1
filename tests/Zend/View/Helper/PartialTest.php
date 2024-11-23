@@ -46,7 +46,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_PartialTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_View_Helper_Partial
@@ -66,8 +66,12 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_PartialTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_PartialTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -76,7 +80,7 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->basePath = __DIR__ . '/_files/modules';
         $this->helper = new Zend_View_Helper_Partial();
@@ -89,7 +93,7 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->helper);
     }
@@ -104,7 +108,7 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
         ));
         $this->helper->setView($view);
         $return = $this->helper->partial('partialOne.phtml');
-        $this->assertContains('This is the first test partial', $return);
+        $this->assertStringContainsString('This is the first test partial', $return);
     }
 
     /**
@@ -118,8 +122,8 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
         $view->message = 'This should never be read';
         $this->helper->setView($view);
         $return = $this->helper->partial('partialThree.phtml', array('message' => 'This message should be read'));
-        $this->assertNotContains($view->message, $return);
-        $this->assertContains('This message should be read', $return, $return);
+        $this->assertStringNotContainsString($view->message, $return);
+        $this->assertStringContainsString('This message should be read', $return, $return);
     }
 
     /**
@@ -133,7 +137,7 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
         ));
         $this->helper->setView($view);
         $return = $this->helper->partial('partialTwo.phtml', 'foo');
-        $this->assertContains('This is the second partial', $return, $return);
+        $this->assertStringContainsString('This is the second partial', $return, $return);
     }
 
     /**
@@ -206,7 +210,7 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
 
         foreach (get_object_vars($model) as $key => $value) {
             $string = sprintf('%s: %s', $key, $value);
-            $this->assertContains($string, $return);
+            $this->assertStringContainsString($string, $return);
         }
     }
 
@@ -222,7 +226,7 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
 
         foreach ($model->toArray() as $key => $value) {
             $string = sprintf('%s: %s', $key, $value);
-            $this->assertContains($string, $return);
+            $this->assertStringContainsString($string, $return);
         }
     }
 
@@ -239,11 +243,11 @@ class Zend_View_Helper_PartialTest extends PHPUnit_Framework_TestCase
         $this->helper->setView($view);
         $return = $this->helper->partial('partialObj.phtml', $model);
 
-        $this->assertNotContains('No object model passed', $return);
+        $this->assertStringNotContainsString('No object model passed', $return);
 
         foreach (get_object_vars($model) as $key => $value) {
             $string = sprintf('%s: %s', $key, $value);
-            $this->assertContains($string, $return, "Checking for '$return' containing '$string'");
+            $this->assertStringContainsString($string, $return, "Checking for '$return' containing '$string'");
         }
     }
 

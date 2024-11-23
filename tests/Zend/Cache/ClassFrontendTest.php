@@ -80,12 +80,12 @@ class test
  * @group      Zend_Cache
  */
 #[AllowDynamicProperties]
-class Zend_Cache_ClassFrontendTest extends PHPUnit_Framework_TestCase
+class Zend_Cache_ClassFrontendTest extends \PHPUnit\Framework\TestCase
 {
     private $_instance1;
     private $_instance2;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!$this->_instance1) {
             $options1 = array(
@@ -105,7 +105,7 @@ class Zend_Cache_ClassFrontendTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->_instance1);
         unset($this->_instance2);
@@ -297,7 +297,7 @@ class Zend_Cache_ClassFrontendTest extends PHPUnit_Framework_TestCase
      */
     public function testThrowExceptionOnInvalidCallback()
     {
-        $this->setExpectedException('Zend_Cache_Exception');
+        $this->expectException('Zend_Cache_Exception');
         $this->_instance2->unknownMethod();
     }
 }

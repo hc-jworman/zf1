@@ -33,7 +33,7 @@
  * @group      Zend_Pdf
  */
 #[AllowDynamicProperties]
-class Zend_Pdf_Filter_RunLengthTest extends PHPUnit_Framework_TestCase
+class Zend_Pdf_Filter_RunLengthTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleStringEncode()
     {

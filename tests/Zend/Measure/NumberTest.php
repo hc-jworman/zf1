@@ -35,7 +35,7 @@
  * @group      Zend_Measure
  */
 #[AllowDynamicProperties]
-class Zend_Measure_NumberTest extends PHPUnit_Framework_TestCase
+class Zend_Measure_NumberTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * test for Number initialisation
@@ -279,7 +279,7 @@ class Zend_Measure_NumberTest extends PHPUnit_Framework_TestCase
      * @group GH-536
      * @return array
      */
-    public function providerConvertingDecimalToRoman()
+    public static function providerConvertingDecimalToRoman()
     {
         return array(
             array(10, 'X'),

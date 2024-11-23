@@ -35,10 +35,10 @@
  * @group Zend_CodeGenerator_Php
  */
 #[AllowDynamicProperties]
-class Zend_CodeGenerator_Php_PropertyTest extends PHPUnit_Framework_TestCase
+class Zend_CodeGenerator_Php_PropertyTest extends \PHPUnit\Framework\TestCase
 {
 
-    public function setup()
+    public function setUp(): void
     {
         if (!class_exists('Zend_CodeGenerator_Php_TestClassWithManyProperties')) {
             require_once __DIR__ . '/_files/TestClassWithManyProperties.php';
@@ -173,7 +173,7 @@ EOS;
             'defaultValue' => new stdClass(),
         ));
 
-        $this->setExpectedException("Zend_CodeGenerator_Php_Exception");
+        $this->expectException("Zend_CodeGenerator_Php_Exception");
 
         $codeGenProperty->generate();
     }

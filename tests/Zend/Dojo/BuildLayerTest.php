@@ -38,12 +38,16 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Dojo
  */
 #[AllowDynamicProperties]
-class Zend_Dojo_BuildLayerTest extends PHPUnit_Framework_TestCase
+class Zend_Dojo_BuildLayerTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -52,13 +56,13 @@ class Zend_Dojo_BuildLayerTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->view = new Zend_View();
         Zend_Dojo::enableView($this->view);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->view);
     }

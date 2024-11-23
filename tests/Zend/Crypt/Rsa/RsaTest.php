@@ -32,14 +32,14 @@
  * @group      Zend_Crypt
  */
 #[AllowDynamicProperties]
-class Zend_Crypt_RsaTest extends PHPUnit_Framework_TestCase
+class Zend_Crypt_RsaTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $_testPemString = null;
 
     protected $_testPemPath = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!extension_loaded('openssl')) {
             $this->markTestSkipped('Zend_Crypt_Rsa requires openssl extension to be loaded.');

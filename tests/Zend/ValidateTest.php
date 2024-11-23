@@ -44,7 +44,7 @@
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_ValidateTest extends PHPUnit_Framework_TestCase
+class Zend_ValidateTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Zend_Validate object
@@ -58,7 +58,7 @@ class Zend_ValidateTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_validator = new Zend_Validate();
     }
@@ -68,7 +68,7 @@ class Zend_ValidateTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Validate::setDefaultNamespaces(array());
     }

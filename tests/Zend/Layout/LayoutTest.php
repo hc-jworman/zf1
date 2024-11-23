@@ -45,7 +45,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Layout
  */
 #[AllowDynamicProperties]
-class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
+class Zend_Layout_LayoutTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -55,8 +55,12 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Layout_LayoutTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Layout_LayoutTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -65,7 +69,7 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         Zend_Layout_LayoutTest_Override::resetMvcInstance();
 
@@ -84,7 +88,7 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Layout::resetMvcInstance();
     }
@@ -393,8 +397,8 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
                ->setView($view);
         $layout->message = 'Rendered layout';
         $received = $layout->render();
-        $this->assertContains('Testing layouts:', $received);
-        $this->assertContains($layout->message, $received);
+        $this->assertStringContainsString('Testing layouts:', $received);
+        $this->assertStringContainsString($layout->message, $received);
     }
 
     public function testRenderWithDefaultInflection()
@@ -405,8 +409,8 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
                ->setView($view);
         $layout->message = 'Rendered layout';
         $received = $layout->render();
-        $this->assertContains('Testing layouts:', $received);
-        $this->assertContains($layout->message, $received);
+        $this->assertStringContainsString('Testing layouts:', $received);
+        $this->assertStringContainsString($layout->message, $received);
     }
 
     public function testRenderWithCustomInflection()
@@ -420,8 +424,8 @@ class Zend_Layout_LayoutTest extends PHPUnit_Framework_TestCase
                   ->setStaticRule('suffix', 'php');
         $layout->message = 'Rendered layout';
         $received = $layout->render();
-        $this->assertContains('Testing layouts with custom inflection:', $received);
-        $this->assertContains($layout->message, $received);
+        $this->assertStringContainsString('Testing layouts with custom inflection:', $received);
+        $this->assertStringContainsString($layout->message, $received);
     }
 
     public function testGetMvcInstanceReturnsNullWhenStartMvcHasNotBeenCalled()

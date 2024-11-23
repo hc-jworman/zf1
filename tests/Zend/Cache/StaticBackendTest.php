@@ -34,12 +34,7 @@ class Zend_Cache_StaticBackendTest extends Zend_Cache_CommonBackendTest {
     protected $_requestUriOld;
     protected $_innerCache;
 
-    public function __construct($name = null, array $data = array(), $dataName = '')
-    {
-        parent::__construct('Zend_Cache_Backend_Static', $data, $dataName);
-    }
-
-    public function setUp($notag = false)
+    public function setUp($notag = false): void
     {
         $this->mkdir();
         $this->_cache_dir = $this->mkdir();
@@ -67,7 +62,7 @@ class Zend_Cache_StaticBackendTest extends Zend_Cache_CommonBackendTest {
         $this->_instance->save('bar3 : data to cache', bin2hex('/bar3'), array('tag2', 'tag3'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->_instance);
@@ -162,7 +157,7 @@ class Zend_Cache_StaticBackendTest extends Zend_Cache_CommonBackendTest {
         try {
             $this->_instance->setOption('cache_directory_umask', '777');
             $this->fail();
-        } catch (PHPUnit_Framework_Error $e) {
+        } catch (\PHPUnit\Framework\AssertionFailedError $e) {
             $this->assertEquals(
                 "'cache_directory_umask' is deprecated -> please use 'cache_directory_perm' instead",
                 $e->getMessage()
@@ -178,7 +173,7 @@ class Zend_Cache_StaticBackendTest extends Zend_Cache_CommonBackendTest {
         try {
             $this->_instance->setOption('cache_file_umask', '777');
             $this->fail();
-        } catch (PHPUnit_Framework_Error $e) {
+        } catch (\PHPUnit\Framework\AssertionFailedError $e) {
             $this->assertEquals(
                 "'cache_file_umask' is deprecated -> please use 'cache_file_perm' instead",
                 $e->getMessage()

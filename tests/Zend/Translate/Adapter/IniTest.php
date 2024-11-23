@@ -34,7 +34,7 @@
  * @group      Zend_Translate
  */
 #[AllowDynamicProperties]
-class Zend_Translate_Adapter_IniTest extends PHPUnit_Framework_TestCase
+class Zend_Translate_Adapter_IniTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -43,8 +43,12 @@ class Zend_Translate_Adapter_IniTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Translate_Adapter_IniTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Translate_Adapter_IniTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testCreate()
@@ -56,7 +60,7 @@ class Zend_Translate_Adapter_IniTest extends PHPUnit_Framework_TestCase
             $adapter = new Zend_Translate_Adapter_Ini(__DIR__ . '/_files/nofile.ini', 'en');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('not found', $e->getMessage());
+            $this->assertStringContainsString('not found', $e->getMessage());
         }
 
         set_error_handler(array($this, 'errorHandlerIgnore'));
@@ -102,7 +106,7 @@ class Zend_Translate_Adapter_IniTest extends PHPUnit_Framework_TestCase
             $adapter->addTranslation(__DIR__ . '/_files/translation_en.ini', 'xx');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('The given Language', $e->getMessage());
+            $this->assertStringContainsString('The given Language', $e->getMessage());
         }
 
         $adapter->addTranslation(__DIR__ . '/_files/translation_en2.ini', 'de', array('clear' => true));
@@ -160,7 +164,7 @@ class Zend_Translate_Adapter_IniTest extends PHPUnit_Framework_TestCase
             $adapter->setLocale('nolocale');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('The given Language', $e->getMessage());
+            $this->assertStringContainsString('The given Language', $e->getMessage());
         }
 
         set_error_handler(array($this, 'errorHandlerIgnore'));

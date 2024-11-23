@@ -58,13 +58,13 @@ class Zend_Mail_Storage_Maildir_OldMessage extends Zend_Mail_Storage_Maildir
  * @group      Zend_Mail
  */
 #[AllowDynamicProperties]
-class Zend_Mail_MaildirMessageOldTest extends PHPUnit_Framework_TestCase
+class Zend_Mail_MaildirMessageOldTest extends \PHPUnit\Framework\TestCase
 {
     protected $_originalMaildir;
     protected $_maildir;
     protected $_tmpdir;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_originalMaildir = __DIR__ . '/_files/test.maildir/';
         if (!is_dir($this->_originalMaildir . '/cur/')) {
@@ -110,7 +110,7 @@ class Zend_Mail_MaildirMessageOldTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach (array('cur', 'new') as $dir) {
             $dh = opendir($this->_tmpdir . $dir);

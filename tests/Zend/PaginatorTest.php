@@ -36,7 +36,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 // require_once 'Zend/Paginator/AdapterAggregate.php';
 
 /**
- * @see PHPUnit_Framework_TestCase
+ * @see \PHPUnit\Framework\TestCase
  */
 
 /**
@@ -108,7 +108,7 @@ require_once 'Zend/Paginator/_files/TestTable.php';
  * @group      Zend_Paginator
  */
 #[AllowDynamicProperties]
-class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
+class Zend_PaginatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -117,8 +117,12 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -138,7 +142,7 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
 
     protected $_adapter = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!extension_loaded('pdo_sqlite')) {
            $this->markTestSkipped('Pdo_Sqlite extension is not loaded');
@@ -167,7 +171,7 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
         $this->_restorePaginatorDefaults();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->_dbConn = null;
         $this->_testCollection = null;
@@ -263,7 +267,7 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
             $paginator = Zend_Paginator::factory(new stdClass());
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Paginator_Exception);
-            $this->assertContains('stdClass', $e->getMessage());
+            $this->assertStringContainsString('stdClass', $e->getMessage());
         }
     }
 
@@ -273,7 +277,7 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
             $paginator = Zend_Paginator::factory('invalid argument');
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Paginator_Exception);
-            $this->assertContains('string', $e->getMessage());
+            $this->assertStringContainsString('string', $e->getMessage());
         }
     }
 
@@ -640,7 +644,7 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
             $paginator->getItem(1);
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Paginator_Exception);
-            $this->assertContains('Page 1 does not exist', $e->getMessage());
+            $this->assertStringContainsString('Page 1 does not exist', $e->getMessage());
         }
     }
 
@@ -650,7 +654,7 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
             $this->_paginator->getItem(10, 11);
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Paginator_Exception);
-            $this->assertContains('Page 11 does not contain item number 10', $e->getMessage());
+            $this->assertStringContainsString('Page 11 does not contain item number 10', $e->getMessage());
         }
     }
 
@@ -910,7 +914,7 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
 
         $expected = '"0":1,"1":2,"2":3,"3":4,"4":5,"5":6,"6":7,"7":8,"8":9,"9":10';
 
-        $this->assertContains($expected, $json);
+        $this->assertStringContainsString($expected, $json);
     }
 
     // ZF-5519
@@ -1003,7 +1007,7 @@ class Zend_PaginatorTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidDataInConstructor_ThrowsException()
     {
-        $this->setExpectedException("Zend_Paginator_Exception");
+        $this->expectException("Zend_Paginator_Exception");
 
         $p = new Zend_Paginator(array());
     }

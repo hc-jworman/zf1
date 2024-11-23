@@ -35,7 +35,7 @@
  * @group      Zend_Ldap_Dn
  */
 #[AllowDynamicProperties]
-class Zend_Ldap_Dn_CreationTest extends PHPUnit_Framework_TestCase
+class Zend_Ldap_Dn_CreationTest extends \PHPUnit\Framework\TestCase
 {
     public function testDnCreation()
     {

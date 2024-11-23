@@ -41,15 +41,15 @@ require_once 'MockupStream.php';
  * @group      Zend_ProgressBar
  */
 #[AllowDynamicProperties]
-class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
+class Zend_ProgressBar_Adapter_ConsoleTest extends \PHPUnit\Framework\TestCase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         stream_wrapper_register("zendprogressbaradapterconsole", "Zend_ProgressBar_Adapter_Console_MockupStream");
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         stream_wrapper_unregister('zendprogressbaradapterconsole');
     }
@@ -61,8 +61,12 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_ProgressBar_Adapter_ConsoleTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_ProgressBar_Adapter_ConsoleTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testWindowsWidth()
@@ -122,7 +126,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
 
             $this->fail('An expected Zend_ProgressBar_Adapter_Exception has not been raised');
         } catch (Zend_ProgressBar_Adapter_Exception $expected) {
-            $this->assertContains('Invalid element found in $elements array', $expected->getMessage());
+            $this->assertStringContainsString('Invalid element found in $elements array', $expected->getMessage());
         }
     }
 
@@ -140,7 +144,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 30));
         $adapter->notify(50, 100, .5, 0, null, null);
 
-        $this->assertContains(' 50% [#####-----]', $adapter->getLastOutput());
+        $this->assertStringContainsString(' 50% [#####-----]', $adapter->getLastOutput());
     }
 
     public function testBarOnly()
@@ -182,7 +186,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 20, 'elements' => array(Zend_ProgressBar_Adapter_Console::ELEMENT_BAR), 'barIndicatorChar' => '>'));
         $adapter->notify(10, 100, .1, 0, null, null);
 
-        $this->assertContains('[##>---------------]', $adapter->getLastOutput());
+        $this->assertStringContainsString('[##>---------------]', $adapter->getLastOutput());
     }
 
     public function testBarStyleIndicatorWide()
@@ -190,7 +194,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 20, 'elements' => array(Zend_ProgressBar_Adapter_Console::ELEMENT_BAR), 'barIndicatorChar' => '[]'));
         $adapter->notify(10, 100, .1, 0, null, null);
 
-        $this->assertContains('[##[]--------------]', $adapter->getLastOutput());
+        $this->assertStringContainsString('[##[]--------------]', $adapter->getLastOutput());
     }
 
     public function testBarStyleLeftRightNormal()
@@ -198,7 +202,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 20, 'elements' => array(Zend_ProgressBar_Adapter_Console::ELEMENT_BAR), 'barLeftChar' => '+', 'barRightChar' => ' '));
         $adapter->notify(10, 100, .1, 0, null, null);
 
-        $this->assertContains('[++                ]', $adapter->getLastOutput());
+        $this->assertStringContainsString('[++                ]', $adapter->getLastOutput());
     }
 
     public function testBarStyleLeftRightWide()
@@ -206,7 +210,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 20, 'elements' => array(Zend_ProgressBar_Adapter_Console::ELEMENT_BAR), 'barLeftChar' => '+-', 'barRightChar' => '=-'));
         $adapter->notify(10, 100, .1, 0, null, null);
 
-        $this->assertContains('[+-=-=-=-=-=-=-=-=-]', $adapter->getLastOutput());
+        $this->assertStringContainsString('[+-=-=-=-=-=-=-=-=-]', $adapter->getLastOutput());
     }
 
     public function testBarStyleLeftIndicatorRightWide()
@@ -214,7 +218,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 20, 'elements' => array(Zend_ProgressBar_Adapter_Console::ELEMENT_BAR), 'barLeftChar' => '+-', 'barIndicatorChar' => '[]', 'barRightChar' => '=-'));
         $adapter->notify(10, 100, .1, 0, null, null);
 
-        $this->assertContains('[+-[]=-=-=-=-=-=-=-]', $adapter->getLastOutput());
+        $this->assertStringContainsString('[+-[]=-=-=-=-=-=-=-]', $adapter->getLastOutput());
     }
 
     public function testEtaDelayDisplay()
@@ -222,7 +226,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 100, 'elements' => array(Zend_ProgressBar_Adapter_Console::ELEMENT_ETA)));
 
         $adapter->notify(33, 100, .33, 3, null, null);
-        $this->assertContains('            ', $adapter->getLastOutput());
+        $this->assertStringContainsString('            ', $adapter->getLastOutput());
 
         $adapter->notify(66, 100, .66, 6, 3, null);
         $result = preg_match('#ETA 00:00:(\d)+#', $adapter->getLastOutput(), $match);
@@ -236,7 +240,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
 
         $adapter->notify(1, 100005, .001, 5, 100000, null);
 
-        $this->assertContains('ETA ??:??:??', $adapter->getLastOutput());
+        $this->assertStringContainsString('ETA ??:??:??', $adapter->getLastOutput());
     }
 
     public function testTextElementDefaultLength()
@@ -244,7 +248,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 100, 'elements' => array(Zend_ProgressBar_Adapter_Console::ELEMENT_TEXT, Zend_ProgressBar_Adapter_Console::ELEMENT_BAR)));
         $adapter->notify(0, 100, 0, 0, null, 'foobar');
 
-        $this->assertContains('foobar               [', $adapter->getLastOutput());
+        $this->assertStringContainsString('foobar               [', $adapter->getLastOutput());
     }
 
     public function testTextElementCustomLength()
@@ -252,7 +256,7 @@ class Zend_ProgressBar_Adapter_ConsoleTest extends PHPUnit_Framework_TestCase
         $adapter = new Zend_ProgressBar_Adapter_Console_Stub(array('width' => 100, 'elements' => array(Zend_ProgressBar_Adapter_Console::ELEMENT_TEXT, Zend_ProgressBar_Adapter_Console::ELEMENT_BAR), 'textWidth' => 10));
         $adapter->notify(0, 100, 0, 0, null, 'foobar');
 
-        $this->assertContains('foobar     [', $adapter->getLastOutput());
+        $this->assertStringContainsString('foobar     [', $adapter->getLastOutput());
     }
 
     public function testSetOutputStreamOpen() {

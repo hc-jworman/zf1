@@ -26,7 +26,7 @@
 // require_once 'Zend/Paginator/Adapter/Array.php';
 
 /**
- * @see PHPUnit_Framework_TestCase
+ * @see \PHPUnit\Framework\TestCase
  */
 
 /**
@@ -38,7 +38,7 @@
  * @group      Zend_Paginator
  */
 #[AllowDynamicProperties]
-class Zend_Paginator_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
+class Zend_Paginator_Adapter_ArrayTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Paginator_Adapter_Array
@@ -48,7 +48,7 @@ class Zend_Paginator_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp ()
+    protected function setUp (): void
     {
         parent::setUp();
         $this->_adapter = new Zend_Paginator_Adapter_Array(range(1, 101));
@@ -56,7 +56,7 @@ class Zend_Paginator_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
     /**
      * Cleans up the environment after running a test.
      */
-    protected function tearDown ()
+    protected function tearDown (): void
     {
         $this->_adapter = null;
         parent::tearDown();
@@ -80,7 +80,7 @@ class Zend_Paginator_Adapter_ArrayTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(101, $this->_adapter->count());
     }
-    
+
 
     /**
      * @group ZF-4151

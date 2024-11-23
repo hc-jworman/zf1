@@ -34,7 +34,7 @@
  * @group      Zend_Pdf
  */
 #[AllowDynamicProperties]
-class Zend_Pdf_Element_NumericTest extends PHPUnit_Framework_TestCase
+class Zend_Pdf_Element_NumericTest extends \PHPUnit\Framework\TestCase
 {
     public function testPDFNumeric()
     {
@@ -47,7 +47,7 @@ class Zend_Pdf_Element_NumericTest extends PHPUnit_Framework_TestCase
         try {
             $intObj = new Zend_Pdf_Element_Numeric('some input');
         } catch (Zend_Pdf_Exception $e) {
-            $this->assertRegExp('/must be numeric/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/must be numeric/i', $e->getMessage());
             return;
         }
         $this->fail('Expected Zend_Pdf_Exception to be thrown');

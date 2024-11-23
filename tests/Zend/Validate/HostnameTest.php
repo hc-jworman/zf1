@@ -35,7 +35,7 @@
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_HostnameTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_HostnameTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Default instance created for all test methods
@@ -49,7 +49,7 @@ class Zend_Validate_HostnameTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_origEncoding = PHP_VERSION_ID < 50600
                     ? iconv_get_encoding('internal_encoding')
@@ -60,7 +60,7 @@ class Zend_Validate_HostnameTest extends PHPUnit_Framework_TestCase
     /**
      * Reset iconv
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         if (PHP_VERSION_ID < 50600) {
             iconv_set_encoding('internal_encoding', $this->_origEncoding);

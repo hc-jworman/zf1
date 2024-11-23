@@ -44,7 +44,7 @@
  * @group      Zend_Search_Lucene
  */
 #[AllowDynamicProperties]
-class Zend_Search_Lucene_Index_TermsPriorityQueueTest extends PHPUnit_Framework_TestCase
+class Zend_Search_Lucene_Index_TermsPriorityQueueTest extends \PHPUnit\Framework\TestCase
 {
     public function testQueue()
     {

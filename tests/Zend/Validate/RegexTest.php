@@ -35,7 +35,7 @@
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_RegexTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_RegexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Ensures that the validator follows expected behavior
@@ -96,7 +96,7 @@ class Zend_Validate_RegexTest extends PHPUnit_Framework_TestCase
             $validator->isValid('anything');
             $this->fail('Expected Zend_Validate_Exception not thrown for bad pattern');
         } catch (Zend_Validate_Exception $e) {
-            $this->assertContains('Internal error while', $e->getMessage());
+            $this->assertStringContainsString('Internal error while', $e->getMessage());
         }
     }
 

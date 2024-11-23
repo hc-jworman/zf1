@@ -34,7 +34,7 @@
  * @group      Zend_Mime
  */
 #[AllowDynamicProperties]
-class Zend_Mime_PartTest extends PHPUnit_Framework_TestCase
+class Zend_Mime_PartTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * MIME part test object
@@ -44,7 +44,7 @@ class Zend_Mime_PartTest extends PHPUnit_Framework_TestCase
     protected $part = null;
     protected $testText;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->testText = 'safdsafsa�lg ��gd�� sd�jg�sdjg�ld�gksd�gj�sdfg�dsj�gjsd�gj�dfsjg�dsfj�djs�g kjhdkj '
                        . 'fgaskjfdh gksjhgjkdh gjhfsdghdhgksdjhg';
@@ -69,7 +69,7 @@ class Zend_Mime_PartTest extends PHPUnit_Framework_TestCase
         $actual = $this->part->getHeaders();
 
         foreach ($expectedHeaders as $expected) {
-            $this->assertContains($expected, $actual);
+            $this->assertStringContainsString($expected, $actual);
         }
     }
 

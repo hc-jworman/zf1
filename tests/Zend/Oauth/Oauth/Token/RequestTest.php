@@ -32,7 +32,7 @@
  * @group      Zend_Oauth_Token
  */
 #[AllowDynamicProperties]
-class Zend_Oauth_Token_RequestTest extends PHPUnit_Framework_TestCase
+class Zend_Oauth_Token_RequestTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testConstructorSetsResponseObject()

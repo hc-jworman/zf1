@@ -39,11 +39,11 @@
  * @group      Zend_Cache
  */
 #[AllowDynamicProperties]
-class Zend_Cache_CoreTest extends PHPUnit_Framework_TestCase
+class Zend_Cache_CoreTest extends \PHPUnit\Framework\TestCase
 {
     private $_instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!$this->_instance) {
             $this->_instance = new Zend_Cache_Core(array());
@@ -52,7 +52,7 @@ class Zend_Cache_CoreTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->_instance);
     }
@@ -492,32 +492,32 @@ class Zend_Cache_CoreTest extends PHPUnit_Framework_TestCase
     {
         $this->_instance->setOption('cache_id_prefix', 'prefix_');
         $ids = $this->_instance->getIds();
-        $this->assertContains('id1', $ids);
-        $this->assertContains('id2', $ids);
+        $this->assertStringContainsString('id1', $ids);
+        $this->assertStringContainsString('id2', $ids);
     }
 
     public function testGetIdsMatchingTags()
     {
         $this->_instance->setOption('cache_id_prefix', 'prefix_');
         $ids = $this->_instance->getIdsMatchingTags(array('tag1', 'tag2'));
-        $this->assertContains('id1', $ids);
-        $this->assertContains('id2', $ids);
+        $this->assertStringContainsString('id1', $ids);
+        $this->assertStringContainsString('id2', $ids);
     }
 
     public function testGetIdsNotMatchingTags()
     {
         $this->_instance->setOption('cache_id_prefix', 'prefix_');
         $ids = $this->_instance->getIdsNotMatchingTags(array('tag3', 'tag4'));
-        $this->assertContains('id3', $ids);
-        $this->assertContains('id4', $ids);
+        $this->assertStringContainsString('id3', $ids);
+        $this->assertStringContainsString('id4', $ids);
     }
 
     public function testGetIdsMatchingAnyTags()
     {
         $this->_instance->setOption('cache_id_prefix', 'prefix_');
         $ids = $this->_instance->getIdsMatchingAnyTags(array('tag5', 'tag6'));
-        $this->assertContains('id5', $ids);
-        $this->assertContains('id6', $ids);
+        $this->assertStringContainsString('id5', $ids);
+        $this->assertStringContainsString('id6', $ids);
     }
 
     public function testLoggerSanity()

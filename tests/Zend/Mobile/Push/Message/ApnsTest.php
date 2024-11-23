@@ -33,9 +33,9 @@
  * @group      Zend_Mobile_Push_Apns
  */
 #[AllowDynamicProperties]
-class Zend_Mobile_Push_Message_ApnsTest extends PHPUnit_Framework_TestCase
+class Zend_Mobile_Push_Message_ApnsTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->message = new Zend_Mobile_Push_Message_Apns();
     }

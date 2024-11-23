@@ -36,7 +36,7 @@
  * @group      Zend_Crypt
  */
 #[AllowDynamicProperties]
-class Zend_Crypt_HmacTest extends PHPUnit_Framework_TestCase
+class Zend_Crypt_HmacTest extends \PHPUnit\Framework\TestCase
 {
 
     // MD5 tests taken from RFC 2202

@@ -44,7 +44,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_ProgressBar
  */
 #[AllowDynamicProperties]
-class Zend_ProgressBar_ProgressBarTest extends PHPUnit_Framework_TestCase
+class Zend_ProgressBar_ProgressBarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -53,8 +53,12 @@ class Zend_ProgressBar_ProgressBarTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_ProgressBar_ProgressBarTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_ProgressBar_ProgressBarTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testGreaterMin()
@@ -63,7 +67,7 @@ class Zend_ProgressBar_ProgressBarTest extends PHPUnit_Framework_TestCase
             $progressBar = $this->_getProgressBar(1, 0);
             $this->fail('An expected Zend_Console_Exception has not been raised');
         } catch (Zend_ProgressBar_Exception $expected) {
-            $this->assertContains('$max must be greater than $min', $expected->getMessage());
+            $this->assertStringContainsString('$max must be greater than $min', $expected->getMessage());
         }
     }
 

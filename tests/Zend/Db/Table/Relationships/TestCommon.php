@@ -158,7 +158,7 @@ abstract class Zend_Db_Table_Relationships_TestCommon extends Zend_Db_Table_Test
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \PHPUnit\Framework\AssertionFailedError
      */
     public function testTableRelationshipFindParentRowErrorOnBadString()
     {
@@ -265,7 +265,7 @@ abstract class Zend_Db_Table_Relationships_TestCommon extends Zend_Db_Table_Test
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \PHPUnit\Framework\AssertionFailedError
      */
     public function testTableRelationshipFindManyToManyRowsetErrorOnBadClassNameAsString()
     {
@@ -280,7 +280,7 @@ abstract class Zend_Db_Table_Relationships_TestCommon extends Zend_Db_Table_Test
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \PHPUnit\Framework\AssertionFailedError
      */
     public function testTableRelationshipFindManyToManyRowsetErrorOnBadClassNameAsStringForIntersection()
     {
@@ -425,7 +425,7 @@ abstract class Zend_Db_Table_Relationships_TestCommon extends Zend_Db_Table_Test
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \PHPUnit\Framework\AssertionFailedError
      */
     public function testTableRelationshipFindDependentRowsetPhpError()
     {

@@ -40,7 +40,7 @@
  * @group      Zend_Ldap
  */
 #[AllowDynamicProperties]
-class Zend_Ldap_OfflineTest extends PHPUnit_Framework_TestCase
+class Zend_Ldap_OfflineTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Zend_Ldap instance
@@ -56,7 +56,7 @@ class Zend_Ldap_OfflineTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         if (!extension_loaded('ldap')) {
             $this->markTestSkipped('LDAP is not enabled');

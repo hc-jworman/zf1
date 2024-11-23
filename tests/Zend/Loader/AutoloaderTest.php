@@ -43,15 +43,19 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Loader
  */
 #[AllowDynamicProperties]
-class Zend_Loader_AutoloaderTest extends PHPUnit_Framework_TestCase
+class Zend_Loader_AutoloaderTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         // Store original autoloaders
         $this->loaders = spl_autoload_functions();
@@ -71,7 +75,7 @@ class Zend_Loader_AutoloaderTest extends PHPUnit_Framework_TestCase
         $this->error = null;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // Restore original autoloaders
         $loaders = spl_autoload_functions();
@@ -140,23 +144,23 @@ class Zend_Loader_AutoloaderTest extends PHPUnit_Framework_TestCase
     public function testZfNamespacesShouldBeRegisteredByDefault()
     {
         $namespaces = $this->autoloader->getRegisteredNamespaces();
-        $this->assertContains('Zend_', $namespaces);
-        $this->assertNotContains('ZendX_', $namespaces);
+        $this->assertStringContainsString('Zend_', $namespaces);
+        $this->assertStringNotContainsString('ZendX_', $namespaces);
     }
 
     public function testAutoloaderShouldAllowRegisteringArbitraryNamespaces()
     {
         $this->autoloader->registerNamespace('Phly_');
         $namespaces = $this->autoloader->getRegisteredNamespaces();
-        $this->assertContains('Phly_', $namespaces);
+        $this->assertStringContainsString('Phly_', $namespaces);
     }
 
     public function testAutoloaderShouldAllowRegisteringMultipleNamespacesAtOnce()
     {
         $this->autoloader->registerNamespace(array('Phly_', 'Solar_'));
         $namespaces = $this->autoloader->getRegisteredNamespaces();
-        $this->assertContains('Phly_', $namespaces);
-        $this->assertContains('Solar_', $namespaces);
+        $this->assertStringContainsString('Phly_', $namespaces);
+        $this->assertStringContainsString('Solar_', $namespaces);
     }
 
     /**
@@ -172,15 +176,15 @@ class Zend_Loader_AutoloaderTest extends PHPUnit_Framework_TestCase
     {
         $this->autoloader->unregisterNamespace('Zend');
         $namespaces = $this->autoloader->getRegisteredNamespaces();
-        $this->assertNotContains('Zend', $namespaces);
+        $this->assertStringNotContainsString('Zend', $namespaces);
     }
 
     public function testAutoloaderShouldAllowUnregisteringMultipleNamespacesAtOnce()
     {
         $this->autoloader->unregisterNamespace(array('Zend', 'ZendX'));
         $namespaces = $this->autoloader->getRegisteredNamespaces();
-        $this->assertNotContains('Zend', $namespaces);
-        $this->assertNotContains('ZendX', $namespaces);
+        $this->assertStringNotContainsString('Zend', $namespaces);
+        $this->assertStringNotContainsString('ZendX', $namespaces);
     }
 
     /**
@@ -296,7 +300,7 @@ class Zend_Loader_AutoloaderTest extends PHPUnit_Framework_TestCase
         $this->autoloader->pushAutoloader('require');
         $this->autoloader->removeAutoloader('require');
         $autoloaders = $this->autoloader->getAutoloaders();
-        $this->assertNotContains('require', $autoloaders);
+        $this->assertStringNotContainsString('require', $autoloaders);
     }
 
     public function testRemovingAutoloaderShouldAlsoRemoveAutoloaderFromNamespacedAutoloaders()

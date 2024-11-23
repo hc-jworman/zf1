@@ -33,7 +33,7 @@
  * @group      Zend_XmlRpc
  */
 #[AllowDynamicProperties]
-class Zend_XmlRpc_FaultTest extends PHPUnit_Framework_TestCase
+class Zend_XmlRpc_FaultTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Zend_XmlRpc_Fault object
@@ -44,7 +44,7 @@ class Zend_XmlRpc_FaultTest extends PHPUnit_Framework_TestCase
     /**
      * Setup environment
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_fault = new Zend_XmlRpc_Fault();
     }
@@ -52,7 +52,7 @@ class Zend_XmlRpc_FaultTest extends PHPUnit_Framework_TestCase
     /**
      * Teardown environment
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->_fault);
     }

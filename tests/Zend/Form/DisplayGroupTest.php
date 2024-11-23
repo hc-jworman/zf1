@@ -47,15 +47,19 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
+class Zend_Form_DisplayGroupTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Form_DisplayGroupTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty('Zend_Form_DisplayGroupTest');
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         Zend_Registry::_unsetInstance();
         Zend_Form::setDefaultTranslator(null);
@@ -74,7 +78,7 @@ class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -102,7 +106,7 @@ class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
             $this->group->setName('%\^&*)\(%$#@!.}{;-,');
             $this->fail('Empty names should raise exception');
         } catch (Zend_Form_Exception $e) {
-            $this->assertContains('Invalid name provided', $e->getMessage());
+            $this->assertStringContainsString('Invalid name provided', $e->getMessage());
         }
     }
 
@@ -150,7 +154,7 @@ class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
             $this->group->addElements($elements);
             $this->fail('Invalid elements should raise exception');
         } catch (Zend_Form_Exception $e) {
-            $this->assertContains('must be Zend_Form_Elements only', $e->getMessage());
+            $this->assertStringContainsString('must be Zend_Form_Elements only', $e->getMessage());
         }
     }
 
@@ -237,7 +241,7 @@ class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
             $this->group->addDecorator(123);
             $this->fail('Invalid decorator should raise exception');
         } catch (Zend_Form_Exception $e) {
-            $this->assertContains('Invalid decorator', $e->getMessage());
+            $this->assertStringContainsString('Invalid decorator', $e->getMessage());
         }
     }
 
@@ -385,10 +389,10 @@ class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
 
         $this->group->addElements(array($foo, $bar));
         $html = $this->group->render($this->getView());
-        $this->assertRegexp('#^<dt[^>]*>&\#160;</dt><dd[^>]*><fieldset.*?</fieldset></dd>$#s', $html, $html);
-        $this->assertContains('<input', $html, $html);
-        $this->assertContains('"foo"', $html);
-        $this->assertContains('"bar"', $html);
+        $this->assertMatchesRegularExpression('#^<dt[^>]*>&\#160;</dt><dd[^>]*><fieldset.*?</fieldset></dd>$#s', $html, $html);
+        $this->assertStringContainsString('<input', $html, $html);
+        $this->assertStringContainsString('"foo"', $html);
+        $this->assertStringContainsString('"bar"', $html);
     }
 
     public function testToStringProxiesToRender()
@@ -399,10 +403,10 @@ class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
         $this->group->addElements(array($foo, $bar))
                     ->setView($this->getView());
         $html = $this->group->__toString();
-        $this->assertRegexp('#^<dt[^>]*>&\#160;</dt><dd[^>]*><fieldset.*?</fieldset></dd>$#s', $html, $html);
-        $this->assertContains('<input', $html);
-        $this->assertContains('"foo"', $html);
-        $this->assertContains('"bar"', $html);
+        $this->assertMatchesRegularExpression('#^<dt[^>]*>&\#160;</dt><dd[^>]*><fieldset.*?</fieldset></dd>$#s', $html, $html);
+        $this->assertStringContainsString('<input', $html);
+        $this->assertStringContainsString('"foo"', $html);
+        $this->assertStringContainsString('"bar"', $html);
     }
 
     public function raiseDecoratorException($content, $element, $options)
@@ -508,7 +512,7 @@ class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
                     ->addElement($c)
                     ->setView($this->getView());
         $test = $this->group->render();
-        $this->assertContains('name="a"', $test);
+        $this->assertStringContainsString('name="a"', $test);
         if (!preg_match_all('/(<input[^>]+>)/', $test, $matches)) {
             $this->fail('Expected markup not found');
         }
@@ -724,15 +728,15 @@ class Zend_Form_DisplayGroupTest extends PHPUnit_Framework_TestCase
         $this->group->setView($this->getView());
         $html = $this->group->renderFormElements();
         foreach ($this->group->getElements() as $element) {
-            $this->assertContains('id="' . $element->getFullyQualifiedName() . '"', $html, 'Received: ' . $html);
+            $this->assertStringContainsString('id="' . $element->getFullyQualifiedName() . '"', $html, 'Received: ' . $html);
         }
-        $this->assertNotContains('<dl', $html);
-        $this->assertNotContains('<form', $html);
+        $this->assertStringNotContainsString('<dl', $html);
+        $this->assertStringNotContainsString('<form', $html);
 
         $html = $this->group->renderFieldset('this is the content');
-        $this->assertContains('<fieldset', $html);
-        $this->assertContains('</fieldset>', $html);
-        $this->assertContains('this is the content', $html);
+        $this->assertStringContainsString('<fieldset', $html);
+        $this->assertStringContainsString('</fieldset>', $html);
+        $this->assertStringContainsString('this is the content', $html);
     }
 
     /**

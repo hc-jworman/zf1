@@ -32,12 +32,12 @@
  * @group      Zend_Http_Header
  */
 #[AllowDynamicProperties]
-class Zend_Http_Header_HeaderValueTest extends PHPUnit_Framework_TestCase
+class Zend_Http_Header_HeaderValueTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Data for filter value
      */
-    public function getFilterValues()
+    public static function getFilterValues()
     {
         return array(
             array("This is a\n test", "This is a test"),
@@ -63,7 +63,7 @@ class Zend_Http_Header_HeaderValueTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, Zend_Http_Header_HeaderValue::filter($value));
     }
 
-    public function validateValues()
+    public static function validateValues()
     {
         return array(
             array("This is a\n test", 'assertFalse'),
@@ -89,7 +89,7 @@ class Zend_Http_Header_HeaderValueTest extends PHPUnit_Framework_TestCase
         $this->{$assertion}(Zend_Http_Header_HeaderValue::isValid($value));
     }
 
-    public function assertValues()
+    public static function assertValues()
     {
         return array(
             array("This is a\n test"),
@@ -111,7 +111,7 @@ class Zend_Http_Header_HeaderValueTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertValidRaisesExceptionForInvalidValue($value)
     {
-        $this->setExpectedException('Zend_Http_Header_Exception_InvalidArgumentException');
+        $this->expectException('Zend_Http_Header_Exception_InvalidArgumentException');
         Zend_Http_Header_HeaderValue::assertValid($value);
     }
 }

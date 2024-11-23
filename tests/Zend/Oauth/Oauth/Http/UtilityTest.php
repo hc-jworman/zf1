@@ -32,7 +32,7 @@
  * @group      Zend_Oauth_Http
  */
 #[AllowDynamicProperties]
-class Zend_Oauth_Http_UtilityTest extends PHPUnit_Framework_TestCase
+class Zend_Oauth_Http_UtilityTest extends \PHPUnit\Framework\TestCase
 {
     // see: http://wiki.oauth.net/TestCases (Parameter Encoding Tests)
 

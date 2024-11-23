@@ -45,7 +45,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_BaseUrlTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_BaseUrlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Previous baseUrl before changing
@@ -66,14 +66,18 @@ class Zend_View_Helper_BaseUrlTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_BaseUrlTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_BaseUrlTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->_previousBaseUrl = Zend_Controller_Front::getInstance()->getBaseUrl();
         $this->_server = $_SERVER;
@@ -82,7 +86,7 @@ class Zend_View_Helper_BaseUrlTest extends PHPUnit_Framework_TestCase
     /**
      * Cleans up the environment after running a test.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Zend_Controller_Front::getInstance()->setBaseUrl($this->_previousBaseUrl);
         Zend_Controller_Front::getInstance()->resetInstance();

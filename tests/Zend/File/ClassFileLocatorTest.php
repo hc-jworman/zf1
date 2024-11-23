@@ -36,19 +36,19 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_File
  */
 #[AllowDynamicProperties]
-class Zend_File_ClassFileLocatorTest extends PHPUnit_Framework_TestCase
+class Zend_File_ClassFileLocatorTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testConstructorThrowsInvalidArgumentExceptionForInvalidStringDirectory()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $locator = new Zend_File_ClassFileLocator('__foo__');
     }
 
     public function testConstructorThrowsInvalidArgumentExceptionForNonDirectoryIteratorArgument()
     {
         $iterator = new ArrayIterator(array());
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $locator = new Zend_File_ClassFileLocator($iterator);
     }
 
@@ -56,7 +56,7 @@ class Zend_File_ClassFileLocatorTest extends PHPUnit_Framework_TestCase
     {
         $locator = new Zend_File_ClassFileLocator(__DIR__);
         foreach ($locator as $file) {
-            $this->assertRegexp('/\.php$/', $file->getFilename());
+            $this->assertMatchesRegularExpression('/\.php$/', $file->getFilename());
         }
     }
 

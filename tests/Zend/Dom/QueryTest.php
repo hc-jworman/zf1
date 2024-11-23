@@ -39,7 +39,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Dom
  */
 #[AllowDynamicProperties]
-class Zend_Dom_QueryTest extends PHPUnit_Framework_TestCase
+class Zend_Dom_QueryTest extends \PHPUnit\Framework\TestCase
 {
     public $html;
 
@@ -50,8 +50,12 @@ class Zend_Dom_QueryTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Dom_QueryTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Dom_QueryTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -60,7 +64,7 @@ class Zend_Dom_QueryTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->query = new Zend_Dom_Query();
     }
@@ -71,7 +75,7 @@ class Zend_Dom_QueryTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -154,7 +158,7 @@ class Zend_Dom_QueryTest extends PHPUnit_Framework_TestCase
             $this->query->query('.foo');
             $this->fail('Querying without registering document should throw exception');
         } catch (Zend_Dom_Exception $e) {
-            $this->assertContains('no document', $e->getMessage());
+            $this->assertStringContainsString('no document', $e->getMessage());
         }
     }
 
@@ -168,7 +172,7 @@ class Zend_Dom_QueryTest extends PHPUnit_Framework_TestCase
             $this->fail('Querying invalid document should throw exception');
         } catch (Zend_Dom_Exception $e) {
             restore_error_handler();
-            $this->assertContains('Error parsing', $e->getMessage());
+            $this->assertStringContainsString('Error parsing', $e->getMessage());
         }
     }
 
@@ -380,7 +384,7 @@ EOB;
 </results>
 XML;
         $this->query->setDocumentXml($xml);
-        $this->setExpectedException("Zend_Dom_Exception");
+        $this->expectException("Zend_Dom_Exception");
         $this->query->queryXpath('/');
     }
 }

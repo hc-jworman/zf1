@@ -46,7 +46,7 @@ require_once 'Zend/XmlRpc/TestProvider.php';
  * @group      Zend_XmlRpc
  */
 #[AllowDynamicProperties]
-class Zend_XmlRpc_ValueTest extends PHPUnit_Framework_TestCase
+class Zend_XmlRpc_ValueTest extends \PHPUnit\Framework\TestCase
 {
     public $xmlRpcDateFormat = 'Ymd\\TH:i:s';
 
@@ -132,7 +132,7 @@ class Zend_XmlRpc_ValueTest extends PHPUnit_Framework_TestCase
      */
     public function testMarshalI4FromOverlongNativeThrowsException()
     {
-        $this->setExpectedException('Zend_XmlRpc_Value_Exception', 'Overlong integer given');
+        $this->expectException('Zend_XmlRpc_Value_Exception', 'Overlong integer given');
         $x = Zend_XmlRpc_Value::getXmlRpcValue(PHP_INT_MAX + 5000, Zend_XmlRpc_Value::XMLRPC_TYPE_I4);
     }
 
@@ -141,7 +141,7 @@ class Zend_XmlRpc_ValueTest extends PHPUnit_Framework_TestCase
      */
     public function testMarshalIntegerFromOverlongNativeThrowsException()
     {
-        $this->setExpectedException('Zend_XmlRpc_Value_Exception', 'Overlong integer given');
+        $this->expectException('Zend_XmlRpc_Value_Exception', 'Overlong integer given');
         Zend_XmlRpc_Value::getXmlRpcValue(PHP_INT_MAX + 5000, Zend_XmlRpc_Value::XMLRPC_TYPE_INTEGER);
     }
 
@@ -402,7 +402,7 @@ XML
         $native = array();
         $xml    = '<value><array/></value>';
 
-        $this->setExpectedException('Zend_XmlRpc_Value_Exception',
+        $this->expectException('Zend_XmlRpc_Value_Exception',
             'Invalid XML for XML-RPC native array type: ARRAY tag must contain DATA tag');
         $val = Zend_XmlRpc_Value::getXmlRpcValue($xml,
                                     Zend_XmlRpc_Value::XML_STRING);
@@ -628,7 +628,7 @@ XML
             $this->markTestSkipped('Cannot expect generic exceptions prior to PHPUnit 3.7.');
         }
 
-        $this->setExpectedException('Exception', "foobarbaz");
+        $this->expectException('Exception', "foobarbaz");
         Zend_XmlRpc_Value::getXmlRpcValue('foobarbaz', Zend_XmlRpc_Value::XMLRPC_TYPE_DATETIME);
     }
 
@@ -810,7 +810,7 @@ XML
         $this->assertXmlRpcType('base64', $val);
         $xml = $val->saveXml();
         $encoded = base64_encode($native);
-        $this->assertContains($encoded, $xml);
+        $this->assertStringContainsString($encoded, $xml);
     }
 
     /**
@@ -850,7 +850,7 @@ XML
             Zend_XmlRpc_Value::getXmlRpcValue('', 'bad type here');
             $this->fail();
         } catch (\Throwable $e) {
-            $this->assertRegexp('/given type is not/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/given type is not/i', $e->getMessage());
         }
     }
 
@@ -933,7 +933,7 @@ XML
 
     public function testGetXmlRpcTypeByValueThrowsExceptionOnInvalidValue()
     {
-        $this->setExpectedException('Zend_XmlRpc_Value_Exception');
+        $this->expectException('Zend_XmlRpc_Value_Exception');
         Zend_XmlRpc_Value::getXmlRpcTypeByValue(fopen(__FILE__, 'r'));
     }
 

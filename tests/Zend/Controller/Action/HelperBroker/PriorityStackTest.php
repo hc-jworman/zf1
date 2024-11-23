@@ -40,7 +40,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Controller_Action_Helper
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Action_HelperBroker_PriorityStackTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Action_HelperBroker_PriorityStackTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -48,7 +48,7 @@ class Zend_Controller_Action_HelperBroker_PriorityStackTest extends PHPUnit_Fram
      */
     public $stack = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->stack = new Zend_Controller_Action_HelperBroker_PriorityStack();
     }

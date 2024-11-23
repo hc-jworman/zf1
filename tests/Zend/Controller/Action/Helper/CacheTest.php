@@ -17,7 +17,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * Test class for Zend_Controller_Action_Helper_Cache
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Action_Helper_CacheTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Action_Helper_CacheTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $_requestUriOld;
@@ -29,11 +29,15 @@ class Zend_Controller_Action_Helper_CacheTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Action_Helper_CacheTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Action_Helper_CacheTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_requestUriOld =
             isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null;
@@ -47,7 +51,7 @@ class Zend_Controller_Action_Helper_CacheTest extends PHPUnit_Framework_TestCase
         $this->front->setRequest($this->request);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $_SERVER['REQUEST_URI'] = $this->_requestUriOld;
     }
@@ -194,7 +198,7 @@ class Zend_Controller_Action_Helper_CacheTest extends PHPUnit_Framework_TestCase
      * Data provider for testEncodedCacheIdsAreUsedConsistently
      * @see ZF-11885
      */
-    public function dataprovider_testEncodedCacheIdsAreUsedConsistently()
+    public static function dataprovider_testEncodedCacheIdsAreUsedConsistently()
     {
         return array(array(true),array(false));
     }

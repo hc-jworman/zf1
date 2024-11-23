@@ -32,7 +32,7 @@
  * @group      Zend_Test
  */
 #[AllowDynamicProperties]
-class Zend_Test_PHPUnit_Db_DataSet_DbTableTest extends PHPUnit_Framework_TestCase
+class Zend_Test_PHPUnit_Db_DataSet_DbTableTest extends \PHPUnit\Framework\TestCase
 {
     public function testLoadDataSetDelegatesWhereLimitOrderBy()
     {

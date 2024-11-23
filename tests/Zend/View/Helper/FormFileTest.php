@@ -43,7 +43,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_FormFileTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_FormFileTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_View
@@ -63,8 +63,12 @@ class Zend_View_Helper_FormFileTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_FormFileTest");
-        PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_FormFileTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(), 
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -73,7 +77,7 @@ class Zend_View_Helper_FormFileTest extends PHPUnit_Framework_TestCase
      *
      * @access protected
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (Zend_Registry::isRegistered('Zend_View_Helper_Doctype')) {
             $registry = Zend_Registry::getInstance();
@@ -94,7 +98,7 @@ class Zend_View_Helper_FormFileTest extends PHPUnit_Framework_TestCase
             'attribs' => array('disable' => true)
         ));
 
-        $this->assertRegexp('/<input[^>]*?(disabled="disabled")/', $html);
+        $this->assertMatchesRegularExpression('/<input[^>]*?(disabled="disabled")/', $html);
     }
 
     /**
@@ -116,7 +120,7 @@ class Zend_View_Helper_FormFileTest extends PHPUnit_Framework_TestCase
         $test = $this->helper->formFile(array(
             'name' => 'foo',
         ));
-        $this->assertNotContains(' />', $test);
+        $this->assertStringNotContainsString(' />', $test);
     }
 
     public function testCanRendersAsXHtml()
@@ -125,7 +129,7 @@ class Zend_View_Helper_FormFileTest extends PHPUnit_Framework_TestCase
         $test = $this->helper->formFile(array(
             'name' => 'foo',
         ));
-        $this->assertContains(' />', $test);
+        $this->assertStringContainsString(' />', $test);
     }
 
     /**

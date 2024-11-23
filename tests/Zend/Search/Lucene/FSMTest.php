@@ -120,7 +120,7 @@ class Zend_Search_Lucene_FSM_testFSMClass extends Zend_Search_Lucene_FSM
  * @group      Zend_Search_Lucene
  */
 #[AllowDynamicProperties]
-class Zend_Search_Lucene_FSMTest extends PHPUnit_Framework_TestCase
+class Zend_Search_Lucene_FSMTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreate()
     {

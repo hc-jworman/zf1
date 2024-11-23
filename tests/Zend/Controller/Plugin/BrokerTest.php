@@ -50,7 +50,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Controller_Plugin
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Plugin_BrokerTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Plugin_BrokerTest extends \PHPUnit\Framework\TestCase
 {
     public $controller;
 
@@ -63,11 +63,15 @@ class Zend_Controller_Plugin_BrokerTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Plugin_BrokerTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Plugin_BrokerTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->controller = Zend_Controller_Front::getInstance();
         $this->controller->resetInstance();
@@ -84,7 +88,7 @@ class Zend_Controller_Plugin_BrokerTest extends PHPUnit_Framework_TestCase
             $broker->registerPlugin($plugin);
             $this->fail('Duplicate registry of plugin object should be disallowed');
         } catch (\Throwable $expected) {
-            $this->assertContains('already', $expected->getMessage());
+            $this->assertStringContainsString('already', $expected->getMessage());
         }
     }
 

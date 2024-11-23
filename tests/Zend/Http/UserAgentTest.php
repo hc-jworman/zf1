@@ -40,10 +40,10 @@ require_once __DIR__ . '/TestAsset/PopulatedStorage.php';
  * @group      Zend_Http_UserAgent
  */
 #[AllowDynamicProperties]
-class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
+class Zend_Http_UserAgentTest extends \PHPUnit\Framework\TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->server                         = array();
         $this->server['os']                   = 'Windows_NT';
@@ -124,7 +124,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($device instanceof Zend_Http_UserAgent_Mobile);
         $this->assertEquals('mobile', $userAgent->getBrowserType());
         $this->assertEquals('iPhone', $device->getFeature('mobile_browser'));
-        $this->assertRegexp('/iPhone/', $device->getFeature('device_os'));
+        $this->assertMatchesRegularExpression('/iPhone/', $device->getFeature('device_os'));
     }
 
     public function testUserAgentDefineStorage()
@@ -150,7 +150,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $userAgent = new Zend_Http_UserAgent($config);
 
         $config = $userAgent->getConfig();
-        $this->assertContains('Device/Browser/Features/Adapter.php', $config['mobile']['features']['path']);
+        $this->assertStringContainsString('Device/Browser/Features/Adapter.php', $config['mobile']['features']['path']);
     }
 
     public function testSetDefaultConfigAlone()
@@ -278,7 +278,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($config['storage'], $test['storage']);
     }
 
-    public function invalidConfigs()
+    public static function invalidConfigs()
     {
         return array(
             array(true),
@@ -293,7 +293,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
      */
     public function testSettingConfigWithInvalidTypeRaisesException($arg)
     {
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'expected array');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'expected array');
         $ua = new Zend_Http_UserAgent($arg);
     }
 
@@ -316,7 +316,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
      */
     public function testSettingServerWithInvalidTypeRaisesException($arg)
     {
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'array or object implementing Traversable');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'array or object implementing Traversable');
         $ua = new Zend_Http_UserAgent(array('server' => $arg));
     }
 
@@ -333,11 +333,11 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
     public function testSpecifyingInvalidPluginLoaderClassNameRaisesException()
     {
         $ua = new Zend_Http_UserAgent();
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'extending Zend_Loader_PluginLoader');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'extending Zend_Loader_PluginLoader');
         $ua->setPluginLoader('device', 'Zend_Http_TestAsset_InvalidPluginLoader');
     }
 
-    public function invalidLoaders()
+    public static function invalidLoaders()
     {
         return array(
             array(true),
@@ -353,21 +353,21 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
     public function testSpecifyingInvalidTypeToPluginLoaderRaisesException($arg)
     {
         $ua = new Zend_Http_UserAgent();
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'class or object');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'class or object');
         $ua->setPluginLoader('device', $arg);
     }
 
     public function testSpecifyingNonPluginLoaderObjectRaisesException()
     {
         $ua = new Zend_Http_UserAgent();
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'extending Zend_Loader_PluginLoader');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'extending Zend_Loader_PluginLoader');
         $ua->setPluginLoader('device', $this);
     }
 
     public function testSpecifyingInvalidTypeWhenSettingPluginLoaderRaisesException()
     {
         $ua = new Zend_Http_UserAgent();
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'plugin loader type');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'plugin loader type');
         $ua->setPluginLoader('__bogus__', new Zend_Loader_PluginLoader());
     }
 
@@ -426,7 +426,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $this->config['user_agent'] = 'desktop';
 
         $ua     = new Zend_Http_UserAgent($this->config);
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'Zend_Http_UserAgent_Device');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'Zend_Http_UserAgent_Device');
         $ua->getDevice();
     }
 
@@ -496,7 +496,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $userAgent = new Zend_Http_UserAgent($config);
         $device    = $userAgent->getDevice();
 
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'immutable');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'immutable');
         $userAgent->setServerValue('HTTP_ACCEPT', 'application/json');
     }
 
@@ -506,7 +506,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $userAgent = new Zend_Http_UserAgent($config);
         $device    = $userAgent->getDevice();
 
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'immutable');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'immutable');
         $userAgent->setBrowserType('mobile');
     }
 
@@ -516,7 +516,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $userAgent = new Zend_Http_UserAgent($config);
         $device    = $userAgent->getDevice();
 
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'immutable');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'immutable');
         $userAgent->setHttpAccept('application/json');
     }
 
@@ -526,7 +526,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $userAgent = new Zend_Http_UserAgent($config);
         $device    = $userAgent->getDevice();
 
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'immutable');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'immutable');
         $userAgent->setUserAgent('userAgentTest');
     }
 
@@ -536,7 +536,7 @@ class Zend_Http_UserAgentTest extends PHPUnit_Framework_TestCase
         $userAgent = new Zend_Http_UserAgent($config);
         $device    = $userAgent->getDevice();
 
-        $this->setExpectedException('Zend_Http_UserAgent_Exception', 'immutable');
+        $this->expectException('Zend_Http_UserAgent_Exception', 'immutable');
         $userAgent->setStorage(new Zend_Http_UserAgent_Storage_NonPersistent());
     }
 

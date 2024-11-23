@@ -607,7 +607,6 @@ class Zend_Log
             E_USER_ERROR => Zend_Log::ERR,
             E_CORE_ERROR => Zend_Log::ERR,
             E_RECOVERABLE_ERROR => Zend_Log::ERR,
-            E_STRICT => Zend_Log::DEBUG,
         ];
         // PHP 5.3.0+
         if (defined('E_DEPRECATED')) {

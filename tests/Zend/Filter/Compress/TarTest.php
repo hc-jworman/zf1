@@ -38,7 +38,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class Zend_Filter_Compress_TarTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_Compress_TarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs this test suite
@@ -47,11 +47,15 @@ class Zend_Filter_Compress_TarTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Filter_Compress_TarTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty('Zend_Filter_Compress_TarTest');
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!class_exists('Archive_Tar')) {
             // require_once 'Zend/Loader.php';
@@ -93,7 +97,7 @@ class Zend_Filter_Compress_TarTest extends PHPUnit_Framework_TestCase
         }*/
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $files = array(
             __DIR__ . '/../_files/zipextracted.txt',
@@ -207,7 +211,7 @@ class Zend_Filter_Compress_TarTest extends PHPUnit_Framework_TestCase
             $filter->setTarget('/unknown/path/to/file.txt');
             $this->fail('Exception expected');
         } catch(Zend_Filter_Exception $e) {
-            $this->assertContains('does not exist', $e->getMessage());
+            $this->assertStringContainsString('does not exist', $e->getMessage());
         }
     }
 

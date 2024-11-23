@@ -38,20 +38,20 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Navigation
  */
 #[AllowDynamicProperties]
-class Zend_NavigationTest extends PHPUnit_Framework_TestCase
+class Zend_NavigationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var     Zend_Navigation
      */
     private $_navigation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->_navigation = new Zend_Navigation();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->_navigation = null;
         parent::tearDown();
@@ -63,8 +63,12 @@ class Zend_NavigationTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_NavigationTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_NavigationTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**

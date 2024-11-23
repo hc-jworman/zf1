@@ -39,7 +39,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_Word_CamelCaseToUnderscoreTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_Word_CamelCaseToUnderscoreTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -49,8 +49,12 @@ class Zend_Filter_Word_CamelCaseToUnderscoreTest extends PHPUnit_Framework_TestC
      */
     public static function main() {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Filter_Word_CamelCaseToUnderscoreTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Filter_Word_CamelCaseToUnderscoreTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testFilterSeparatesCamelCasedWordsWithUnderscores()

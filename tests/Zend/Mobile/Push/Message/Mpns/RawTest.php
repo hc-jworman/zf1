@@ -33,11 +33,11 @@
  * @group      Zend_Mobile_Push_Mpns
  */
 #[AllowDynamicProperties]
-class Zend_Mobile_Push_Message_Mpns_RawTest extends PHPUnit_Framework_TestCase
+class Zend_Mobile_Push_Message_Mpns_RawTest extends \PHPUnit\Framework\TestCase
 {
     private $_msg;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_msg = new Zend_Mobile_Push_Message_Mpns_Raw();
     }

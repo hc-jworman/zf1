@@ -34,7 +34,7 @@
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_HtmlEntitiesTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_HtmlEntitiesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Zend_Filter_HtmlEntities object
@@ -48,7 +48,7 @@ class Zend_Filter_HtmlEntitiesTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_filter = new Zend_Filter_HtmlEntities();
     }
@@ -247,7 +247,7 @@ class Zend_Filter_HtmlEntitiesTest extends PHPUnit_Framework_TestCase
         $result = $this->_filter->filter($string);
         restore_error_handler();
 
-        $this->assertContains('&quot;&quot;', $result);
+        $this->assertStringContainsString('&quot;&quot;', $result);
     }
 
     /**

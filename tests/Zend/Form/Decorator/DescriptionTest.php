@@ -41,7 +41,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Decorator_DescriptionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -51,8 +51,12 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Decorator_DescriptionTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Decorator_DescriptionTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -61,7 +65,7 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         if (isset($this->html)) {
             unset($this->html);
@@ -80,7 +84,7 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -94,25 +98,25 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
     public function testRendersDescriptionInParagraphTagsByDefault()
     {
         $html = $this->decorator->render('');
-        $this->assertContains('<p', $html, $html);
-        $this->assertContains('</p>', $html);
-        $this->assertContains($this->element->getDescription(), $html);
+        $this->assertStringContainsString('<p', $html, $html);
+        $this->assertStringContainsString('</p>', $html);
+        $this->assertStringContainsString($this->element->getDescription(), $html);
         $this->html = $html;
     }
 
     public function testParagraphTagsContainHintClassByDefault()
     {
         $this->testRendersDescriptionInParagraphTagsByDefault();
-        $this->assertRegexp('/<p[^>]*?class="hint"/', $this->html);
+        $this->assertMatchesRegularExpression('/<p[^>]*?class="hint"/', $this->html);
     }
 
     public function testCanSpecifyAlternateTag()
     {
         $this->decorator->setTag('quote');
         $html = $this->decorator->render('');
-        $this->assertContains('<quote', $html, $html);
-        $this->assertContains('</quote>', $html);
-        $this->assertContains($this->element->getDescription(), $html);
+        $this->assertStringContainsString('<quote', $html, $html);
+        $this->assertStringContainsString('</quote>', $html);
+        $this->assertStringContainsString($this->element->getDescription(), $html);
         $this->html = $html;
     }
 
@@ -120,23 +124,23 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
     {
         $this->decorator->setOption('tag', 'quote');
         $html = $this->decorator->render('');
-        $this->assertContains('<quote', $html, $html);
-        $this->assertContains('</quote>', $html);
-        $this->assertContains($this->element->getDescription(), $html);
+        $this->assertStringContainsString('<quote', $html, $html);
+        $this->assertStringContainsString('</quote>', $html);
+        $this->assertStringContainsString($this->element->getDescription(), $html);
         $this->html = $html;
     }
 
     public function testAlternateTagContainsHintClass()
     {
         $this->testCanSpecifyAlternateTag();
-        $this->assertRegexp('/<quote[^>]*?class="hint"/', $this->html);
+        $this->assertMatchesRegularExpression('/<quote[^>]*?class="hint"/', $this->html);
     }
 
     public function testCanSpecifyAlternateClass()
     {
         $this->decorator->setOption('class', 'haha');
         $html = $this->decorator->render('');
-        $this->assertRegexp('/<p[^>]*?class="haha"/', $html);
+        $this->assertMatchesRegularExpression('/<p[^>]*?class="haha"/', $html);
     }
 
     public function testRenderingEscapesDescriptionByDefault()
@@ -144,10 +148,10 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
         $description = '<span>some spanned text</span>';
         $this->element->setDescription($description);
         $html = $this->decorator->render('');
-        $this->assertNotContains($description, $html);
-        $this->assertContains('&lt;', $html);
-        $this->assertContains('&gt;', $html);
-        $this->assertContains('some spanned text', $html);
+        $this->assertStringNotContainsString($description, $html);
+        $this->assertStringContainsString('&lt;', $html);
+        $this->assertStringContainsString('&gt;', $html);
+        $this->assertStringContainsString('some spanned text', $html);
     }
 
     public function testCanDisableEscapingDescription()
@@ -156,9 +160,9 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
         $this->element->setDescription($description);
         $this->decorator->setEscape(false);
         $html = $this->decorator->render('');
-        $this->assertContains($description, $html);
-        $this->assertNotContains('&lt;', $html);
-        $this->assertNotContains('&gt;', $html);
+        $this->assertStringContainsString($description, $html);
+        $this->assertStringNotContainsString('&lt;', $html);
+        $this->assertStringNotContainsString('&gt;', $html);
     }
 
     public function testCanSetEscapeFlagViaOption()
@@ -167,9 +171,9 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
         $this->element->setDescription($description);
         $this->decorator->setOption('escape', false);
         $html = $this->decorator->render('');
-        $this->assertContains($description, $html);
-        $this->assertNotContains('&lt;', $html);
-        $this->assertNotContains('&gt;', $html);
+        $this->assertStringContainsString($description, $html);
+        $this->assertStringNotContainsString('&lt;', $html);
+        $this->assertStringNotContainsString('&gt;', $html);
     }
 
     public function testDescriptionIsTranslatedWhenTranslationAvailable()
@@ -180,7 +184,7 @@ class Zend_Form_Decorator_DescriptionTest extends PHPUnit_Framework_TestCase
         $this->element->setDescription('description')
                       ->setTranslator($translate);
         $html = $this->decorator->render('');
-        $this->assertContains($translations['description'], $html);
+        $this->assertStringContainsString($translations['description'], $html);
     }
 
     /**

@@ -44,7 +44,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Element_FileTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Form_Element_File
@@ -63,8 +63,12 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Element_FileTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Element_FileTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -74,7 +78,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
      * @throws Zend_Form_Exception
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         Zend_Registry::_unsetInstance();
         Zend_Form::setDefaultTranslator(null);
@@ -87,7 +91,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -95,7 +99,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
     {
         $loader = $this->element->getPluginLoader('decorator');
         $paths = $loader->getPaths('Zend_Form_Decorator');
-        $this->assertInternalType('array', $paths);
+        $this->assertIsArray($paths);
 
         $loader = new Zend_Loader_PluginLoader;
         $this->element->setPluginLoader($loader, 'decorator');
@@ -108,7 +112,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
         $this->element->addPrefixPath('Foo_Decorator', 'Foo/Decorator/', 'decorator');
         $loader = $this->element->getPluginLoader('decorator');
         $paths = $loader->getPaths('Foo_Decorator');
-        $this->assertInternalType('array', $paths);
+        $this->assertIsArray($paths);
     }
 
     public function testElementShouldAddToAllPluginLoadersWhenAddingNullPrefixPath()
@@ -121,7 +125,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
             $string = str_replace((string) ' ', '_', $string);
             $prefix = 'Foo_' . $string;
             $paths  = $loader->getPaths($prefix);
-            $this->assertInternalType('array', $paths, "Failed asserting paths found for prefix $prefix");
+            $this->assertIsArray($paths, "Failed asserting paths found for prefix $prefix");
         }
     }
 
@@ -152,7 +156,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
         $loader = $this->element->getPluginLoader('transfer_adapter');
         $this->assertTrue($loader instanceof Zend_Loader_PluginLoader_Interface);
         $paths = $loader->getPaths('Zend_File_Transfer_Adapter');
-        $this->assertInternalType('array', $paths);
+        $this->assertIsArray($paths);
     }
 
     public function testElementShouldAllowSpecifyingAdapterUsingPluginLoader()
@@ -174,7 +178,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
         $validators = $this->element->getValidators();
         $test       = $this->element->getTransferAdapter()->getValidators();
         $this->assertEquals($validators, $test);
-        $this->assertInternalType('array', $test);
+        $this->assertIsArray($test);
         $this->assertCount(3, $test);
 
         $validator = $this->element->getValidator('count');
@@ -193,12 +197,12 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
         $validators = $this->element->getValidators();
         $test       = $this->element->getTransferAdapter()->getValidators();
         $this->assertSame($validators, $test);
-        $this->assertInternalType('array', $test);
+        $this->assertIsArray($test);
         $this->assertCount(3, $test, var_export($test, 1));
 
         $this->element->clearValidators();
         $validators = $this->element->getValidators();
-        $this->assertInternalType('array', $validators);
+        $this->assertIsArray($validators);
         $this->assertCount(0, $validators);
         $test = $this->element->getTransferAdapter()->getValidators();
         $this->assertSame($validators, $test);
@@ -248,8 +252,8 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
 
         $form->setView(new Zend_View());
         $output = (string) $form;
-        $this->assertContains('name="file1"', $output);
-        $this->assertContains('name="file2"', $output);
+        $this->assertStringContainsString('name="file1"', $output);
+        $this->assertStringContainsString('name="file2"', $output);
     }
 
     public function testMultiFileInSubSubSubform()
@@ -270,7 +274,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
 
         $form->setView(new Zend_View());
         $output = (string) $form;
-        $this->assertContains('name="file[]"', $output);
+        $this->assertStringContainsString('name="file[]"', $output);
         $this->assertEquals(2, substr_count($output, 'file[]'));
     }
 
@@ -292,7 +296,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
 
         $form->setView(new Zend_View());
         $output = (string) $form;
-        $this->assertNotContains('name="file[]"', $output);
+        $this->assertStringNotContainsString('name="file[]"', $output);
     }
 
     public function testSettingMaxFileSize()
@@ -398,7 +402,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
             $content = $this->element->render(new Zend_View());
             $this->fail();
         } catch (Zend_Form_Element_Exception $e) {
-            $this->assertContains('No file decorator found', $e->getMessage());
+            $this->assertStringContainsString('No file decorator found', $e->getMessage());
         }
     }
 
@@ -432,7 +436,7 @@ class Zend_Form_Element_FileTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($element->hasErrors());
         $messages = $element->getMessages();
-        $this->assertContains('TestError3', $messages);
+        $this->assertStringContainsString('TestError3', $messages);
     }
 
     public function testGetTranslatorRetrievesGlobalDefaultWhenAvailable()

@@ -35,7 +35,7 @@
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_DigitsTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_DigitsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Zend_Filter_Digits object extended for checking whether Unicode PCRE is enabled
@@ -56,7 +56,7 @@ class Zend_Filter_DigitsTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_filter = new Zend_Filter_Digits();
         if (null === self::$_unicodeEnabled) {

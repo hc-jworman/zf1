@@ -33,7 +33,7 @@ require_once 'Zend/XmlRpc/TestProvider.php';
  * @group      Zend_XmlRpc
  */
 #[AllowDynamicProperties]
-class Zend_XmlRpc_GeneratorTest extends PHPUnit_Framework_TestCase
+class Zend_XmlRpc_GeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider Zend_XmlRpc_TestProvider::provideGenerators
@@ -79,7 +79,7 @@ class Zend_XmlRpc_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $generator->openElement('test')->closeElement('test');
         $this->assertXml('<test/>', $generator);
-        $this->assertContains('<test/>', $generator->flush());
+        $this->assertStringContainsString('<test/>', $generator->flush());
         $this->assertSame('', (string)$generator);
     }
 

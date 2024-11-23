@@ -40,7 +40,7 @@ require_once 'Zend/Session/SessionHelper.php';
  * @runTestsInSeparateProcesses
  */
 #[AllowDynamicProperties]
-class Zend_SessionTest extends PHPUnit_Framework_TestCase
+class Zend_SessionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Helper script invoked via exec()
@@ -73,7 +73,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * Set up tests environment
      */
-    function setUp()
+    function setUp(): void
     {
         // _unitTestEnabled is utilised by other tests to handle session data processing
         // Zend_Session tests should pass with _unitTestEnabled turned off
@@ -85,7 +85,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Session_SessionHelper::reset();
         Zend_Session::$_unitTestEnabled = true;
@@ -93,9 +93,9 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
         session_save_path($this->_savePath);
 
         $this->assertSame(
-            E_ALL | E_STRICT,
-            error_reporting( E_ALL | E_STRICT ),
-            'A test altered error_reporting to something other than E_ALL | E_STRICT'
+            E_ALL,
+            error_reporting( E_ALL ),
+            'A test altered error_reporting to something other than E_ALL'
             );
     }
 
@@ -149,7 +149,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             Zend_Session::setId('someo-therid-123');
             $this->fail('No exception was returned when trying to set the session id, after session_start()');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/already.*started/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/already.*started/i', $e->getMessage());
         }
     }
 
@@ -164,7 +164,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             Zend_Session::setOptions(array('foo' => 'break me'));
             $this->fail('Expected Zend_Session_Exception not thrown when trying to set an invalid option');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/unknown.option/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unknown.option/i', $e->getMessage());
         }
 
         Zend_Session::setOptions(array('save_path' => '1;777;/tmp'));
@@ -195,7 +195,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
         try {
             $s = new Zend_Session_Namespace('');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/non.empty.string/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/non.empty.string/i', $e->getMessage());
             return;
         }
         $this->fail('No exception was returned when trying to create a namespace having the empty string as '
@@ -225,7 +225,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             $s = new Zend_Session_Namespace('single', true);
         } catch (Zend_Session_Exception $e) {
             // session namespace 'single' already exists and is set to be the only instance of this namespace
-            $this->assertRegexp('/already.*exist/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/already.*exist/i', $e->getMessage());
             return;
         }
         $this->fail('No exception was returned when creating a duplicate session for the same namespace, '
@@ -292,7 +292,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             $this->fail('No exception was returned when trying to __set() a key named ""; expected '
                 . 'Zend_Session_Exception');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/non.empty.string/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/non.empty.string/i', $e->getMessage());
         }
 
         try {
@@ -301,7 +301,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             $this->fail('No exception was returned when trying to __set() a key named ""; expected '
                 . 'Zend_Session_Exception');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/non.empty.string/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/non.empty.string/i', $e->getMessage());
         }
 
         try {
@@ -310,7 +310,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             $this->fail('No exception was returned when trying to __set() a key named ""; expected '
                 . 'Zend_Session_Exception');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/non.empty.string/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/non.empty.string/i', $e->getMessage());
         }
 
         try {
@@ -319,7 +319,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             $this->fail('No exception was returned when trying to __set() a key named ""; expected '
                 . 'Zend_Session_Exception');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/non.empty.string/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/non.empty.string/i', $e->getMessage());
         }
     }
 
@@ -360,7 +360,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             $this->fail('No exception was returned when requesting a namespace having a name beginning with '
                 . 'an underscore');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/underscore/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/underscore/i', $e->getMessage());
         }
     }
 
@@ -377,7 +377,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             $this->fail('No exception was returned when requesting a namespace having a name beginning with '
                 . 'a number');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/number/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/number/i', $e->getMessage());
         }
     }
 
@@ -428,7 +428,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
                 . 'after marking the namespace as read-only; expected Zend_Session_Exception');
         } catch (Zend_Session_Exception $e) {
             // session namespace 'single' already exists and is set to be the only instance of this namespace
-            $this->assertRegexp('/read.only/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/read.only/i', $e->getMessage());
         }
         $s->unlock();
         $s->o = 'orange';
@@ -441,7 +441,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
                 . 'after marking the namespace as read-only; expected Zend_Session_Exception');
         } catch (Zend_Session_Exception $e) {
             // session namespace 'single' already exists and is set to be the only instance of this namespace
-            $this->assertRegexp('/read.only/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/read.only/i', $e->getMessage());
         }
     }
 
@@ -463,7 +463,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
                 . 'after marking the namespace as read-only; expected Zend_Session_Exception');
         } catch (Zend_Session_Exception $e) {
             // session namespace 'single' already exists and is set to be the only instance of this namespace
-            $this->assertRegexp('/read.only/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/read.only/i', $e->getMessage());
         }
         $s = new Zend_Session_Namespace('somenamespace');
         $s2 = new Zend_Session_Namespace('mayday');
@@ -480,7 +480,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
             $this->fail('No exception was returned when setting a variable in the "Default" namespace, '
                 . 'after marking the namespace as read-only; expected Zend_Session_Exception');
         } catch (Zend_Session_Exception $e) {
-            $this->assertRegexp('/read.only/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/read.only/i', $e->getMessage());
         }
     }
 
@@ -539,7 +539,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
                 $this->fail('No exception was returned when setting a variable in the "Default" namespace, '
                     . 'after marking the namespace as read-only; expected Zend_Session_Exception');
             } catch (Zend_Session_Exception $e) {
-                $this->assertRegexp('/read.only/i', $e->getMessage());
+                $this->assertMatchesRegularExpression('/read.only/i', $e->getMessage());
             }
         }
         $s->unlockAll();
@@ -1104,7 +1104,7 @@ class Zend_SessionTest extends PHPUnit_Framework_TestCase
         @rmdir($sessionStore);
 
         // Check the result
-        $this->assertRegExp('/^[0-9a-v]+$/', $sid);
+        $this->assertMatchesRegularExpression('/^[0-9a-v]+$/', $sid);
         $this->assertNotEquals('xxx', $sid);
     }
 }

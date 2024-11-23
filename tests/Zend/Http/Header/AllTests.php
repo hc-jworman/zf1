@@ -48,12 +48,12 @@ class Zend_Http_Header_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Http - Header');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Http - Header');
 
         $suite->addTestSuite('Zend_Http_Header_HeaderValueTest');
         $suite->addTestSuite('Zend_Http_Header_SetCookieTest');

@@ -34,13 +34,13 @@
  * @group      Zend_Ldap
  */
 #[AllowDynamicProperties]
-class Zend_Ldap_OriginalCanonTest extends PHPUnit_Framework_TestCase
+class Zend_Ldap_OriginalCanonTest extends \PHPUnit\Framework\TestCase
 {
     protected $_options = null;
     protected $_principalName = TESTS_ZEND_LDAP_PRINCIPAL_NAME;
     protected $_names = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_options = array(
             'host' => TESTS_ZEND_LDAP_HOST,

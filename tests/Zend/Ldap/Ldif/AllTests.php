@@ -41,12 +41,12 @@ class Zend_Ldap_Ldif_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Ldap_Ldif');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Ldap_Ldif');
 
         $suite->addTestSuite('Zend_Ldap_Ldif_SimpleEncoderTest');
         $suite->addTestSuite('Zend_Ldap_Ldif_SimpleDecoderTest');
@@ -63,9 +63,9 @@ class Zend_Ldap_Ldif_AllTests
 }
 
 #[AllowDynamicProperties]
-class Zend_Ldap_Ldif_SkipOnlineTests extends PHPUnit_Framework_TestCase
+class Zend_Ldap_Ldif_SkipOnlineTests extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->markTestSkipped('Zend_Ldap_Ldif online tests not enabled in TestConfiguration.php');
     }

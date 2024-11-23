@@ -34,7 +34,7 @@
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_NormalizedToLocalizedTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_NormalizedToLocalizedTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Ensures that the filter follows expected behavior

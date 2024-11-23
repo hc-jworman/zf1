@@ -34,7 +34,7 @@
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_RealPathTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_RealPathTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Path to test files
@@ -46,8 +46,9 @@ class Zend_Filter_RealPathTest extends PHPUnit_Framework_TestCase
     /**
      * Sets the path to test files
      */
-    public function __construct()
+    public function __construct(string $name)
     {
+        parent::__construct($name);
         $this->_filesPath = __DIR__ . DIRECTORY_SEPARATOR . '_files';
     }
 
@@ -63,7 +64,7 @@ class Zend_Filter_RealPathTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_filter = new Zend_Filter_RealPath();
     }
@@ -76,7 +77,7 @@ class Zend_Filter_RealPathTest extends PHPUnit_Framework_TestCase
     public function testFileExists()
     {
         $filename = 'file.1';
-        $this->assertContains($filename, $this->_filter->filter($this->_filesPath . DIRECTORY_SEPARATOR . $filename));
+        $this->assertStringContainsString($filename, $this->_filter->filter($this->_filesPath . DIRECTORY_SEPARATOR . $filename));
     }
 
     /**

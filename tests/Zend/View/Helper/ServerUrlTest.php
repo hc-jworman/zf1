@@ -35,7 +35,7 @@
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_ServerUrlTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_ServerUrlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Back up of $_SERVER
@@ -47,7 +47,7 @@ class Zend_View_Helper_ServerUrlTest extends PHPUnit_Framework_TestCase
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->_serverBackup = $_SERVER;
         unset($_SERVER['HTTPS']);
@@ -56,7 +56,7 @@ class Zend_View_Helper_ServerUrlTest extends PHPUnit_Framework_TestCase
     /**
      * Cleans up the environment after running a test.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $_SERVER = $this->_serverBackup;
     }

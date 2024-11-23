@@ -35,7 +35,7 @@
  * @group      Zend_Reflection_File
  */
 #[AllowDynamicProperties]
-class Zend_Reflection_FileTest extends PHPUnit_Framework_TestCase
+class Zend_Reflection_FileTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testFileConstructor()
@@ -105,7 +105,7 @@ class Zend_Reflection_FileTest extends PHPUnit_Framework_TestCase
         $reflectionFile = new Zend_Reflection_File($fileToRequire);
 
         // Make sure this test works on all platforms
-        $this->assertRegExp('#^.*Zend.Version.php$#i', $reflectionFile->getFileName());
+        $this->assertMatchesRegularExpression('#^.*Zend.Version.php$#i', $reflectionFile->getFileName());
     }
 
     public function testFileGetLineNumbersWorks()

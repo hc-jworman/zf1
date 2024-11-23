@@ -43,7 +43,7 @@ require_once __DIR__ . '/AdapterTest.php';
 #[AllowDynamicProperties]
 class Zend_Queue_Adapter_PlatformJobQueueTest extends Zend_Queue_Adapter_AdapterTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (!defined('TESTS_ZEND_QUEUE_PLATFORMJQ_HOST')
             || !constant('TESTS_ZEND_QUEUE_PLATFORMJQ_HOST')

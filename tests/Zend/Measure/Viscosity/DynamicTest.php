@@ -34,7 +34,7 @@
  * @group      Zend_Measure
  */
 #[AllowDynamicProperties]
-class Zend_Measure_Viscosity_DynamicTest extends PHPUnit_Framework_TestCase
+class Zend_Measure_Viscosity_DynamicTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * test for Mass initialisation

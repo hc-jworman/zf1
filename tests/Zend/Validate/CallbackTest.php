@@ -38,7 +38,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_CallbackTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_CallbackTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs this test suite
@@ -47,8 +47,12 @@ class Zend_Validate_CallbackTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Validate_CallbackTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty('Zend_Validate_CallbackTest');
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -98,7 +102,7 @@ class Zend_Validate_CallbackTest extends PHPUnit_Framework_TestCase
             $valid->setCallback('invalidcallback');
             $this->fail('Exception expected');
         } catch (Zend_Exception $e) {
-            $this->assertContains('Invalid callback given', $e->getMessage());
+            $this->assertStringContainsString('Invalid callback given', $e->getMessage());
         }
     }
 
@@ -122,7 +126,7 @@ class Zend_Validate_CallbackTest extends PHPUnit_Framework_TestCase
     public function optionsCallback($value)
     {
         $args = func_get_args();
-        $this->assertContains('something', $args);
+        $this->assertStringContainsString('something', $args);
         return $args;
     }
 }

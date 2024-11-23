@@ -127,7 +127,7 @@ class Zend_Db_TestUtil_Mysqli extends Zend_Db_TestUtil_Common
         $this->_createTestProcedure();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->_dropTestProcedure();
 

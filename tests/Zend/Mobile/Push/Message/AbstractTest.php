@@ -31,9 +31,9 @@
  * @group      Zend_Mobile
  */
 #[AllowDynamicProperties]
-class Zend_Mobile_Push_Message_AbstractTest extends PHPUnit_Framework_TestCase
+class Zend_Mobile_Push_Message_AbstractTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->msg = new Zend_Mobile_Push_Message_AbstractProxy();
     }

@@ -32,7 +32,7 @@
  * @group      Zend_Oauth_Signature
  */
 #[AllowDynamicProperties]
-class Zend_Oauth_Signature_AbstractTest extends PHPUnit_Framework_TestCase
+class Zend_Oauth_Signature_AbstractTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testNormaliseHttpBaseSignatureUrl()

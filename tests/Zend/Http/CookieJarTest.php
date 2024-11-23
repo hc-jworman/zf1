@@ -34,7 +34,7 @@
  * @group      Zend_Http_CookieJar
  */
 #[AllowDynamicProperties]
-class Zend_Http_CookieJarTest extends PHPUnit_Framework_TestCase
+class Zend_Http_CookieJarTest extends \PHPUnit\Framework\TestCase
 {
     public function loadResponse($filename)
     {
@@ -150,7 +150,7 @@ class Zend_Http_CookieJarTest extends PHPUnit_Framework_TestCase
         $cobjects = $jar->getAllCookies();
 
         foreach ($cobjects as $id => $cookie) {
-            $this->assertContains((string) $cookie, $cookies[$id]);
+            $this->assertStringContainsString((string) $cookie, $cookies[$id]);
         }
     }
 

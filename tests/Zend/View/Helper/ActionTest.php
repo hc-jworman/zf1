@@ -52,7 +52,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_ActionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -61,8 +61,12 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_ActionTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_ActionTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -71,7 +75,7 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_origServer = $_SERVER;
         $_SERVER = array(
@@ -100,7 +104,7 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->request, $this->response, $this->helper);
         $_SERVER = $this->_origServer;
@@ -173,7 +177,7 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
     public function testActionReturnsContentFromDefaultModule()
     {
         $value = $this->helper->action('bar', 'action-foo');
-        $this->assertContains('In default module, FooController::barAction()', $value);
+        $this->assertStringContainsString('In default module, FooController::barAction()', $value);
     }
 
     /**
@@ -182,7 +186,7 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
     public function testActionReturnsContentFromSpecifiedModule()
     {
         $value = $this->helper->action('bar', 'foo', 'foo');
-        $this->assertContains('In foo module, Foo_FooController::barAction()', $value);
+        $this->assertStringContainsString('In foo module, Foo_FooController::barAction()', $value);
     }
 
     /**
@@ -191,8 +195,8 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
     public function testActionReturnsContentReflectingPassedParams()
     {
         $value = $this->helper->action('baz', 'action-foo', null, array('bat' => 'This is my message'));
-        $this->assertNotContains('BOGUS', $value, var_export($this->helper->request->getUserParams(), 1));
-        $this->assertContains('This is my message', $value);
+        $this->assertStringNotContainsString('BOGUS', $value, var_export($this->helper->request->getUserParams(), 1));
+        $this->assertStringContainsString('This is my message', $value);
     }
 
     /**
@@ -266,7 +270,7 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
     public function testViewObjectRemainsUnchangedAfterAction()
     {
         $value = $this->helper->action('bar', 'foo', 'foo');
-        $this->assertContains('In foo module, Foo_FooController::barAction()', $value);
+        $this->assertStringContainsString('In foo module, Foo_FooController::barAction()', $value);
         $this->assertNull($this->view->bar);
     }
 
@@ -274,9 +278,9 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
     {
         $html = $this->helper->action('nest', 'foo', 'foo');
         $title = $this->view->headTitle()->toString();
-        $this->assertContains(' - ', $title, $title);
-        $this->assertContains('Foo Nest', $title);
-        $this->assertContains('Nested Stuff', $title);
+        $this->assertStringContainsString(' - ', $title, $title);
+        $this->assertStringContainsString('Foo Nest', $title);
+        $this->assertStringContainsString('Nested Stuff', $title);
     }
 
     /**
@@ -330,7 +334,7 @@ class Zend_View_Helper_ActionTest extends PHPUnit_Framework_TestCase
     public function testActionCalledWithinActionResetsResponseState()
     {
         $value = $this->helper->action('bar-one', 'baz', 'foo');
-        $this->assertRegexp('/Baz-Three-View-Script\s+Baz-Two-View-Script\s+Baz-One-View-Script/s', $value);
+        $this->assertMatchesRegularExpression('/Baz-Three-View-Script\s+Baz-Two-View-Script\s+Baz-One-View-Script/s', $value);
     }
 }
 

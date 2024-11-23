@@ -33,7 +33,7 @@
  * @group      Zend_Server
  */
 #[AllowDynamicProperties]
-class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
+class Zend_Server_Reflection_FunctionTest extends \PHPUnit\Framework\TestCase
 {
     public function test__construct()
     {
@@ -54,11 +54,11 @@ class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
 
         $argv = array('string1', 'string2');
         $r = new Zend_Server_Reflection_Function($function, 'namespace', $argv);
-        $this->assertInternalType('array', $r->getInvokeArguments());
+        $this->assertIsArray($r->getInvokeArguments());
         $this->assertSame($argv, $r->getInvokeArguments());
 
         $prototypes = $r->getPrototypes();
-        $this->assertInternalType('array', $prototypes);
+        $this->assertIsArray($prototypes);
         $this->assertTrue(0 < count($prototypes));
     }
 
@@ -85,7 +85,7 @@ class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
     {
         $function = new ReflectionFunction('Zend_Server_Reflection_FunctionTest_function');
         $r = new Zend_Server_Reflection_Function($function);
-        $this->assertContains('function for reflection', $r->getDescription());
+        $this->assertStringContainsString('function for reflection', $r->getDescription());
         $r->setDescription('Testing setting descriptions');
         $this->assertEquals('Testing setting descriptions', $r->getDescription());
     }
@@ -96,7 +96,7 @@ class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
         $r = new Zend_Server_Reflection_Function($function);
 
         $prototypes = $r->getPrototypes();
-        $this->assertInternalType('array', $prototypes);
+        $this->assertIsArray($prototypes);
         $this->assertTrue(0 < count($prototypes));
         $this->assertCount(8, $prototypes);
 
@@ -111,7 +111,7 @@ class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
         $r = new Zend_Server_Reflection_Function($function);
 
         $prototypes = $r->getPrototypes();
-        $this->assertInternalType('array', $prototypes);
+        $this->assertIsArray($prototypes);
         $this->assertTrue(0 < count($prototypes));
         $this->assertCount(1, $prototypes);
 
@@ -126,13 +126,13 @@ class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
         $function = new ReflectionFunction('Zend_Server_Reflection_FunctionTest_function');
         $r = new Zend_Server_Reflection_Function($function);
         $args = $r->getInvokeArguments();
-        $this->assertInternalType('array', $args);
+        $this->assertIsArray($args);
         $this->assertCount(0, $args);
 
         $argv = array('string1', 'string2');
         $r = new Zend_Server_Reflection_Function($function, null, $argv);
         $args = $r->getInvokeArguments();
-        $this->assertInternalType('array', $args);
+        $this->assertIsArray($args);
         $this->assertCount(2, $args);
         $this->assertSame($argv, $args);
     }
@@ -142,7 +142,7 @@ class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
         $function = new ReflectionFunction('Zend_Server_Reflection_FunctionTest_function');
         $r = new Zend_Server_Reflection_Function($function);
         if (PHP_VERSION_ID >= 70400) {
-            $this->setExpectedException('Exception', "Serialization of 'ReflectionFunction' is not allowed");
+            $this->expectException('Exception', "Serialization of 'ReflectionFunction' is not allowed");
         }
         $s = serialize($r);
         $u = unserialize($s);
@@ -156,13 +156,13 @@ class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
         $r = new Zend_Server_Reflection_Function($function);
 
         $prototypes = $r->getPrototypes();
-        $this->assertInternalType('array', $prototypes);
+        $this->assertIsArray($prototypes);
         $this->assertTrue(0 < count($prototypes));
         $this->assertCount(1, $prototypes);
 
         $proto = $prototypes[0];
         $params = $proto->getParameters();
-        $this->assertInternalType('array', $params);
+        $this->assertIsArray($params);
         $this->assertCount(1, $params);
         $this->assertEquals('string', $params[0]->getType());
     }
@@ -179,7 +179,7 @@ class Zend_Server_Reflection_FunctionTest extends PHPUnit_Framework_TestCase
         $prototype  = $prototypes[0];
         $params = $prototype->getParameters();
         $param  = $params[0];
-        $this->assertContains('Some description', $param->getDescription(), var_export($param, 1));
+        $this->assertStringContainsString('Some description', $param->getDescription(), var_export($param, 1));
     }
 }
 

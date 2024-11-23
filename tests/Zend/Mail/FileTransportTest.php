@@ -39,13 +39,13 @@
  * @group      Zend_Mail
  */
 #[AllowDynamicProperties]
-class Zend_Mail_FileTransportTest extends PHPUnit_Framework_TestCase
+class Zend_Mail_FileTransportTest extends \PHPUnit\Framework\TestCase
 {
     protected $_params;
     protected $_transport;
     protected $_tmpdir;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->createdTmpDir = false;
 
@@ -68,7 +68,7 @@ class Zend_Mail_FileTransportTest extends PHPUnit_Framework_TestCase
         $this->_cleanDir($this->_tmpdir);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->_cleanDir($this->_tmpdir);
         if ($this->createdTmpDir) {
@@ -124,7 +124,7 @@ class Zend_Mail_FileTransportTest extends PHPUnit_Framework_TestCase
 
         $mail = $this->_prepareMail();
 
-        $this->setExpectedException('Zend_Mail_Transport_Exception');
+        $this->expectException('Zend_Mail_Transport_Exception');
         $mail->send($transport);
     }
 
@@ -145,10 +145,10 @@ class Zend_Mail_FileTransportTest extends PHPUnit_Framework_TestCase
         }
 
         $email = file_get_contents($filename);
-        $this->assertContains('To: Oleg Lobach <oleg@example.com>', $email);
-        $this->assertContains('Subject: TestSubject', $email);
-        $this->assertContains('From: Alexander Steshenko <alexander@example.com>', $email);
-        $this->assertContains("This is the text of the mail.", $email);
+        $this->assertStringContainsString('To: Oleg Lobach <oleg@example.com>', $email);
+        $this->assertStringContainsString('Subject: TestSubject', $email);
+        $this->assertStringContainsString('From: Alexander Steshenko <alexander@example.com>', $email);
+        $this->assertStringContainsString("This is the text of the mail.", $email);
     }
 
     public function prependCallback($transport)
@@ -178,9 +178,9 @@ class Zend_Mail_FileTransportTest extends PHPUnit_Framework_TestCase
         }
 
         // file name should now contain recipient email address
-        $this->assertContains('oleg@example.com', $entry);
+        $this->assertStringContainsString('oleg@example.com', $entry);
         // and default callback part
-        $this->assertContains('ZendMail', $entry);
+        $this->assertStringContainsString('ZendMail', $entry);
     }
 
     public function directoryNotExisting($transport)

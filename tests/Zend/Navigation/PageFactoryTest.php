@@ -34,11 +34,11 @@
  * @group      Zend_Navigation
  */
 #[AllowDynamicProperties]
-class Zend_Navigation_PageFactoryTest extends PHPUnit_Framework_TestCase
+class Zend_Navigation_PageFactoryTest extends \PHPUnit\Framework\TestCase
 {
     protected $_oldIncludePath;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // store old include path
         $this->_oldIncludePath = get_include_path();
@@ -48,7 +48,7 @@ class Zend_Navigation_PageFactoryTest extends PHPUnit_Framework_TestCase
         set_include_path($addToPath . PATH_SEPARATOR . $this->_oldIncludePath);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // reset include path
         set_include_path($this->_oldIncludePath);

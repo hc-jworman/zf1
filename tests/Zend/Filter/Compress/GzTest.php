@@ -38,7 +38,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class Zend_Filter_Compress_GzTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_Compress_GzTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs this test suite
@@ -47,18 +47,22 @@ class Zend_Filter_Compress_GzTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Filter_Compress_GzTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty('Zend_Filter_Compress_GzTest');
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!extension_loaded('zlib')) {
             $this->markTestSkipped('This adapter needs the zlib extension');
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if (file_exists((string) __DIR__ . '/../_files/compressed.gz')) {
             unlink(__DIR__ . '/../_files/compressed.gz');
@@ -134,7 +138,7 @@ class Zend_Filter_Compress_GzTest extends PHPUnit_Framework_TestCase
             $filter->setLevel(15);
             $this->fail('Exception expected');
         } catch(Zend_Filter_Exception $e) {
-            $this->assertContains('must be between', $e->getMessage());
+            $this->assertStringContainsString('must be between', $e->getMessage());
         }
     }
 
@@ -154,7 +158,7 @@ class Zend_Filter_Compress_GzTest extends PHPUnit_Framework_TestCase
             $filter->setMode('unknown');
             $this->fail('Exception expected');
         } catch(Zend_Filter_Exception $e) {
-            $this->assertContains('mode not supported', $e->getMessage());
+            $this->assertStringContainsString('mode not supported', $e->getMessage());
         }
     }
 

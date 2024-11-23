@@ -86,12 +86,12 @@ class Zend_View_Helper_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_View_Helper');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_View_Helper');
 
         $suite->addTestSuite('Zend_View_Helper_ActionTest');
         $suite->addTestSuite('Zend_View_Helper_BaseUrlTest');

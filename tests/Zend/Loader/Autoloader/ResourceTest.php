@@ -51,15 +51,19 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Loader
  */
 #[AllowDynamicProperties]
-class Zend_Loader_Autoloader_ResourceTest extends PHPUnit_Framework_TestCase
+class Zend_Loader_Autoloader_ResourceTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         // Store original autoloaders
         $this->loaders = spl_autoload_functions();
@@ -84,7 +88,7 @@ class Zend_Loader_Autoloader_ResourceTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // Restore original autoloaders
         $loaders = spl_autoload_functions();
@@ -172,7 +176,7 @@ class Zend_Loader_Autoloader_ResourceTest extends PHPUnit_Framework_TestCase
         $resources = $this->loader->getResourceTypes();
         $this->assertTrue(array_key_exists('models', $resources));
         $this->assertEquals($this->loader->getNamespace() . '_Model', $resources['models']['namespace']);
-        $this->assertContains('/models', $resources['models']['path']);
+        $this->assertStringContainsString('/models', $resources['models']['path']);
     }
 
     public function testAutoloaderShouldAllowAddingResettingResourcePaths()
@@ -180,8 +184,8 @@ class Zend_Loader_Autoloader_ResourceTest extends PHPUnit_Framework_TestCase
         $this->loader->addResourceType('models', 'models', 'Model');
         $this->loader->addResourceType('models', 'apis');
         $resources = $this->loader->getResourceTypes();
-        $this->assertNotContains('/models', $resources['models']['path']);
-        $this->assertContains('/apis', $resources['models']['path']);
+        $this->assertStringNotContainsString('/models', $resources['models']['path']);
+        $this->assertStringContainsString('/apis', $resources['models']['path']);
     }
 
     public function testAutoloaderShouldSupportAddingMultipleResourceTypesAtOnce()
@@ -191,8 +195,8 @@ class Zend_Loader_Autoloader_ResourceTest extends PHPUnit_Framework_TestCase
             'form'  => array('path' => 'forms', 'namespace' => 'Form'),
         ));
         $resources = $this->loader->getResourceTypes();
-        $this->assertContains('model', array_keys($resources));
-        $this->assertContains('form', array_keys($resources));
+        $this->assertStringContainsString('model', array_keys($resources));
+        $this->assertStringContainsString('form', array_keys($resources));
     }
 
     /**
@@ -224,10 +228,10 @@ class Zend_Loader_Autoloader_ResourceTest extends PHPUnit_Framework_TestCase
         ));
 
         $resources = $this->loader->getResourceTypes();
-        $this->assertNotContains('model', array_keys($resources));
-        $this->assertNotContains('form', array_keys($resources));
-        $this->assertContains('view', array_keys($resources));
-        $this->assertContains('layout', array_keys($resources));
+        $this->assertStringNotContainsString('model', array_keys($resources));
+        $this->assertStringNotContainsString('form', array_keys($resources));
+        $this->assertStringContainsString('view', array_keys($resources));
+        $this->assertStringContainsString('layout', array_keys($resources));
     }
 
     public function testHasResourceTypeShouldReturnFalseWhenTypeNotDefined()
@@ -252,8 +256,8 @@ class Zend_Loader_Autoloader_ResourceTest extends PHPUnit_Framework_TestCase
         $this->loader->removeResourceType('form');
 
         $resources = $this->loader->getResourceTypes();
-        $this->assertContains('model', array_keys($resources));
-        $this->assertNotContains('form', array_keys($resources));
+        $this->assertStringContainsString('model', array_keys($resources));
+        $this->assertStringNotContainsString('form', array_keys($resources));
     }
 
     public function testAutoloaderShouldAllowSettingDefaultResourceType()

@@ -40,7 +40,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_FormErrorsTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_FormErrorsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -50,8 +50,12 @@ class Zend_View_Helper_FormErrorsTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_FormErrorsTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_FormErrorsTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -60,7 +64,7 @@ class Zend_View_Helper_FormErrorsTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->view   = new Zend_View();
         $this->helper = new Zend_View_Helper_FormErrors();
@@ -74,7 +78,7 @@ class Zend_View_Helper_FormErrorsTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         ob_end_clean();
     }
@@ -119,11 +123,11 @@ class Zend_View_Helper_FormErrorsTest extends PHPUnit_Framework_TestCase
     {
         $errors = array('foo', 'bar', 'baz');
         $html = $this->helper->formErrors($errors);
-        $this->assertContains('<ul', $html);
+        $this->assertStringContainsString('<ul', $html);
         foreach ($errors as $error) {
-            $this->assertContains('<li>' . $error . '</li>', $html);
+            $this->assertStringContainsString('<li>' . $error . '</li>', $html);
         }
-        $this->assertContains('</ul>', $html);
+        $this->assertStringContainsString('</ul>', $html);
     }
 
     public function testFormErrorsRendersWithSpecifiedStrings()
@@ -133,11 +137,11 @@ class Zend_View_Helper_FormErrorsTest extends PHPUnit_Framework_TestCase
                      ->setElementEnd('</dt></dl>');
         $errors = array('foo', 'bar', 'baz');
         $html = $this->helper->formErrors($errors);
-        $this->assertContains('<dl>', $html);
+        $this->assertStringContainsString('<dl>', $html);
         foreach ($errors as $error) {
-            $this->assertContains('<dt>' . $error . '</dt>', $html);
+            $this->assertStringContainsString('<dt>' . $error . '</dt>', $html);
         }
-        $this->assertContains('</dl>', $html);
+        $this->assertStringContainsString('</dl>', $html);
     }
 
     public function testFormErrorsPreventsXssAttacks()
@@ -146,8 +150,8 @@ class Zend_View_Helper_FormErrorsTest extends PHPUnit_Framework_TestCase
             'bad' => '\"><script>alert("xss");</script>',
         );
         $html = $this->helper->formErrors($errors);
-        $this->assertNotContains($errors['bad'], $html);
-        $this->assertContains('&', $html);
+        $this->assertStringNotContainsString($errors['bad'], $html);
+        $this->assertStringContainsString('&', $html);
     }
 
     public function testCanDisableEscapingErrorMessages()
@@ -157,8 +161,8 @@ class Zend_View_Helper_FormErrorsTest extends PHPUnit_Framework_TestCase
             'bar' => '<a href="/help">Please click here for more information</a>'
         );
         $html = $this->helper->formErrors($errors, array('escape' => false));
-        $this->assertContains($errors['foo'], $html);
-        $this->assertContains($errors['bar'], $html);
+        $this->assertStringContainsString($errors['foo'], $html);
+        $this->assertStringContainsString($errors['bar'], $html);
     }
 
     /**

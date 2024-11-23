@@ -38,15 +38,19 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Loader
  */
 #[AllowDynamicProperties]
-class Zend_Loader_AutoloaderMultiVersionTest extends PHPUnit_Framework_TestCase
+class Zend_Loader_AutoloaderMultiVersionTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         // Store original autoloaders
         $this->loaders = spl_autoload_functions();
@@ -72,7 +76,7 @@ class Zend_Loader_AutoloaderMultiVersionTest extends PHPUnit_Framework_TestCase
         $this->autoloader  = Zend_Loader_Autoloader::getInstance();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // Restore original autoloaders
         $loaders = spl_autoload_functions();
@@ -124,84 +128,84 @@ class Zend_Loader_AutoloaderMultiVersionTest extends PHPUnit_Framework_TestCase
     {
         $this->autoloader->setZfPath($this->path, 'latest');
         $actual = $this->autoloader->getZfPath();
-        $this->assertContains($this->latest, $actual);
+        $this->assertStringContainsString($this->latest, $actual);
     }
 
     public function testAutoloadLatestIncludesLibraryInPath()
     {
         $this->autoloader->setZfPath($this->path, 'latest');
         $actual = $this->autoloader->getZfPath();
-        $this->assertRegexp('#' . preg_quote($this->latest) . '[^/\\\]*/library#', $actual);
+        $this->assertMatchesRegularExpression('#' . preg_quote($this->latest) . '[^/\\\]*/library#', $actual);
     }
 
     public function testAutoloadLatestAddsPathToIncludePath()
     {
         $this->autoloader->setZfPath($this->path, 'latest');
         $incPath = get_include_path();
-        $this->assertRegexp('#' . preg_quote($this->latest) . '[^/\\\]*/library#', $incPath);
+        $this->assertMatchesRegularExpression('#' . preg_quote($this->latest) . '[^/\\\]*/library#', $incPath);
     }
 
     public function testAutoloadMajorRevisionShouldUseLatestFromMajorRevision()
     {
         $this->autoloader->setZfPath($this->path, $this->_getVersion($this->latestMajor, 'major'));
         $actual = $this->autoloader->getZfPath();
-        $this->assertContains($this->latestMajor, $actual);
+        $this->assertStringContainsString($this->latestMajor, $actual);
     }
 
     public function testAutoloadMajorRevisionIncludesLibraryInPath()
     {
         $this->autoloader->setZfPath($this->path, $this->_getVersion($this->latestMajor, 'major'));
         $actual = $this->autoloader->getZfPath();
-        $this->assertRegexp('#' . preg_quote($this->latestMajor) . '[^/\\\]*/library#', $actual);
+        $this->assertMatchesRegularExpression('#' . preg_quote($this->latestMajor) . '[^/\\\]*/library#', $actual);
     }
 
     public function testAutoloadMajorRevisionAddsPathToIncludePath()
     {
         $this->autoloader->setZfPath($this->path, $this->_getVersion($this->latestMajor, 'major'));
         $incPath = get_include_path();
-        $this->assertRegexp('#' . preg_quote($this->latestMajor) . '[^/\\\]*/library#', $incPath);
+        $this->assertMatchesRegularExpression('#' . preg_quote($this->latestMajor) . '[^/\\\]*/library#', $incPath);
     }
 
     public function testAutoloadMinorRevisionShouldUseLatestFromMinorRevision()
     {
         $this->autoloader->setZfPath($this->path, $this->_getVersion($this->latestMinor, 'minor'));
         $actual = $this->autoloader->getZfPath();
-        $this->assertContains($this->latestMinor, $actual);
+        $this->assertStringContainsString($this->latestMinor, $actual);
     }
 
     public function testAutoloadMinorRevisionIncludesLibraryInPath()
     {
         $this->autoloader->setZfPath($this->path, $this->_getVersion($this->latestMinor, 'minor'));
         $actual = $this->autoloader->getZfPath();
-        $this->assertRegexp('#' . preg_quote($this->latestMinor) . '[^/\\\]*/library#', $actual);
+        $this->assertMatchesRegularExpression('#' . preg_quote($this->latestMinor) . '[^/\\\]*/library#', $actual);
     }
 
     public function testAutoloadMinorRevisionAddsPathToIncludePath()
     {
         $this->autoloader->setZfPath($this->path, $this->_getVersion($this->latestMinor, 'minor'));
         $incPath = get_include_path();
-        $this->assertRegexp('#' . preg_quote($this->latestMinor) . '[^/\\\]*/library#', $incPath);
+        $this->assertMatchesRegularExpression('#' . preg_quote($this->latestMinor) . '[^/\\\]*/library#', $incPath);
     }
 
     public function testAutoloadSpecificRevisionShouldUseThatVersion()
     {
         $this->autoloader->setZfPath($this->path, $this->specific);
         $actual = $this->autoloader->getZfPath();
-        $this->assertContains($this->specific, $actual);
+        $this->assertStringContainsString($this->specific, $actual);
     }
 
     public function testAutoloadSpecificRevisionIncludesLibraryInPath()
     {
         $this->autoloader->setZfPath($this->path, $this->specific);
         $actual = $this->autoloader->getZfPath();
-        $this->assertRegexp('#' . preg_quote($this->specific) . '[^/\\\]*/library#', $actual);
+        $this->assertMatchesRegularExpression('#' . preg_quote($this->specific) . '[^/\\\]*/library#', $actual);
     }
 
     public function testAutoloadSpecificRevisionAddsPathToIncludePath()
     {
         $this->autoloader->setZfPath($this->path, $this->specific);
         $incPath = get_include_path();
-        $this->assertRegexp('#' . preg_quote($this->specific) . '[^/\\\]*/library#', $incPath);
+        $this->assertMatchesRegularExpression('#' . preg_quote($this->specific) . '[^/\\\]*/library#', $incPath);
     }
 
     protected function _getVersion($version, $type)

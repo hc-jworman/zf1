@@ -48,9 +48,9 @@
  * @group      Zend_Queue
  */
 #[AllowDynamicProperties]
-class Zend_Queue_MessageTest extends PHPUnit_Framework_TestCase
+class Zend_Queue_MessageTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // Test Zend_Config
         $this->options = array(
@@ -74,7 +74,7 @@ class Zend_Queue_MessageTest extends PHPUnit_Framework_TestCase
         $this->message = new Zend_Queue_Message($this->options);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

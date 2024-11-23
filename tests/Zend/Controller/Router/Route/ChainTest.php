@@ -70,7 +70,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Controller_Router
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Router_Route_ChainTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Router_Route_ChainTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -81,8 +81,12 @@ class Zend_Controller_Router_Route_ChainTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Router_Route_ChainTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Router_Route_ChainTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testChaining()
@@ -310,7 +314,7 @@ class Zend_Controller_Router_Route_ChainTest extends PHPUnit_Framework_TestCase
         $res = $chain->match($request);
 
         $this->assertTrue(is_array($res));
-        $this->assertRegexp('#[^a-z0-9]?foobar\.zend\.com/bar/foo/bar#i', $chain->assemble(array('account' => 'foobar', 'foo' => 'bar')));
+        $this->assertMatchesRegularExpression('#[^a-z0-9]?foobar\.zend\.com/bar/foo/bar#i', $chain->assemble(array('account' => 'foobar', 'foo' => 'bar')));
     }
 
     public function testChainingAssembleWithStatic()
@@ -326,7 +330,7 @@ class Zend_Controller_Router_Route_ChainTest extends PHPUnit_Framework_TestCase
         $res = $chain->match($request);
 
         $this->assertTrue(is_array($res));
-        $this->assertRegexp('#[^a-z0-9]?www\.zend\.com/bar$#i', $chain->assemble());
+        $this->assertMatchesRegularExpression('#[^a-z0-9]?www\.zend\.com/bar$#i', $chain->assemble());
     }
 
     public function testChainingAssembleWithRegex()
@@ -342,7 +346,7 @@ class Zend_Controller_Router_Route_ChainTest extends PHPUnit_Framework_TestCase
         $res = $chain->match($request);
 
         $this->assertTrue(is_array($res));
-        $this->assertRegexp('#[^a-z0-9]?www\.zend\.com/bar$#i', $chain->assemble());
+        $this->assertMatchesRegularExpression('#[^a-z0-9]?www\.zend\.com/bar$#i', $chain->assemble());
     }
 
     public function testChainingReuse()

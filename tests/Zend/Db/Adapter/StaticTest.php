@@ -46,7 +46,7 @@ require_once 'Zend/Db/Adapter/Static.php';
  * @group      Zend_Db_Adapter
  */
 #[AllowDynamicProperties]
-class Zend_Db_Adapter_StaticTest extends PHPUnit_Framework_TestCase
+class Zend_Db_Adapter_StaticTest extends \PHPUnit\Framework\TestCase
 {
 
     protected static $_isCaseSensitiveFileSystem = null;
@@ -64,7 +64,7 @@ class Zend_Db_Adapter_StaticTest extends PHPUnit_Framework_TestCase
             $db = new Zend_Db_Adapter_Static('scalar');
             $this->fail('Expected exception not thrown');
         } catch (\Throwable $e) {
-            $this->assertContains('Adapter parameters must be in an array or a Zend_Config object', $e->getMessage());
+            $this->assertStringContainsString('Adapter parameters must be in an array or a Zend_Config object', $e->getMessage());
         }
     }
 
@@ -152,7 +152,7 @@ class Zend_Db_Adapter_StaticTest extends PHPUnit_Framework_TestCase
             $db = Zend_Db::factory('Static', 'scalar');
             $this->fail('Expected exception not thrown');
         } catch (\Throwable $e) {
-            $this->assertContains('Adapter parameters must be in an array or a Zend_Config object', $e->getMessage());
+            $this->assertStringContainsString('Adapter parameters must be in an array or a Zend_Config object', $e->getMessage());
         }
     }
 
@@ -162,7 +162,7 @@ class Zend_Db_Adapter_StaticTest extends PHPUnit_Framework_TestCase
             $db = Zend_Db::factory('Static');
             $this->fail('Expected exception not thrown');
         } catch (\Throwable $e) {
-            $this->assertContains('Configuration must have a key for \'dbname\' that names the database instance', $e->getMessage());
+            $this->assertStringContainsString('Configuration must have a key for \'dbname\' that names the database instance', $e->getMessage());
         }
     }
 
@@ -328,7 +328,7 @@ class Zend_Db_Adapter_StaticTest extends PHPUnit_Framework_TestCase
                 );
         } catch (\Throwable $e) {
             set_include_path($oldIncludePath);
-            $this->assertContains('failed to open stream', $e->getMessage(), '', true);
+            $this->assertStringContainsString('failed to open stream', $e->getMessage(), '', true);
             return;
         }
 

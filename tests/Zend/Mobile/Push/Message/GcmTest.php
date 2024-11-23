@@ -33,7 +33,7 @@
  * @group      Zend_Mobile_Push_Gcm
  */
 #[AllowDynamicProperties]
-class Zend_Mobile_Push_Message_GcmTest extends PHPUnit_Framework_TestCase
+class Zend_Mobile_Push_Message_GcmTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException Zend_Mobile_Push_Message_Exception

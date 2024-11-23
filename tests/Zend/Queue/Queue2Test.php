@@ -42,7 +42,7 @@ require_once 'Zend/Queue/QueueBaseTest.php';
 #[AllowDynamicProperties]
 class Zend_Queue_Queue2Test extends Zend_Queue_QueueBaseTest
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // Test Zend_Config
         $this->config = array(

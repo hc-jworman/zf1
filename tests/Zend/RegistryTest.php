@@ -34,14 +34,14 @@
  * @group      Zend_Registry
  */
 #[AllowDynamicProperties]
-class Zend_RegistryTest extends PHPUnit_Framework_TestCase
+class Zend_RegistryTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Zend_Registry::_unsetInstance();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Registry::_unsetInstance();
     }
@@ -77,7 +77,7 @@ class Zend_RegistryTest extends PHPUnit_Framework_TestCase
             Zend_Registry::get('foo');
             $this->fail('Expected exception when trying to fetch a non-existent key.');
         } catch (Zend_Exception $e) {
-            $this->assertContains('No entry is registered for key', $e->getMessage());
+            $this->assertStringContainsString('No entry is registered for key', $e->getMessage());
         }
         $registry = Zend_Registry::getInstance();
         $this->assertTrue($registry instanceof Zend_Registry);
@@ -143,7 +143,7 @@ class Zend_RegistryTest extends PHPUnit_Framework_TestCase
             $registry = Zend_Registry::setClassName(new StdClass());
             $this->fail('Expected exception, because setClassName() wants a string');
         } catch (Zend_Exception $e) {
-            $this->assertContains('Argument is not a class name', $e->getMessage());
+            $this->assertStringContainsString('Argument is not a class name', $e->getMessage());
         }
     }
 
@@ -160,7 +160,7 @@ class Zend_RegistryTest extends PHPUnit_Framework_TestCase
             $foo = Zend_Registry::get('foo');
             $this->fail('Expected exception when trying to fetch a non-existent key.');
         } catch (Zend_Exception $e) {
-            $this->assertContains('No entry is registered for key', $e->getMessage());
+            $this->assertStringContainsString('No entry is registered for key', $e->getMessage());
         }
     }
 
@@ -172,13 +172,13 @@ class Zend_RegistryTest extends PHPUnit_Framework_TestCase
             Zend_Registry::setClassName('anyclass');
             $this->fail('Expected exception, because we cannot initialize the registry if it is already initialized.');
         } catch (Zend_Exception $e) {
-            $this->assertContains('Registry is already initialized', $e->getMessage());
+            $this->assertStringContainsString('Registry is already initialized', $e->getMessage());
         }
         try {
             Zend_Registry::setInstance(new Zend_Registry());
             $this->fail('Expected exception, because we cannot initialize the registry if it is already initialized.');
         } catch (Zend_Exception $e) {
-            $this->assertContains('Registry is already initialized', $e->getMessage());
+            $this->assertStringContainsString('Registry is already initialized', $e->getMessage());
         }
     }
 
@@ -188,7 +188,7 @@ class Zend_RegistryTest extends PHPUnit_Framework_TestCase
             $registry = @Zend_Registry::setClassName('classdoesnotexist');
             $this->fail('Expected exception, because we cannot initialize the registry using a non-existent class.');
         } catch (Zend_Exception $e) {
-            $this->assertRegExp('/file .* does not exist or .*/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/file .* does not exist or .*/i', $e->getMessage());
         }
     }
 

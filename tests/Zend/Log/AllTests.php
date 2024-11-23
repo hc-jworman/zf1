@@ -42,12 +42,12 @@ class Zend_Log_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Log');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Log');
 
         $suite->addTestSuite('Zend_Log_LogTest');
         $suite->addTest(Zend_Log_Filter_AllTests::suite());

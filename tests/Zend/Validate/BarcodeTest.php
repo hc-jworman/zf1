@@ -35,7 +35,7 @@
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_BarcodeTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_BarcodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test if EAN-13 contains only numeric characters
@@ -54,7 +54,7 @@ class Zend_Validate_BarcodeTest extends PHPUnit_Framework_TestCase
             $barcode = new Zend_Validate_Barcode('Zend_Validate_BarcodeTest_NonExistentClassName');
             $this->fail("'Zend_Validate_BarcodeTest_NonExistentClassName' is not a valid barcode type'");
         } catch (\Throwable $e) {
-            $this->assertRegExp('#not found|No such file#', $e->getMessage());
+            $this->assertMatchesRegularExpression('#not found|No such file#', $e->getMessage());
         }
     }
 
@@ -149,7 +149,7 @@ class Zend_Validate_BarcodeTest extends PHPUnit_Framework_TestCase
             $barcode->setAdapter('MyBarcode5');
             $this->fails('Exception expected');
         } catch (\Throwable $e) {
-            $this->assertContains('does not implement', $e->getMessage());
+            $this->assertStringContainsString('does not implement', $e->getMessage());
         }
     }
 
@@ -166,7 +166,7 @@ class Zend_Validate_BarcodeTest extends PHPUnit_Framework_TestCase
             $barcode = new Zend_Validate_Barcode(array('options' => 'unknown', 'checksum' => false));
             $this->fails('Exception expected');
         } catch (\Throwable $e) {
-            $this->assertContains('Missing option', $e->getMessage());
+            $this->assertStringContainsString('Missing option', $e->getMessage());
         }
     }
 
@@ -438,6 +438,6 @@ class Zend_Validate_BarcodeTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($barcode->isValid('123'));
         $message = $barcode->getMessages();
         $this->assertTrue(array_key_exists('barcodeInvalidLength', $message));
-        $this->assertContains("length of 7/8 characters", $message['barcodeInvalidLength']);
+        $this->assertStringContainsString("length of 7/8 characters", $message['barcodeInvalidLength']);
     }
 }

@@ -48,7 +48,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Filter
  */
 #[AllowDynamicProperties]
-class Zend_Filter_InflectorTest extends PHPUnit_Framework_TestCase
+class Zend_Filter_InflectorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -57,8 +57,12 @@ class Zend_Filter_InflectorTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Filter_InflectorTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty('Zend_Filter_InflectorTest');
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -67,7 +71,7 @@ class Zend_Filter_InflectorTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->inflector = new Zend_Filter_Inflector();
         $this->loader    = $this->inflector->getPluginLoader();
@@ -79,7 +83,7 @@ class Zend_Filter_InflectorTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->loader->clearPaths();
     }
@@ -402,11 +406,11 @@ class Zend_Filter_InflectorTest extends PHPUnit_Framework_TestCase
         $rules = $inflector->getRules();
         foreach (array_values($options['rules'][':controller']) as $key => $rule) {
             $class = get_class($rules['controller'][$key]);
-            $this->assertContains($rule, $class);
+            $this->assertStringContainsString($rule, $class);
         }
         foreach (array_values($options['rules'][':action']) as $key => $rule) {
             $class = get_class($rules['action'][$key]);
-            $this->assertContains($rule, $class);
+            $this->assertStringContainsString($rule, $class);
         }
         $this->assertEquals($options['rules']['suffix'], $rules['suffix']);
     }

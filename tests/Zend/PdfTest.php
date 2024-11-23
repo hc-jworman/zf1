@@ -38,14 +38,14 @@
  * @group      Zend_Pdf
  */
 #[AllowDynamicProperties]
-class Zend_PdfTest extends PHPUnit_Framework_TestCase
+class Zend_PdfTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Pdf = null
      */
     private $_pdf;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->_pdf = Zend_Pdf::load(__DIR__ . '/Pdf/_files/PdfWithFields.pdf');
     }

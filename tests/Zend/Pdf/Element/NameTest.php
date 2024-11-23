@@ -34,7 +34,7 @@
  * @group      Zend_Pdf
  */
 #[AllowDynamicProperties]
-class Zend_Pdf_Element_NameTest extends PHPUnit_Framework_TestCase
+class Zend_Pdf_Element_NameTest extends \PHPUnit\Framework\TestCase
 {
     public function testPDFName()
     {
@@ -47,7 +47,7 @@ class Zend_Pdf_Element_NameTest extends PHPUnit_Framework_TestCase
         try {
             $nameObj = new Zend_Pdf_Element_Name("MyName\x00");
         } catch (Zend_Pdf_Exception $e) {
-            $this->assertRegExp('/Null character is not allowed/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/Null character is not allowed/i', $e->getMessage());
             return;
         }
         $this->fail('Expected Zend_Pdf_Exception to be thrown');

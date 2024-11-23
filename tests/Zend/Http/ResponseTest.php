@@ -41,15 +41,15 @@ require_once __DIR__ . '/StreamObject.php';
  * @group      Zend_Http_Response
  */
 #[AllowDynamicProperties]
-class Zend_Http_ResponseTest extends PHPUnit_Framework_TestCase
+class Zend_Http_ResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var null|string */
     private $tempFile;
 
-    public function setUp()
+    public function setUp(): void
     { }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->tempFile !== null && file_exists((string) $this->tempFile)) {
             unlink($this->tempFile);
@@ -425,7 +425,7 @@ class Zend_Http_ResponseTest extends PHPUnit_Framework_TestCase
         return preg_replace("#(?<!\r)\n#", "\r\n", $message);
     }
 
-    public function invalidResponseHeaders()
+    public static function invalidResponseHeaders()
     {
         return array(
             'bad-status-line'            => array("HTTP/1.0a 200 OK\r\nHost: example.com\r\n\r\nMessage Body"),
@@ -444,7 +444,7 @@ class Zend_Http_ResponseTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractHeadersRaisesExceptionWhenDetectingCRLFInjection($message)
     {
-        $this->setExpectedException('Zend_Http_Exception', 'Invalid');
+        $this->expectException('Zend_Http_Exception', 'Invalid');
         Zend_Http_Response::extractHeaders($message);
     }
 

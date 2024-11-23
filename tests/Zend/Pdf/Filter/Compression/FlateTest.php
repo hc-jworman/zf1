@@ -2,9 +2,9 @@
 
 
 #[AllowDynamicProperties]
-class Zend_Pdf_Filter_Compression_FlateTest extends PHPUnit_Framework_TestCase
+class Zend_Pdf_Filter_Compression_FlateTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!extension_loaded('zlib')) {
             self::markTestSkipped('This test requires zlib');

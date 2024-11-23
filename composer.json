@@ -3,7 +3,7 @@
     "description": "Monorepo for zf1s (Zend Framework 1) packages",
     "license": "BSD-3-Clause",
     "require": {
-        "php": "~8.3",
+        "php": "~8.3 || ~8.4",
         "ext-ctype": "*",
         "ext-dom": "*",
         "ext-gd": "*",
@@ -19,17 +19,14 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.53",
-        "jworman/dbunit": "5.0.0",
-        "jworman/phpunit": "1.0.0",
         "php-parallel-lint/php-parallel-lint": "1.3.0",
+        "phpunit/phpunit": "^11.4",
         "staabm/annotate-pull-request-from-checkstyle": "1.5.0"
     },
     "autoload": {
         "psr-0": {
             "Zend_Acl": "packages/zend-acl/library/",
-            "Zend_Amf": "packages/zend-amf/library/",
             "Zend_Application": "packages/zend-application/library/",
-            "Zend_Auth": "packages/zend-auth/library/",
             "Zend_Cache": "packages/zend-cache/library/",
             "Zend_CodeGenerator": "packages/zend-codegenerator/library/",
             "Zend_Config": "packages/zend-config/library/",
@@ -61,7 +58,6 @@
             "Zend_Mobile": "packages/zend-mobile/library/",
             "Zend_Navigation": "packages/zend-navigation/library/",
             "Zend_Oauth": "packages/zend-oauth/library/",
-            "Zend_OpenId": "packages/zend-openid/library/",
             "Zend_Paginator": "packages/zend-paginator/library/",
             "Zend_Pdf": "packages/zend-pdf/library/",
             "Zend_ProgressBar": "packages/zend-progressbar/library/",
@@ -91,9 +87,7 @@
     },
     "replace": {
         "zf1s/zend-acl": "self.version",
-        "zf1s/zend-amf": "self.version",
         "zf1s/zend-application": "self.version",
-        "zf1s/zend-auth": "self.version",
         "zf1s/zend-cache": "self.version",
         "zf1s/zend-codegenerator": "self.version",
         "zf1s/zend-config": "self.version",
@@ -125,7 +119,6 @@
         "zf1s/zend-mobile": "self.version",
         "zf1s/zend-navigation": "self.version",
         "zf1s/zend-oauth": "self.version",
-        "zf1s/zend-openid": "self.version",
         "zf1s/zend-paginator": "self.version",
         "zf1s/zend-pdf": "self.version",
         "zf1s/zend-progressbar": "self.version",

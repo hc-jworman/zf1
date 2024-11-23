@@ -34,7 +34,7 @@
  * @group      Zend_Locale
  */
 #[AllowDynamicProperties]
-class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
+class Zend_Locale_FormatTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Constant for Non-breaking space UTF-8 encoded value.
@@ -45,7 +45,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
     /**
      * teardown / cleanup
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         // if the setlocale option is enabled, then don't change the setlocale below
         if (defined('TESTS_ZEND_LOCALE_FORMAT_SETLOCALE') && TESTS_ZEND_LOCALE_FORMAT_SETLOCALE === false) {
@@ -356,7 +356,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('2006.13.01', array('date_format' => 'dd.MM.yy'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('2006.13.01', array('date_format' => 'dd.MM.yy', 'fix_date' => true));
@@ -368,7 +368,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('2006.01.13', array('date_format' => 'dd.MM.yy'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('2006.01.13', array('date_format' => 'dd.MM.yy', 'fix_date' => true));
@@ -400,7 +400,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('November 10 2006', array('date_format' => 'dd.MMM.yy', 'locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('November 10 2006', array('date_format' => 'dd.MMM.yy', 'locale' => 'de_AT', 'fix_date' => true));
@@ -413,7 +413,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('Nov 10 2006', array('date_format' => 'dd.MMM.yy', 'locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('Nov. 10 2006', array('date_format' => 'dd.MMM.yy', 'locale' => 'de_AT', 'fix_date' => true));
@@ -426,7 +426,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('2006 10 Nov.', array('date_format' => 'dd.MMM.yy', 'locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('2006 10 Nov.', array('date_format' => 'dd.MMM.yy', 'locale' => 'de_AT', 'fix_date' => true));
@@ -463,7 +463,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('2006.13.01', array('locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('2006.13.01', array('locale' => 'de_AT', 'fix_date' => true));
@@ -475,7 +475,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('2006.01.13', array('locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('2006.01.13', array('locale' => 'de_AT', 'fix_date' => true));
@@ -507,7 +507,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('November 10 2006', array('locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('November 10 2006', array('locale' => 'de_AT', 'fix_date' => true));
@@ -519,7 +519,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('April 10 2006', array('locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('April 10 2006', array('locale' => 'de_AT', 'fix_date' => true));
@@ -531,7 +531,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('Nov 10 2006', array('locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('Nov. 10 2006', array('locale' => 'de_AT', 'fix_date' => true));
@@ -544,7 +544,7 @@ class Zend_Locale_FormatTest extends PHPUnit_Framework_TestCase
             $value = Zend_Locale_Format::getDate('Nov 10 2006', array('locale' => 'de_AT'));
             $this->fail("exception expected");
         } catch (Zend_Locale_Exception $e) {
-            $this->assertRegexp('/unable.to.parse/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/unable.to.parse/i', $e->getMessage());
             // success
         }
         $value = Zend_Locale_Format::getDate('2006 10 Nov.', array('locale' => 'de_AT', 'fix_date' => true));

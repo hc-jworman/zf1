@@ -33,17 +33,17 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class Zend_Serializer_Adapter_PhpSerializeTest extends PHPUnit_Framework_TestCase
+class Zend_Serializer_Adapter_PhpSerializeTest extends \PHPUnit\Framework\TestCase
 {
 
     private $_adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_adapter = new Zend_Serializer_Adapter_PhpSerialize();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->_adapter = null;
     }
@@ -141,7 +141,7 @@ class Zend_Serializer_Adapter_PhpSerializeTest extends PHPUnit_Framework_TestCas
     public function testUnserialzeInvalid()
     {
         $value = 'not a serialized string';
-        $this->setExpectedException('Zend_Serializer_Exception');
+        $this->expectException('Zend_Serializer_Exception');
         $this->_adapter->unserialize($value);
     }
 

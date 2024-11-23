@@ -31,7 +31,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Cache
  */
-abstract class Zend_Cache_CommonBackendTest extends PHPUnit_Framework_TestCase {
+abstract class Zend_Cache_CommonBackendTest extends \PHPUnit\Framework\TestCase {
 
     protected $_instance;
     protected $_className;
@@ -45,7 +45,7 @@ abstract class Zend_Cache_CommonBackendTest extends PHPUnit_Framework_TestCase {
         parent::__construct($name, $data, $dataName);
     }
 
-    public function setUp($notag = false)
+    public function setUp($notag = false): void
     {
         $this->mkdir();
         $this->_instance->setDirectives(array('logging' => true));
@@ -90,7 +90,7 @@ abstract class Zend_Cache_CommonBackendTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->_instance) {
             $this->_instance->clean();
@@ -292,7 +292,7 @@ abstract class Zend_Cache_CommonBackendTest extends PHPUnit_Framework_TestCase {
     {
         $this->assertTrue(is_numeric($this->_instance->getOption('LifeTime')));
 
-        $this->setExpectedException('Zend_Cache_Exception');
+        $this->expectException('Zend_Cache_Exception');
         $this->_instance->getOption('unknown');
     }
 }

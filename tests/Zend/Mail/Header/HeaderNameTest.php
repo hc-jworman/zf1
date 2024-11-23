@@ -26,12 +26,12 @@
 // require_once 'Zend/Mail/Header/HeaderName.php';
 
 #[AllowDynamicProperties]
-class Zend_Mail_Header_HeaderNameTest extends PHPUnit_Framework_TestCase
+class Zend_Mail_Header_HeaderNameTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Data for filter name
      */
-    public function getFilterNames()
+    public static function getFilterNames()
     {
         return array(
             array('Subject', 'Subject'),
@@ -53,7 +53,7 @@ class Zend_Mail_Header_HeaderNameTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, Zend_Mail_Header_HeaderName::filter($name));
     }
 
-    public function validateNames()
+    public static function validateNames()
     {
         return array(
             array('Subject', 'assertTrue'),
@@ -75,7 +75,7 @@ class Zend_Mail_Header_HeaderNameTest extends PHPUnit_Framework_TestCase
         $this->{$assertion}(Zend_Mail_Header_HeaderName::isValid($name));
     }
 
-    public function assertNames()
+    public static function assertNames()
     {
         return array(
             array('Subject:'),
@@ -91,7 +91,7 @@ class Zend_Mail_Header_HeaderNameTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertValidRaisesExceptionForInvalidNames($name)
     {
-        $this->setExpectedException('Zend_Mail_Exception', 'Invalid');
+        $this->expectException('Zend_Mail_Exception', 'Invalid');
         Zend_Mail_Header_HeaderName::assertValid($name);
     }
 }

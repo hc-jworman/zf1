@@ -44,7 +44,7 @@
  * @group      ZF-4520
  */
 #[AllowDynamicProperties]
-class Zend_Http_Header_SetCookieTest extends PHPUnit_Framework_TestCase
+class Zend_Http_Header_SetCookieTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -236,7 +236,7 @@ class Zend_Http_Header_SetCookieTest extends PHPUnit_Framework_TestCase
         $response = new Zend_Controller_Response_HttpTestCase();
         $cookie = Zend_Http_Header_SetCookie::fromString($cStr);
         $response->setRawHeader($cookie);
-        $this->assertContains((string)$cookie, $response->sendHeaders());
+        $this->assertStringContainsString((string)$cookie, $response->sendHeaders());
     }
 
     /**
@@ -373,7 +373,7 @@ class Zend_Http_Header_SetCookieTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function invalidCookieComponentValues()
+    public static function invalidCookieComponentValues()
     {
         return array(
             'setName'   => array('setName', "This\r\nis\nan\revil\r\n\r\nvalue"),
@@ -390,7 +390,7 @@ class Zend_Http_Header_SetCookieTest extends PHPUnit_Framework_TestCase
     public function testDoesNotAllowCRLFAttackVectorsViaSetters($setter, $value)
     {
         $cookie = new Zend_Http_Header_SetCookie();
-        $this->setExpectedException('Zend_Http_Header_Exception_InvalidArgumentException');
+        $this->expectException('Zend_Http_Header_Exception_InvalidArgumentException');
         $cookie->{$setter}($value);
     }
 }

@@ -40,7 +40,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_FieldsetTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_FieldsetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -50,8 +50,12 @@ class Zend_View_Helper_FieldsetTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_FieldsetTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_FieldsetTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -60,7 +64,7 @@ class Zend_View_Helper_FieldsetTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->view   = new Zend_View();
         $this->helper = new Zend_View_Helper_Fieldset();
@@ -74,7 +78,7 @@ class Zend_View_Helper_FieldsetTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         ob_end_clean();
     }
@@ -82,15 +86,15 @@ class Zend_View_Helper_FieldsetTest extends PHPUnit_Framework_TestCase
     public function testFieldsetHelperCreatesFieldsetWithProvidedContent()
     {
         $html = $this->helper->fieldset('foo', 'foobar');
-        $this->assertRegexp('#<fieldset[^>]+id="foo".*?>#', $html);
-        $this->assertContains('</fieldset>', $html);
-        $this->assertContains('foobar', $html);
+        $this->assertMatchesRegularExpression('#<fieldset[^>]+id="foo".*?>#', $html);
+        $this->assertStringContainsString('</fieldset>', $html);
+        $this->assertStringContainsString('foobar', $html);
     }
 
     public function testProvidingLegendOptionToFieldsetCreatesLegendTag()
     {
         $html = $this->helper->fieldset('foo', 'foobar', array('legend' => 'Great Scott!'));
-        $this->assertRegexp('#<legend>Great Scott!</legend>#', $html);
+        $this->assertMatchesRegularExpression('#<legend>Great Scott!</legend>#', $html);
     }
 
     /**
@@ -100,7 +104,7 @@ class Zend_View_Helper_FieldsetTest extends PHPUnit_Framework_TestCase
     {
         foreach (array(null, '', ' ', false) as $legend) {
             $html = $this->helper->fieldset('foo', 'foobar', array('legend' => $legend));
-            $this->assertNotContains('<legend>', $html, 'Failed with value ' . var_export($legend, 1) . ': ' . $html);
+            $this->assertStringNotContainsString('<legend>', $html, 'Failed with value ' . var_export($legend, 1) . ': ' . $html);
         }
     }
 
@@ -110,7 +114,7 @@ class Zend_View_Helper_FieldsetTest extends PHPUnit_Framework_TestCase
     public function testHelperShouldAllowDisablingEscapingOfLegend()
     {
         $html = $this->helper->fieldset('foo', 'foobar', array('legend' => '<b>Great Scott!</b>', 'escape' => false));
-        $this->assertRegexp('#<legend><b>Great Scott!</b></legend>#', $html, $html);
+        $this->assertMatchesRegularExpression('#<legend><b>Great Scott!</b></legend>#', $html, $html);
     }
 }
 

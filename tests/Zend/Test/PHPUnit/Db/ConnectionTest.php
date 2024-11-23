@@ -32,11 +32,11 @@
  * @group      Zend_Test
  */
 #[AllowDynamicProperties]
-class Zend_Test_PHPUnit_Db_ConnectionTest extends PHPUnit_Framework_TestCase
+class Zend_Test_PHPUnit_Db_ConnectionTest extends \PHPUnit\Framework\TestCase
 {
     protected $adapterMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapterMock = $this->getMock('Zend_Test_DbAdapter');
     }

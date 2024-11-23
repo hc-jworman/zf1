@@ -29,11 +29,11 @@
  */
 
 #[AllowDynamicProperties]
-class FilesystemTest extends PHPUnit_Framework_TestCase
+class FilesystemTest extends \PHPUnit\Framework\TestCase
 {
     private $testFile;
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (is_file($this->testFile)) {
             unlink($this->testFile);

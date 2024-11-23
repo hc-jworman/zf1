@@ -44,18 +44,13 @@ class Zend_Cache_ApcBackendTest extends Zend_Cache_CommonExtendedBackendTest {
 
     protected $_instance;
 
-    public function __construct($name = null, array $data = array(), $dataName = '')
-    {
-        parent::__construct('Zend_Cache_Backend_Apc', $data, $dataName);
-    }
-
-    public function setUp($notag = true)
+    public function setUp($notag = true): void
     {
         $this->_instance = new Zend_Cache_Backend_Apc(array());
         parent::setUp($notag);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->_instance);

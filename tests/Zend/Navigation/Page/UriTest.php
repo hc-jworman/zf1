@@ -33,7 +33,7 @@
  * @group      Zend_Navigation
  */
 #[AllowDynamicProperties]
-class Zend_Navigation_Page_UriTest extends PHPUnit_Framework_TestCase
+class Zend_Navigation_Page_UriTest extends \PHPUnit\Framework\TestCase
 {
     public function testUriOptionAsString()
     {

@@ -39,22 +39,26 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Log
  */
 #[AllowDynamicProperties]
-class Zend_Log_Filter_ChainingTest extends PHPUnit_Framework_TestCase
+class Zend_Log_Filter_ChainingTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->log = fopen('php://memory', 'w');
         $this->logger = new Zend_Log();
         $this->logger->addWriter(new Zend_Log_Writer_Stream($this->log));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         fclose($this->log);
     }
@@ -70,8 +74,8 @@ class Zend_Log_Filter_ChainingTest extends PHPUnit_Framework_TestCase
         rewind($this->log);
         $logdata = stream_get_contents($this->log);
 
-        $this->assertNotContains($ignored, $logdata);
-        $this->assertContains($logged, $logdata);
+        $this->assertStringNotContainsString($ignored, $logdata);
+        $this->assertStringContainsString($logged, $logdata);
     }
 
     public function testFilterOnSpecificWriter()
@@ -87,13 +91,13 @@ class Zend_Log_Filter_ChainingTest extends PHPUnit_Framework_TestCase
 
         rewind($this->log);
         $logdata = stream_get_contents($this->log);
-        $this->assertContains($warn, $logdata);
-        $this->assertContains($err, $logdata);
+        $this->assertStringContainsString($warn, $logdata);
+        $this->assertStringContainsString($err, $logdata);
 
         rewind($log2);
         $logdata = stream_get_contents($log2);
-        $this->assertContains($err, $logdata);
-        $this->assertNotContains($warn, $logdata);
+        $this->assertStringContainsString($err, $logdata);
+        $this->assertStringNotContainsString($warn, $logdata);
     }
 }
 

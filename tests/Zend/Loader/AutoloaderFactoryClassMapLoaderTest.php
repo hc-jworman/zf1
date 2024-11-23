@@ -33,7 +33,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Loader
  */
 #[AllowDynamicProperties]
-class Zend_Loader_AutoloaderFactoryClassMapLoaderTest extends PHPUnit_Framework_TestCase
+class Zend_Loader_AutoloaderFactoryClassMapLoaderTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -48,11 +48,15 @@ class Zend_Loader_AutoloaderFactoryClassMapLoaderTest extends PHPUnit_Framework_
 
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         // Store original autoloaders
         $this->_loaders = spl_autoload_functions();
@@ -73,7 +77,7 @@ class Zend_Loader_AutoloaderFactoryClassMapLoaderTest extends PHPUnit_Framework_
         $this->_includePath = get_include_path();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Loader_AutoloaderFactory::unregisterAutoloaders();
         // Restore original autoloaders

@@ -37,7 +37,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Dom
  */
 #[AllowDynamicProperties]
-class Zend_Dom_Query_ResultTest extends PHPUnit_Framework_TestCase
+class Zend_Dom_Query_ResultTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @group ZF-4631

@@ -34,11 +34,11 @@
  * @group      Zend_Mail
  */
 #[AllowDynamicProperties]
-class Zend_Mail_InterfaceTest extends PHPUnit_Framework_TestCase
+class Zend_Mail_InterfaceTest extends \PHPUnit\Framework\TestCase
 {
     protected $_mboxFile;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_mboxFile = __DIR__ . '/_files/test.mbox/INBOX';
     }

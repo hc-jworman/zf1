@@ -48,9 +48,9 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Queue
  */
-abstract class Zend_Queue_QueueBaseTest extends PHPUnit_Framework_TestCase
+abstract class Zend_Queue_QueueBaseTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         // Test Zend_Config
         $this->config = array(
@@ -60,7 +60,7 @@ abstract class Zend_Queue_QueueBaseTest extends PHPUnit_Framework_TestCase
         $this->queue = new Zend_Queue('Null', $this->config);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

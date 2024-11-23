@@ -35,7 +35,7 @@
  * @group      Zend_Measure
  */
 #[AllowDynamicProperties]
-class Zend_Measure_SpeedTest extends PHPUnit_Framework_TestCase
+class Zend_Measure_SpeedTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * test for Speed initialisation

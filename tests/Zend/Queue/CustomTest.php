@@ -68,7 +68,7 @@ class Custom_Object {
 }
 
 #[AllowDynamicProperties]
-class Zend_Queue_CustomTest extends PHPUnit_Framework_TestCase
+class Zend_Queue_CustomTest extends \PHPUnit\Framework\TestCase
 {
     public function test_behavior()
     {

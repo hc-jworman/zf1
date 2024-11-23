@@ -36,11 +36,11 @@
  * @group      Zend_Cache
  */
 #[AllowDynamicProperties]
-class Zend_Cache_PageFrontendTest extends PHPUnit_Framework_TestCase {
+class Zend_Cache_PageFrontendTest extends \PHPUnit\Framework\TestCase {
 
     private $_instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!$this->_instance) {
             $this->_instance = new Zend_Cache_Frontend_Page(array());
@@ -49,7 +49,7 @@ class Zend_Cache_PageFrontendTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->_instance);
     }

@@ -35,7 +35,7 @@
  * @group      Zend_Server
  */
 #[AllowDynamicProperties]
-class Zend_Server_Reflection_ClassTest extends PHPUnit_Framework_TestCase
+class Zend_Server_Reflection_ClassTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * __construct() test
@@ -56,7 +56,7 @@ class Zend_Server_Reflection_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', $r->getNamespace());
 
         $methods = $r->getMethods();
-        $this->assertInternalType('array', $methods);
+        $this->assertIsArray($methods);
         foreach ($methods as $m) {
             $this->assertTrue($m instanceof Zend_Server_Reflection_Method);
         }
@@ -105,7 +105,7 @@ class Zend_Server_Reflection_ClassTest extends PHPUnit_Framework_TestCase
         $r = new Zend_Server_Reflection_Class(new ReflectionClass('Zend_Server_Reflection'));
 
         $methods = $r->getMethods();
-        $this->assertInternalType('array', $methods);
+        $this->assertIsArray($methods);
         foreach ($methods as $m) {
             $this->assertTrue($m instanceof Zend_Server_Reflection_Method);
         }
@@ -133,7 +133,7 @@ class Zend_Server_Reflection_ClassTest extends PHPUnit_Framework_TestCase
     {
         $r = new Zend_Server_Reflection_Class(new ReflectionClass('Zend_Server_Reflection'));
         if (PHP_VERSION_ID >= 70400) {
-            $this->setExpectedException('Exception', "Serialization of 'ReflectionMethod' is not allowed");
+            $this->expectException('Exception', "Serialization of 'ReflectionMethod' is not allowed");
         }
         $s = serialize($r);
         $u = unserialize($s);

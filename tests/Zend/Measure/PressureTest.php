@@ -35,7 +35,7 @@
  * @group      Zend_Measure
  */
 #[AllowDynamicProperties]
-class Zend_Measure_PressureTest extends PHPUnit_Framework_TestCase
+class Zend_Measure_PressureTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * test for Pressure initialisation

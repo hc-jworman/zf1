@@ -39,7 +39,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Element_PasswordTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Element_PasswordTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -49,8 +49,12 @@ class Zend_Form_Element_PasswordTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Element_PasswordTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Element_PasswordTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -59,7 +63,7 @@ class Zend_Form_Element_PasswordTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->errors = array();
         $this->element = new Zend_Form_Element_Password('foo');
@@ -71,7 +75,7 @@ class Zend_Form_Element_PasswordTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -109,8 +113,8 @@ class Zend_Form_Element_PasswordTest extends PHPUnit_Framework_TestCase
         $expect = '*******';
         $this->assertFalse($this->element->isValid($value));
         foreach ($this->element->getMessages() as $message) {
-            $this->assertNotContains($value, $message);
-            $this->assertContains($expect, $message, $message);
+            $this->assertStringNotContainsString($value, $message);
+            $this->assertStringContainsString($expect, $message, $message);
         }
     }
 
@@ -153,11 +157,11 @@ class Zend_Form_Element_PasswordTest extends PHPUnit_Framework_TestCase
         $this->element->setValue('foobar')
                       ->setView(new Zend_View());
         $test = $this->element->render();
-        $this->assertContains('value=""', $test);
+        $this->assertStringContainsString('value=""', $test);
 
         $this->element->setRenderPassword(true);
         $test = $this->element->render();
-        $this->assertContains('value="foobar"', $test);
+        $this->assertStringContainsString('value="foobar"', $test);
     }
 }
 

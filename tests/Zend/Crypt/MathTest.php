@@ -32,7 +32,7 @@
  * @group      Zend_Crypt
  */
 #[AllowDynamicProperties]
-class Zend_Crypt_MathTest extends PHPUnit_Framework_TestCase
+class Zend_Crypt_MathTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testRand()

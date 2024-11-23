@@ -34,7 +34,7 @@
  * @group      Zend_Pdf
  */
 #[AllowDynamicProperties]
-class Zend_Pdf_Element_Object_StreamTest extends PHPUnit_Framework_TestCase
+class Zend_Pdf_Element_Object_StreamTest extends \PHPUnit\Framework\TestCase
 {
     public function testPDFStreamObject()
     {

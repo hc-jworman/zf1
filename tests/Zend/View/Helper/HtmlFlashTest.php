@@ -38,7 +38,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_HtmlFlashTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_HtmlFlashTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_View_Helper_HtmlFlash
@@ -54,8 +54,12 @@ class Zend_View_Helper_HtmlFlashTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_HtmlFlashTest");
-        PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_HtmlFlashTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -64,14 +68,14 @@ class Zend_View_Helper_HtmlFlashTest extends PHPUnit_Framework_TestCase
      *
      * @access protected
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->view = new Zend_View();
         $this->helper = new Zend_View_Helper_HtmlFlash();
         $this->helper->setView($this->view);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->helper);
     }
@@ -82,8 +86,8 @@ class Zend_View_Helper_HtmlFlashTest extends PHPUnit_Framework_TestCase
 
         $objectStartElement = '<object data="/path/to/flash.swf" type="application/x-shockwave-flash">';
 
-        $this->assertContains($objectStartElement, $htmlFlash);
-        $this->assertContains('</object>', $htmlFlash);
+        $this->assertStringContainsString($objectStartElement, $htmlFlash);
+        $this->assertStringContainsString('</object>', $htmlFlash);
     }
 }
 

@@ -42,7 +42,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Controller_Plugin
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Plugin_ActionStackTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Plugin_ActionStackTest extends \PHPUnit\Framework\TestCase
 {
     public $key       = 'Zend_Controller_Plugin_ActionStack';
     public $registry;
@@ -56,8 +56,12 @@ class Zend_Controller_Plugin_ActionStackTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Plugin_ActionStackTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Plugin_ActionStackTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -66,7 +70,7 @@ class Zend_Controller_Plugin_ActionStackTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->removeRegistryEntry();
         $this->registry = Zend_Registry::getInstance();
@@ -78,7 +82,7 @@ class Zend_Controller_Plugin_ActionStackTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->removeRegistryEntry();
     }

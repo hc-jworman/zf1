@@ -21,6 +21,8 @@
  */
 
 // Call Zend_XmlRpc_Request_HttpTest::main() if this source file is executed directly.
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+
 if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "Zend_XmlRpc_Request_HttpTest::main");
 }
@@ -39,7 +41,7 @@ require_once 'Zend/AllTests/StreamWrapper/PhpInput.php';
  * @group      Zend_XmlRpc
  */
 #[AllowDynamicProperties]
-class Zend_XmlRpc_Request_HttpTest extends PHPUnit_Framework_TestCase
+class Zend_XmlRpc_Request_HttpTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -48,14 +50,18 @@ class Zend_XmlRpc_Request_HttpTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_XmlRpc_Request_HttpTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_XmlRpc_Request_HttpTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
      * Setup environment
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->xml =<<<EOX
 <?xml version="1.0" encoding="UTF-8"?>
@@ -107,7 +113,7 @@ EOX;
     /**
      * Teardown environment
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $_SERVER = $this->server;
         unset($this->request);
@@ -144,6 +150,7 @@ EOT;
         $this->assertEquals($expected, $this->request->getFullRequest());
     }
 
+    #[DoesNotPerformAssertions]
     public function testCanPassInMethodAndParams()
     {
         try {

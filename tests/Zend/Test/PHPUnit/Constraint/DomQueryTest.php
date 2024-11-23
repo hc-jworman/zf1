@@ -35,7 +35,7 @@
  * @group      Zend_Test_PHPUnit
  */
 #[AllowDynamicProperties]
-class Zend_Test_PHPUnit_Constraint_DomQueryTest extends PHPUnit_Framework_TestCase
+class Zend_Test_PHPUnit_Constraint_DomQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @group ZF-4010

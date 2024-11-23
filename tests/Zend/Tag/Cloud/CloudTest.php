@@ -41,12 +41,16 @@ require_once __DIR__ . '/_classes/TagDummy.php';
  * @group      Zend_Tag_Cloud
  */
 #[AllowDynamicProperties]
-class Zend_Tag_Cloud_CloudTest extends PHPUnit_Framework_TestCase
+class Zend_Tag_Cloud_CloudTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testGetAndSetItemList()

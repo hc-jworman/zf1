@@ -34,7 +34,7 @@
  * @group      Zend_Search_Lucene
  */
 #[AllowDynamicProperties]
-class Zend_Search_Lucene_SearchTest extends PHPUnit_Framework_TestCase
+class Zend_Search_Lucene_SearchTest extends \PHPUnit\Framework\TestCase
 {
     public function testQueryParser()
     {

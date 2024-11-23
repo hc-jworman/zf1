@@ -40,7 +40,7 @@
  * @group      Zend_Queue
  */
 #[AllowDynamicProperties]
-class Zend_Queue_Stomp_FrameTest extends PHPUnit_Framework_TestCase
+class Zend_Queue_Stomp_FrameTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $body = 'hello world'; // 11 characters

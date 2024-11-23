@@ -28,7 +28,6 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 require_once 'Zend/Acl/AclTest.php';
 require_once 'Zend/Amf/AllTests.php';
 require_once 'Zend/Application/AllTests.php';
-require_once 'Zend/AuthTest.php';
 require_once 'Zend/Auth/AllTests.php';
 require_once 'Zend/Cache/AllTests.php';
 require_once 'Zend/CodeGenerator/Php/AllTests.php';
@@ -66,8 +65,6 @@ require_once 'Zend/Mime/AllTests.php';
 require_once 'Zend/NavigationTest.php';
 require_once 'Zend/Navigation/AllTests.php';
 require_once 'Zend/Oauth/AllTests.php';
-require_once 'Zend/OpenIdTest.php';
-require_once 'Zend/OpenId/AllTests.php';
 require_once 'Zend/Paginator/AllTests.php';
 require_once 'Zend/PdfTest.php';
 require_once 'Zend/Pdf/AllTests.php';
@@ -115,12 +112,12 @@ class Zend_AllTests
     {
         // Run buffered tests as a separate suite first
         ob_start();
-        PHPUnit_TextUI_TestRunner::run(self::suiteBuffered());
+        \PHPUnit\TextUI\TestRunner::run(self::suiteBuffered());
         if (ob_get_level()) {
             ob_end_flush();
         }
 
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     /**
@@ -129,16 +126,14 @@ class Zend_AllTests
      * These tests require no output be sent prior to running as they rely
      * on internal PHP functions.
      *
-     * @return PHPUnit_Framework_TestSuite
+     * @return \PHPUnit\Framework\TestSuite
      */
     public static function suiteBuffered()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend - Buffered Test Suites');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend - Buffered Test Suites');
 
         // These tests require no output be sent prior to running as they rely
         // on internal PHP functions
-        $suite->addTestSuite('Zend_OpenIdTest');
-        $suite->addTest(Zend_OpenId_AllTests::suite());
         $suite->addTest(Zend_Session_AllTests::suite());
         $suite->addTest(Zend_Soap_AllTests::suite());
 
@@ -150,11 +145,11 @@ class Zend_AllTests
      *
      * All tests except those that require output buffering.
      *
-     * @return PHPUnit_Framework_TestSuite
+     * @return \PHPUnit\Framework\TestSuite
      */
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend');
 
         // Running this early to ensure that the test suite hasn't used too
         // much memory by the time it gets to this test.

@@ -36,7 +36,7 @@
  * @group      Zend_XmlRpc
  */
 #[AllowDynamicProperties]
-class Zend_XmlRpc_RequestTest extends PHPUnit_Framework_TestCase
+class Zend_XmlRpc_RequestTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Zend_XmlRpc_Request object
@@ -47,7 +47,7 @@ class Zend_XmlRpc_RequestTest extends PHPUnit_Framework_TestCase
     /**
      * Setup environment
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_request = new Zend_XmlRpc_Request();
     }
@@ -55,7 +55,7 @@ class Zend_XmlRpc_RequestTest extends PHPUnit_Framework_TestCase
     /**
      * Teardown environment
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->_request);
     }
@@ -365,7 +365,7 @@ class Zend_XmlRpc_RequestTest extends PHPUnit_Framework_TestCase
         $method = $this->_request->getMethod();
         $this->assertTrue(empty($method));
         if (is_string($method)) {
-            $this->assertNotContains('Local file inclusion', $method);
+            $this->assertStringNotContainsString('Local file inclusion', $method);
         }
     }
 

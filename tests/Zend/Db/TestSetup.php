@@ -39,7 +39,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Db
  */
-abstract class Zend_Db_TestSetup extends PHPUnit_Framework_TestCase
+abstract class Zend_Db_TestSetup extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Db_TestUtil_Common
@@ -57,7 +57,7 @@ abstract class Zend_Db_TestSetup extends PHPUnit_Framework_TestCase
      * Subclasses should call parent::setUp() before
      * doing their own logic, e.g. creating metadata.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_setUpTestUtil();
         $this->_setUpAdapter();
@@ -95,7 +95,7 @@ abstract class Zend_Db_TestSetup extends PHPUnit_Framework_TestCase
      * Subclasses should call parent::tearDown() after
      * doing their own logic, e.g. deleting metadata.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->_util->tearDown();
         $this->_db->closeConnection();

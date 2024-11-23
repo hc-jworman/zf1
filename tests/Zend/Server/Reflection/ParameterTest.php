@@ -33,7 +33,7 @@
  * @group      Zend_Server
  */
 #[AllowDynamicProperties]
-class Zend_Server_Reflection_ParameterTest extends PHPUnit_Framework_TestCase
+class Zend_Server_Reflection_ParameterTest extends \PHPUnit\Framework\TestCase
 {
     protected function _getParameter()
     {

@@ -65,7 +65,7 @@ class Zend_Db_Profiler_OracleTest extends Zend_Db_Profiler_TestCommon
 
         // analyze query in the profile
         $sql = $qp->getQuery();
-        $this->assertContains(" = :bug_id", $sql);
+        $this->assertStringContainsString(" = :bug_id", $sql);
         $params = $qp->getQueryParams();
         $this->assertTrue(is_array($params));
         $this->assertEquals(array(':bug_id' => 2), $params);
@@ -85,7 +85,7 @@ class Zend_Db_Profiler_OracleTest extends Zend_Db_Profiler_TestCommon
 
         // analyze query in the profile
         $sql = $qp->getQuery();
-        $this->assertContains(" = :bug_id", $sql);
+        $this->assertStringContainsString(" = :bug_id", $sql);
         $params = $qp->getQueryParams();
         $this->assertTrue(is_array($params));
         $this->assertEquals(array(':bug_id' => 3), $params);
@@ -119,7 +119,7 @@ class Zend_Db_Profiler_OracleTest extends Zend_Db_Profiler_TestCommon
 
         // analyze query in the profile
         $sql = $qp->getQuery();
-        $this->assertContains(" = :bug_id", $sql);
+        $this->assertStringContainsString(" = :bug_id", $sql);
         $params = $qp->getQueryParams();
         $this->assertTrue(is_array($params));
         $this->assertEquals(array(':bug_id' => 2), $params);
@@ -140,7 +140,7 @@ class Zend_Db_Profiler_OracleTest extends Zend_Db_Profiler_TestCommon
 
         // analyze query in the profile
         $sql = $qp->getQuery();
-        $this->assertContains(" = :bug_id", $sql);
+        $this->assertStringContainsString(" = :bug_id", $sql);
         $params = $qp->getQueryParams();
         $this->assertTrue(is_array($params));
         $this->assertEquals(array(':bug_id' => 3), $params);

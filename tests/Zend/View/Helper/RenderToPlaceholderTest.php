@@ -39,12 +39,12 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_RenderToPlaceholderTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_RenderToPlaceholderTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $_view = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_view = new Zend_View(array('scriptPath'=>__DIR__.'/_files/scripts/'));
     }

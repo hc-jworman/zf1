@@ -39,12 +39,16 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Log
  */
 #[AllowDynamicProperties]
-class Zend_Log_Filter_PriorityTest extends PHPUnit_Framework_TestCase
+class Zend_Log_Filter_PriorityTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testComparisonDefaultsToLessThanOrEqual()
@@ -74,7 +78,7 @@ class Zend_Log_Filter_PriorityTest extends PHPUnit_Framework_TestCase
             $this->fail();
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Log_Exception);
-            $this->assertRegExp('/must be an integer/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/must be an integer/i', $e->getMessage());
         }
     }
 
@@ -100,7 +104,7 @@ class Zend_Log_Filter_PriorityTest extends PHPUnit_Framework_TestCase
             )));
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Log_Exception);
-            $this->assertRegExp('/must be an integer/', $e->getMessage());
+            $this->assertMatchesRegularExpression('/must be an integer/', $e->getMessage());
         }
     }
 }

@@ -40,7 +40,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_NotEmptyTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_NotEmptyTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -49,8 +49,12 @@ class Zend_Validate_NotEmptyTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Validate_NotEmptyTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Validate_NotEmptyTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -65,7 +69,7 @@ class Zend_Validate_NotEmptyTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_validator = new Zend_Validate_NotEmpty();
     }
@@ -516,7 +520,7 @@ class Zend_Validate_NotEmptyTest extends PHPUnit_Framework_TestCase
             $this->_validator->setType(true);
             $this->fail();
         } catch (Zend_Exception $e) {
-            $this->assertContains('Unknown', $e->getMessage());
+            $this->assertStringContainsString('Unknown', $e->getMessage());
         }
     }
 
@@ -569,7 +573,7 @@ class Zend_Validate_NotEmptyTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($valid->isValid(''));
         $messages = $valid->getMessages();
         $this->assertTrue(array_key_exists('isEmpty', $messages));
-        $this->assertContains("can't be empty", $messages['isEmpty']);
+        $this->assertStringContainsString("can't be empty", $messages['isEmpty']);
     }
 
     /**

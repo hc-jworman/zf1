@@ -34,14 +34,14 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class resources_languages_Zend_ValidateTest extends PHPUnit_Framework_TestCase
+class resources_languages_Zend_ValidateTest extends \PHPUnit\Framework\TestCase
 {
 
     protected $_langDir      = null;
     protected $_languages    = array();
     protected $_translations = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->markTestSkipped('skip this for now, maybe extract and fix original resources into a zend-resources package later...');
         return;

@@ -38,15 +38,19 @@ require_once 'Zend/Stdlib/TestAsset/SignalHandlers/ObjectCallback.php';
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class Zend_Stdlib_CallbackHandlerTest extends PHPUnit_Framework_TestCase
+class Zend_Stdlib_CallbackHandlerTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (isset($this->args)) {
             unset($this->args);
@@ -83,7 +87,7 @@ class Zend_Stdlib_CallbackHandlerTest extends PHPUnit_Framework_TestCase
 
     public function testPassingInvalidCallbackShouldRaiseInvalidCallbackExceptionDuringInstantiation()
     {
-        $this->setExpectedException('Zend_Stdlib_Exception_InvalidCallbackException');
+        $this->expectException('Zend_Stdlib_Exception_InvalidCallbackException');
         $handler = new Zend_Stdlib_CallbackHandler('boguscallback');
     }
 
@@ -99,13 +103,13 @@ class Zend_Stdlib_CallbackHandlerTest extends PHPUnit_Framework_TestCase
 
     public function testStringCallbackResolvingToClassDefiningInvokeNameShouldRaiseException()
     {
-        $this->setExpectedException('Zend_Stdlib_Exception_InvalidCallbackException');
+        $this->expectException('Zend_Stdlib_Exception_InvalidCallbackException');
         $handler = new Zend_Stdlib_CallbackHandler('Zend_Stdlib_TestAsset_SignalHandlers_Invokable');
     }
 
     public function testStringCallbackReferringToClassWithoutDefinedInvokeShouldRaiseException()
     {
-        $this->setExpectedException('Zend_Stdlib_Exception_InvalidCallbackException');
+        $this->expectException('Zend_Stdlib_Exception_InvalidCallbackException');
         $class   = new Zend_Stdlib_TestAsset_SignalHandlers_InstanceMethod();
         $handler = new Zend_Stdlib_CallbackHandler($class);
     }
@@ -117,7 +121,7 @@ class Zend_Stdlib_CallbackHandlerTest extends PHPUnit_Framework_TestCase
 
     public function testCallbackToClassImplementingOverloadingButNotInvocableShouldRaiseException()
     {
-        $this->setExpectedException('Zend_Stdlib_Exception_InvalidCallbackException');
+        $this->expectException('Zend_Stdlib_Exception_InvalidCallbackException');
         $handler = new Zend_Stdlib_CallbackHandler('foo', array( 'Zend_Stdlib_TestAsset_SignalHandlers_Overloadable', 'foo' ));
     }
 

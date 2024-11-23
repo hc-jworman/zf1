@@ -39,7 +39,7 @@ require_once '_files/TestSampleSingleClass.php';
  * @group Zend_CodeGenerator_Php
  */
 #[AllowDynamicProperties]
-class Zend_CodeGenerator_Php_MethodTest extends PHPUnit_Framework_TestCase
+class Zend_CodeGenerator_Php_MethodTest extends \PHPUnit\Framework\TestCase
 {
 
 
@@ -48,12 +48,12 @@ class Zend_CodeGenerator_Php_MethodTest extends PHPUnit_Framework_TestCase
      */
     protected $_method = null;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->_method = new Zend_CodeGenerator_Php_Method();
     }
 
-    public function teardown()
+    public function tearDown(): void
     {
         $this->_method = null;
     }

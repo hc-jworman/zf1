@@ -38,12 +38,16 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Version
  */
 #[AllowDynamicProperties]
-class Zend_VersionTest extends PHPUnit_Framework_TestCase
+class Zend_VersionTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -102,7 +106,7 @@ class Zend_VersionTest extends PHPUnit_Framework_TestCase
             $this->markTestIncomplete('http://framework.zend.com/ may be down');
         }
 
-        $this->assertRegExp('/^[1-2](\.[0-9]+){2}/', $actual);
+        $this->assertMatchesRegularExpression('/^[1-2](\.[0-9]+){2}/', $actual);
     }
 }
 

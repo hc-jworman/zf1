@@ -44,18 +44,13 @@ class Zend_Cache_ZendServerDiskTest extends Zend_Cache_CommonBackendTest {
 
     protected $_instance;
 
-    public function __construct($name = null, array $data = array(), $dataName = '')
-    {
-        parent::__construct('Zend_Cache_Backend_ZendServer_Disk', $data, $dataName);
-    }
-
-    public function setUp($notag = true)
+    public function setUp($notag = true): void
     {
         $this->_instance = new Zend_Cache_Backend_ZendServer_Disk();
         parent::setUp(true);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->_instance);

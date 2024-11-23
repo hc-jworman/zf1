@@ -42,7 +42,7 @@
  * @group      Zend_Ldap
  */
 #[AllowDynamicProperties]
-class Zend_Ldap_FilterTest extends PHPUnit_Framework_TestCase
+class Zend_Ldap_FilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testFilterEscapeBasicOperation()
     {

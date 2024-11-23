@@ -36,12 +36,16 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Log
  */
 #[AllowDynamicProperties]
-class Zend_Log_Formatter_SimpleTest extends PHPUnit_Framework_TestCase
+class Zend_Log_Formatter_SimpleTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testConstructorThrowsOnBadFormatString()
@@ -51,7 +55,7 @@ class Zend_Log_Formatter_SimpleTest extends PHPUnit_Framework_TestCase
             $this->fail();
         } catch (\Throwable $e) {
             $this->assertTrue($e instanceof Zend_Log_Exception);
-            $this->assertRegExp('/must be a string/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/must be a string/i', $e->getMessage());
         }
     }
 
@@ -65,10 +69,10 @@ class Zend_Log_Formatter_SimpleTest extends PHPUnit_Framework_TestCase
         $f = new Zend_Log_Formatter_Simple();
         $line = $f->format($fields);
 
-        $this->assertContains((string)$fields['timestamp'], $line);
-        $this->assertContains($fields['message'], $line);
-        $this->assertContains($fields['priorityName'], $line);
-        $this->assertContains((string)$fields['priority'], $line);
+        $this->assertStringContainsString((string)$fields['timestamp'], $line);
+        $this->assertStringContainsString($fields['message'], $line);
+        $this->assertStringContainsString($fields['priorityName'], $line);
+        $this->assertStringContainsString((string)$fields['priority'], $line);
     }
 
     function testComplexValues()
@@ -81,36 +85,36 @@ class Zend_Log_Formatter_SimpleTest extends PHPUnit_Framework_TestCase
 
         $fields['message'] = 'Foo';
         $line = $f->format($fields);
-        $this->assertContains($fields['message'], $line);
+        $this->assertStringContainsString($fields['message'], $line);
 
         $fields['message'] = 10;
         $line = $f->format($fields);
-        $this->assertContains((string)$fields['message'], $line);
+        $this->assertStringContainsString((string)$fields['message'], $line);
 
         $fields['message'] = 10.5;
         $line = $f->format($fields);
-        $this->assertContains((string)$fields['message'], $line);
+        $this->assertStringContainsString((string)$fields['message'], $line);
 
         $fields['message'] = true;
         $line = $f->format($fields);
-        $this->assertContains('1', $line);
+        $this->assertStringContainsString('1', $line);
 
         $fields['message'] = fopen('php://stdout', 'w');
         $line = $f->format($fields);
-        $this->assertContains('Resource id ', $line);
+        $this->assertStringContainsString('Resource id ', $line);
         fclose($fields['message']);
 
         $fields['message'] = range(1,10);
         $line = $f->format($fields);
-        $this->assertContains('array', $line);
+        $this->assertStringContainsString('array', $line);
 
         $fields['message'] = new Zend_Log_Formatter_SimpleTest_TestObject1();
         $line = $f->format($fields);
-        $this->assertContains($fields['message']->__toString(), $line);
+        $this->assertStringContainsString($fields['message']->__toString(), $line);
 
         $fields['message'] = new Zend_Log_Formatter_SimpleTest_TestObject2();
         $line = $f->format($fields);
-        $this->assertContains('object', $line);
+        $this->assertStringContainsString('object', $line);
     }
 
     /**

@@ -40,7 +40,7 @@ if (! defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_CycleTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_CycleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_View_Helper_Cycle
@@ -54,8 +54,12 @@ class Zend_View_Helper_CycleTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite = new PHPUnit_Framework_TestSuite("Zend_View_Helper_CycleTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_CycleTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -64,7 +68,7 @@ class Zend_View_Helper_CycleTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->helper = new Zend_View_Helper_Cycle();
     }
@@ -75,7 +79,7 @@ class Zend_View_Helper_CycleTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->helper);
     }

@@ -34,10 +34,10 @@
  * @group      Zend_Date
  */
 #[AllowDynamicProperties]
-class Zend_Date_DateObjectTest extends PHPUnit_Framework_TestCase
+class Zend_Date_DateObjectTest extends \PHPUnit\Framework\TestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->originalTimezone = date_default_timezone_get();
         date_default_timezone_set('Europe/Paris');
@@ -48,7 +48,7 @@ class Zend_Date_DateObjectTest extends PHPUnit_Framework_TestCase
         Zend_Date_DateObjectTestHelper::setOptions(array('cache' => $this->_cache));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         date_default_timezone_set($this->originalTimezone);
         $this->_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
@@ -552,7 +552,7 @@ class Zend_Date_DateObjectTest extends PHPUnit_Framework_TestCase
                 $this->fail("exception expected");
             }
         } catch (Zend_Date_Exception $e) {
-            $this->assertRegexp('/not a known timezone/i', $e->getMessage());
+            $this->assertMatchesRegularExpression('/not a known timezone/i', $e->getMessage());
             $this->assertSame('Unknown', $e->getOperand());
         }
         $this->assertSame('Indian/Maldives', $date->getTimezone());

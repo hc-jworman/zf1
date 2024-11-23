@@ -39,12 +39,12 @@ class Zend_Mobile_Push_Response_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Mobile_Push_Response');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Mobile_Push_Response');
 
         $suite->addTest(Zend_Mobile_Push_Response_Mpns_AllTests::suite());
 

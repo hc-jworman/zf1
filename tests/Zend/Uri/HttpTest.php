@@ -40,10 +40,10 @@
  * @group      Zend_Uri
  */
 #[AllowDynamicProperties]
-class Zend_Uri_HttpTest extends PHPUnit_Framework_TestCase
+class Zend_Uri_HttpTest extends \PHPUnit\Framework\TestCase
 {
 
-    public function setup()
+    public function setUp(): void
     {
         Zend_Uri::setConfig(array('allow_unwise' => false));
     }
@@ -96,7 +96,7 @@ class Zend_Uri_HttpTest extends PHPUnit_Framework_TestCase
      */
     public function testFromStringWithInvalidVariableType()
     {
-        $this->setExpectedException('Zend_Uri_Exception');
+        $this->expectException('Zend_Uri_Exception');
         Zend_Uri_Http::fromString(0);
     }
 
@@ -363,14 +363,14 @@ class Zend_Uri_HttpTest extends PHPUnit_Framework_TestCase
     public function testSetInvalidUsername()
     {
         $uri = Zend_Uri::factory('http://example.com');
-        $this->setExpectedException('Zend_Uri_Exception');
+        $this->expectException('Zend_Uri_Exception');
         $uri->setUsername('alice?');
     }
 
     public function testSetInvalidPassword()
     {
         $uri = Zend_Uri::factory('http://example.com');
-        $this->setExpectedException('Zend_Uri_Exception');
+        $this->expectException('Zend_Uri_Exception');
         $uri->setUsername('alice');
         $uri->setPassword('secret?');
     }
@@ -379,7 +379,7 @@ class Zend_Uri_HttpTest extends PHPUnit_Framework_TestCase
     {
         $uri = Zend_Uri::factory('http://example.com');
         $host = '';
-        $this->setExpectedException('Zend_Uri_Exception');
+        $this->expectException('Zend_Uri_Exception');
         $uri->setHost($host);
     }
 
@@ -387,7 +387,7 @@ class Zend_Uri_HttpTest extends PHPUnit_Framework_TestCase
     {
         $uri = Zend_Uri::factory('http://example.com');
         $host = 'example§com';
-        $this->setExpectedException('Zend_Uri_Exception');
+        $this->expectException('Zend_Uri_Exception');
         $uri->setHost($host);
     }
 

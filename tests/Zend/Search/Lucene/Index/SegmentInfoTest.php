@@ -34,7 +34,7 @@
  * @group      Zend_Search_Lucene
  */
 #[AllowDynamicProperties]
-class Zend_Search_Lucene_Index_SegmentInfoTest extends PHPUnit_Framework_TestCase
+class Zend_Search_Lucene_Index_SegmentInfoTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreate()
     {

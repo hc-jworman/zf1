@@ -93,9 +93,7 @@ class Zend_Stdlib_CallbackHandler
      */
     protected function registerCallback($callback)
     {
-        set_error_handler([$this, 'errorHandler'], E_STRICT);
         $callable = is_callable($callback);
-        restore_error_handler();
         if (!$callable || $this->error) {
             // require_once 'Zend/Stdlib/Exception/InvalidCallbackException.php';
             throw new Zend_Stdlib_Exception_InvalidCallbackException('Invalid callback provided; not callable');

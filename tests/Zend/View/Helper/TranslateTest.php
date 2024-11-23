@@ -47,7 +47,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_TranslateTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_View_Helper_Translate
@@ -67,8 +67,12 @@ class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_TranslateTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_TranslateTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function clearRegistry()
@@ -86,7 +90,7 @@ class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->clearRegistry();
         $this->helper = new Zend_View_Helper_Translate();
@@ -98,7 +102,7 @@ class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->helper);
         $this->clearRegistry();
@@ -140,7 +144,7 @@ class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
         try {
             $helper = new Zend_View_Helper_Translate('something');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('must set an instance of Zend_Translate', $e->getMessage());
+            $this->assertStringContainsString('must set an instance of Zend_Translate', $e->getMessage());
         }
     }
 
@@ -149,7 +153,7 @@ class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
         try {
             $this->helper->setTranslator('something');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('must set an instance of Zend_Translate', $e->getMessage());
+            $this->assertStringContainsString('must set an instance of Zend_Translate', $e->getMessage());
         }
     }
 
@@ -158,7 +162,7 @@ class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
         try {
             $this->helper->getLocale();
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('must set an instance of Zend_Translate', $e->getMessage());
+            $this->assertStringContainsString('must set an instance of Zend_Translate', $e->getMessage());
         }
     }
 
@@ -167,7 +171,7 @@ class Zend_View_Helper_TranslateTest extends PHPUnit_Framework_TestCase
         try {
             $this->helper->setLocale('de');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('must set an instance of Zend_Translate', $e->getMessage());
+            $this->assertStringContainsString('must set an instance of Zend_Translate', $e->getMessage());
         }
     }
 

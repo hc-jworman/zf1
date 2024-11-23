@@ -46,7 +46,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_View_Helper
  */
 #[AllowDynamicProperties]
-class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
+class Zend_View_Helper_HeadTitleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_View_Helper_HeadTitle
@@ -65,8 +65,12 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_View_Helper_HeadTitleTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_View_Helper_HeadTitleTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -75,7 +79,7 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $regKey = Zend_View_Helper_Placeholder_Registry::REGISTRY_KEY;
         if (Zend_Registry::isRegistered($regKey)) {
@@ -92,7 +96,7 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->helper);
     }
@@ -117,21 +121,21 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
     public function testCanSetTitleViaHeadTitle()
     {
         $placeholder = $this->helper->headTitle('Foo Bar', 'SET');
-        $this->assertContains('Foo Bar', $placeholder->toString());
+        $this->assertStringContainsString('Foo Bar', $placeholder->toString());
     }
 
     public function testCanAppendTitleViaHeadTitle()
     {
         $placeholder = $this->helper->headTitle('Foo');
         $placeholder = $this->helper->headTitle('Bar');
-        $this->assertContains('FooBar', $placeholder->toString());
+        $this->assertStringContainsString('FooBar', $placeholder->toString());
     }
 
     public function testCanPrependTitleViaHeadTitle()
     {
         $placeholder = $this->helper->headTitle('Foo');
         $placeholder = $this->helper->headTitle('Bar', 'PREPEND');
-        $this->assertContains('BarFoo', $placeholder->toString());
+        $this->assertStringContainsString('BarFoo', $placeholder->toString());
     }
 
     public function testReturnedPlaceholderToStringContainsFullTitleElement()
@@ -145,8 +149,8 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
     {
         $this->helper->headTitle('<script type="text/javascript">alert("foo");</script>');
         $string = $this->helper->toString();
-        $this->assertNotContains('<script', $string);
-        $this->assertNotContains('</script>', $string);
+        $this->assertStringNotContainsString('<script', $string);
+        $this->assertStringNotContainsString('</script>', $string);
     }
 
     public function testToStringEscapesSeparator()
@@ -155,10 +159,10 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
                      ->headTitle('Bar')
                      ->setSeparator(' <br /> ');
         $string = $this->helper->toString();
-        $this->assertNotContains('<br />', $string);
-        $this->assertContains('Foo', $string);
-        $this->assertContains('Bar', $string);
-        $this->assertContains('br /', $string);
+        $this->assertStringNotContainsString('<br />', $string);
+        $this->assertStringContainsString('Foo', $string);
+        $this->assertStringContainsString('Bar', $string);
+        $this->assertStringContainsString('br /', $string);
     }
 
     public function testIndentationIsHonored()
@@ -167,7 +171,7 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
         $this->helper->headTitle('foo');
         $string = $this->helper->toString();
 
-        $this->assertContains('    <title>', $string);
+        $this->assertStringContainsString('    <title>', $string);
     }
 
     public function testAutoEscapeIsHonored()
@@ -235,7 +239,7 @@ class Zend_View_Helper_HeadTitleTest extends PHPUnit_Framework_TestCase
         $this->helper->setDefaultAttachOrder('PREPEND');
         $placeholder = $this->helper->headTitle('Foo');
         $placeholder = $this->helper->headTitle('Bar');
-        $this->assertContains('BarFoo', $placeholder->toString());
+        $this->assertStringContainsString('BarFoo', $placeholder->toString());
     }
 
     /**

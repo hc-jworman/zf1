@@ -49,7 +49,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Dojo_View
  */
 #[AllowDynamicProperties]
-class Zend_Dojo_View_Helper_ButtonTest extends PHPUnit_Framework_TestCase
+class Zend_Dojo_View_Helper_ButtonTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -58,8 +58,12 @@ class Zend_Dojo_View_Helper_ButtonTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Dojo_View_Helper_ButtonTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Dojo_View_Helper_ButtonTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -68,7 +72,7 @@ class Zend_Dojo_View_Helper_ButtonTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         Zend_Registry::_unsetInstance();
         Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
@@ -84,7 +88,7 @@ class Zend_Dojo_View_Helper_ButtonTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -113,7 +117,7 @@ class Zend_Dojo_View_Helper_ButtonTest extends PHPUnit_Framework_TestCase
     public function testShouldAllowDeclarativeDijitCreation()
     {
         $html = $this->getElement();
-        $this->assertRegexp('/<button[^>]*(dojoType="dijit.form.Button")/', $html, $html);
+        $this->assertMatchesRegularExpression('/<button[^>]*(dojoType="dijit.form.Button")/', $html, $html);
     }
 
     public function testShouldAllowProgrammaticDijitCreation()

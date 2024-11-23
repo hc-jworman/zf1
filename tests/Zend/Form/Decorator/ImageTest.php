@@ -43,7 +43,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Form
  */
 #[AllowDynamicProperties]
-class Zend_Form_Decorator_ImageTest extends PHPUnit_Framework_TestCase
+class Zend_Form_Decorator_ImageTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -53,8 +53,12 @@ class Zend_Form_Decorator_ImageTest extends PHPUnit_Framework_TestCase
     public static function main()
     {
 
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Form_Decorator_ImageTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Form_Decorator_ImageTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -63,7 +67,7 @@ class Zend_Form_Decorator_ImageTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->decorator = new Zend_Form_Decorator_Image();
     }
@@ -74,7 +78,7 @@ class Zend_Form_Decorator_ImageTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -125,10 +129,10 @@ class Zend_Form_Decorator_ImageTest extends PHPUnit_Framework_TestCase
         $this->decorator->setElement($element);
 
         $image = $this->decorator->render('');
-        $this->assertContains('<input', $image, $image);
-        $this->assertContains('src="foobar"', $image);
-        $this->assertContains('name="foo"', $image);
-        $this->assertContains('type="image"', $image);
+        $this->assertStringContainsString('<input', $image, $image);
+        $this->assertStringContainsString('src="foobar"', $image);
+        $this->assertStringContainsString('name="foo"', $image);
+        $this->assertStringContainsString('type="image"', $image);
     }
 
     public function testCanRenderImageWithinAdditionalTag()
@@ -140,7 +144,7 @@ class Zend_Form_Decorator_ImageTest extends PHPUnit_Framework_TestCase
                         ->setOption('tag', 'div');
 
         $image = $this->decorator->render('');
-        $this->assertRegexp('#<div>.*?<input[^>]*>.*?</div>#s', $image, $image);
+        $this->assertMatchesRegularExpression('#<div>.*?<input[^>]*>.*?</div>#s', $image, $image);
     }
 
     public function testCanPrependImageToContent()
@@ -152,7 +156,7 @@ class Zend_Form_Decorator_ImageTest extends PHPUnit_Framework_TestCase
                         ->setOption('placement', 'prepend');
 
         $image = $this->decorator->render('content');
-        $this->assertRegexp('#<input[^>]*>.*?(content)#s', $image, $image);
+        $this->assertMatchesRegularExpression('#<input[^>]*>.*?(content)#s', $image, $image);
     }
 
     /**
@@ -169,9 +173,9 @@ class Zend_Form_Decorator_ImageTest extends PHPUnit_Framework_TestCase
                         ->setOption('class', 'imageclass');
 
         $image = $this->decorator->render('');
-        $this->assertContains('class="imageclass"', $image);
-        $this->assertContains('onClick="foo()"', $image);
-        $this->assertContains('id="foo-element"', $image);
+        $this->assertStringContainsString('class="imageclass"', $image);
+        $this->assertStringContainsString('onClick="foo()"', $image);
+        $this->assertStringContainsString('id="foo-element"', $image);
     }
 }
 

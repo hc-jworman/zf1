@@ -52,7 +52,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
  * @group      Zend_Dojo_View
  */
 #[AllowDynamicProperties]
-class Zend_Dojo_View_Helper_SimpleTextareaTest extends PHPUnit_Framework_TestCase
+class Zend_Dojo_View_Helper_SimpleTextareaTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -61,8 +61,12 @@ class Zend_Dojo_View_Helper_SimpleTextareaTest extends PHPUnit_Framework_TestCas
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Dojo_View_Helper_SimpleTextareaTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Dojo_View_Helper_SimpleTextareaTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -71,7 +75,7 @@ class Zend_Dojo_View_Helper_SimpleTextareaTest extends PHPUnit_Framework_TestCas
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         Zend_Registry::_unsetInstance();
         Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
@@ -87,7 +91,7 @@ class Zend_Dojo_View_Helper_SimpleTextareaTest extends PHPUnit_Framework_TestCas
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -112,7 +116,7 @@ class Zend_Dojo_View_Helper_SimpleTextareaTest extends PHPUnit_Framework_TestCas
     public function testShouldAllowDeclarativeDijitCreation()
     {
         $html = $this->getElement();
-        $this->assertRegexp('/<textarea[^>]*(dojoType="dijit.form.SimpleTextarea")/', $html, $html);
+        $this->assertMatchesRegularExpression('/<textarea[^>]*(dojoType="dijit.form.SimpleTextarea")/', $html, $html);
     }
 
     public function testShouldAllowProgrammaticDijitCreation()
@@ -126,7 +130,7 @@ class Zend_Dojo_View_Helper_SimpleTextareaTest extends PHPUnit_Framework_TestCas
     public function testPassingIdAsAttributeShouldOverrideUsingNameAsId()
     {
         $html = $this->helper->simpleTextarea('foo[bar]', '', array(), array('id' => 'foo-bar'));
-        $this->assertContains('id="foo-bar"', $html);
+        $this->assertStringContainsString('id="foo-bar"', $html);
     }
 }
 

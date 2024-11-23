@@ -34,14 +34,14 @@
  * @group      Zend_Mail
  */
 #[AllowDynamicProperties]
-class Zend_Mail_MaildirWritableTest extends PHPUnit_Framework_TestCase
+class Zend_Mail_MaildirWritableTest extends \PHPUnit\Framework\TestCase
 {
     protected $_params;
     protected $_originalDir;
     protected $_tmpdir;
     protected $_subdirs = array('.', '.subfolder', '.subfolder.test');
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_originalDir = __DIR__ . '/_files/test.maildir/';
 
@@ -99,7 +99,7 @@ class Zend_Mail_MaildirWritableTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         foreach (array_reverse($this->_subdirs) as $dir) {
             if (!file_exists((string) $this->_tmpdir . $dir)) {

@@ -48,7 +48,7 @@ require_once __DIR__ . '/../../_files/modules/bar/controllers/IndexController.ph
  * @group      Zend_Controller_Action_Helper
  */
 #[AllowDynamicProperties]
-class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_TestCase
+class Zend_Controller_Action_Helper_ViewRendererTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Base path to controllers, views
@@ -88,8 +88,12 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Controller_Action_Helper_ViewRendererTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Controller_Action_Helper_ViewRendererTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     /**
@@ -98,7 +102,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
      *
      * @access protected
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->basePath = realpath(__DIR__ . str_repeat(DIRECTORY_SEPARATOR . '..', 2));
         $this->request  = new Zend_Controller_Request_Http();
@@ -119,7 +123,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
      *
      * @access protected
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Zend_Controller_Action_HelperBroker::resetHelpers();
     }
@@ -174,7 +178,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
 
         $scriptPaths = $this->helper->view->getScriptPaths();
         $this->assertEquals($count, count($scriptPaths), var_export($scriptPaths, 1));
-        $this->assertContains($module, $scriptPaths[0]);
+        $this->assertStringContainsString($module, $scriptPaths[0]);
 
         $helperPaths = $this->helper->view->getHelperPaths();
         $test        = ucfirst($module) . '_View_Helper_';
@@ -277,7 +281,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
 
         $scriptPaths = $this->helper->view->getScriptPaths();
         $scriptPath  = $scriptPaths[0];
-        $this->assertContains(
+        $this->assertStringContainsString(
             $this->_normalizePath($viewDir),
             $this->_normalizePath($scriptPath)
             );
@@ -324,7 +328,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $this->helper->postDispatch();
 
         $content = $this->response->getBody();
-        $this->assertNotContains('Rendered index/test.phtml', $this->response->getBody());
+        $this->assertStringNotContainsString('Rendered index/test.phtml', $this->response->getBody());
     }
 
     public function testNoRenderFlag()
@@ -402,7 +406,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $this->helper->postDispatch();
 
         $content = $this->response->getBody();
-        $this->assertContains('Rendered index/test.phtml in bar module', $content);
+        $this->assertStringContainsString('Rendered index/test.phtml in bar module', $content);
     }
 
     public function testPostDispatchDoesNothingOnForward()
@@ -416,7 +420,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $this->helper->postDispatch();
 
         $content = $this->response->getBody();
-        $this->assertNotContains('Rendered index/test.phtml in bar module', $content);
+        $this->assertStringNotContainsString('Rendered index/test.phtml in bar module', $content);
         $this->assertTrue(empty($content));
     }
 
@@ -432,7 +436,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $this->helper->postDispatch();
 
         $content = $this->response->getBody();
-        $this->assertNotContains('Rendered index/test.phtml in bar module', $content);
+        $this->assertStringNotContainsString('Rendered index/test.phtml in bar module', $content);
         $this->assertTrue(empty($content));
     }
 
@@ -445,7 +449,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $this->helper->postDispatch();
 
         $content = $this->response->getBody();
-        $this->assertNotContains('Rendered index/test.phtml in bar module', $content);
+        $this->assertStringNotContainsString('Rendered index/test.phtml in bar module', $content);
         $this->assertTrue(empty($content));
     }
 
@@ -459,7 +463,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $this->helper->postDispatch();
 
         $content = $this->response->getBody();
-        $this->assertNotContains('Rendered index/test.phtml in bar module', $content);
+        $this->assertStringNotContainsString('Rendered index/test.phtml in bar module', $content);
         $this->assertTrue(empty($content));
     }
 
@@ -557,7 +561,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $controller = new Bar_IndexController($this->request, $this->response, array());
         $this->helper->renderScript('index/test.phtml');
         $body = $this->response->getBody();
-        $this->assertContains('Rendered index/test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered index/test.phtml in bar module', $body);
     }
 
     public function testRenderScriptToNamedResponseSegment()
@@ -568,7 +572,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $controller = new Bar_IndexController($this->request, $this->response, array());
         $this->helper->renderScript('index/test.phtml', 'foo');
         $body = $this->response->getBody('foo');
-        $this->assertContains('Rendered index/test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered index/test.phtml in bar module', $body);
     }
 
     public function testRenderScriptToPreviouslyNamedResponseSegment()
@@ -580,7 +584,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $this->helper->setResponseSegment('foo');
         $this->helper->renderScript('index/test.phtml');
         $body = $this->response->getBody('foo');
-        $this->assertContains('Rendered index/test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered index/test.phtml in bar module', $body);
     }
 
     public function testRenderWithDefaults()
@@ -591,7 +595,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $controller = new Bar_IndexController($this->request, $this->response, array());
         $this->helper->render();
         $body = $this->response->getBody();
-        $this->assertContains('Rendered index/test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered index/test.phtml in bar module', $body);
     }
 
     public function testRenderToSpecifiedAction()
@@ -602,7 +606,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $controller = new Bar_IndexController($this->request, $this->response, array());
         $this->helper->render('test');
         $body = $this->response->getBody();
-        $this->assertContains('Rendered index/test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered index/test.phtml in bar module', $body);
     }
 
     public function testRenderWithNoController()
@@ -613,7 +617,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $controller = new Bar_IndexController($this->request, $this->response, array());
         $this->helper->render(null, null, true);
         $body = $this->response->getBody();
-        $this->assertContains('Rendered test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered test.phtml in bar module', $body);
     }
 
     public function testRenderToNamedSegment()
@@ -624,7 +628,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $controller = new Bar_IndexController($this->request, $this->response, array());
         $this->helper->render(null, 'foo');
         $body = $this->response->getBody('foo');
-        $this->assertContains('Rendered index/test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered index/test.phtml in bar module', $body);
     }
 
     public function testRenderBySpec()
@@ -635,7 +639,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $controller = new Bar_IndexController($this->request, $this->response, array());
         $this->helper->renderBySpec('foo', array('controller' => 'test', 'suffix' => 'php'));
         $body = $this->response->getBody();
-        $this->assertContains('Rendered test/foo.php', $body);
+        $this->assertStringContainsString('Rendered test/foo.php', $body);
     }
 
     public function testRenderBySpecToNamedResponseSegment()
@@ -646,7 +650,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $controller = new Bar_IndexController($this->request, $this->response, array());
         $this->helper->renderBySpec('foo', array('controller' => 'test', 'suffix' => 'php'), 'foo');
         $body = $this->response->getBody('foo');
-        $this->assertContains('Rendered test/foo.php', $body);
+        $this->assertStringContainsString('Rendered test/foo.php', $body);
     }
 
     public function testInitDoesNotInitViewWhenNoViewRendererSet()
@@ -732,7 +736,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
 
         $this->helper->render();
         $body = $this->response->getBody();
-        $this->assertContains('Rendered test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered test.phtml in bar module', $body);
     }
 
     public function testCustomInflectorUsesViewRendererTargetWhenPassedInWithReferenceFlag()
@@ -761,7 +765,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
 
         $this->helper->render();
         $body = $this->response->getBody();
-        $this->assertContains('Rendered index/test.phtml in bar module', $body);
+        $this->assertStringContainsString('Rendered index/test.phtml in bar module', $body);
     }
 
     public function testStockInflectorAllowsSubDirectoryViewScripts()
@@ -789,7 +793,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $viewScriptPaths = $this->helper->view->getAllPaths();
 
         $expectedPathRegex = '#modules/bar/bar/scripts/$#';
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             $expectedPathRegex,
             $this->_normalizePath($viewScriptPaths['script'][0])
             );
@@ -809,7 +813,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
         $viewScriptPaths = $this->helper->view->getAllPaths();
 
         $expectedPathRegex = '#modules/foo/views/scripts/$#';
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             $expectedPathRegex,
             $this->_normalizePath($viewScriptPaths['script'][0])
             );
@@ -826,7 +830,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
 
         $this->helper->render();
         $body = $this->response->getBody();
-        $this->assertContains('fooUseHelper invoked', $body, 'Received ' . $body);
+        $this->assertStringContainsString('fooUseHelper invoked', $body, 'Received ' . $body);
     }
     /**
      * @group ZF-10725
@@ -851,7 +855,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
 
         $this->helper->render();
         $body = $this->response->getBody();
-        $this->assertContains('SampleZfHelper invoked', $body, 'Received ' . $body);
+        $this->assertStringContainsString('SampleZfHelper invoked', $body, 'Received ' . $body);
     }
 
     /**
@@ -893,7 +897,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
      * @group ZF-10725
      * @return array
      */
-    public function providerViewScriptNameDoesNotIncludeDisallowedCharacters()
+    public static function providerViewScriptNameDoesNotIncludeDisallowedCharacters()
     {
         return array(
             array('myBar-'),
@@ -930,7 +934,7 @@ class Zend_Controller_Action_Helper_ViewRendererTest extends PHPUnit_Framework_T
      * @group GH-440
      * @return array
      */
-    public function providerControllerNameDoesNotIncludeDisallowedCharacters()
+    public static function providerControllerNameDoesNotIncludeDisallowedCharacters()
     {
         return array(
             array('!index'),

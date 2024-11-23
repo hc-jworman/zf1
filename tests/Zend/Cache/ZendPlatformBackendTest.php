@@ -44,12 +44,7 @@ class Zend_Cache_ZendPlatformBackendTest extends Zend_Cache_CommonBackendTest {
 
     protected $_instance;
 
-    public function __construct($name = null, array $data = array(), $dataName = '')
-    {
-        parent::__construct('Zend_Cache_Backend_ZendPlatform', $data, $dataName);
-    }
-
-    public function setUp($notag = false)
+    public function setUp($notag = false): void
     {
         if(!function_exists('output_cache_get')) {
             $this->markTestSkipped('Zend Platform is not installed, skipping test');
@@ -59,7 +54,7 @@ class Zend_Cache_ZendPlatformBackendTest extends Zend_Cache_CommonBackendTest {
         parent::setUp($notag);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->_instance);

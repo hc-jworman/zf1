@@ -54,7 +54,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Log
  */
 #[AllowDynamicProperties]
-class Zend_Log_Writer_FirebugTest extends PHPUnit_Framework_TestCase
+class Zend_Log_Writer_FirebugTest extends \PHPUnit\Framework\TestCase
 {
     protected $_controller = null;
     protected $_request = null;
@@ -70,11 +70,15 @@ class Zend_Log_Writer_FirebugTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         date_default_timezone_set('America/Los_Angeles');
 
@@ -100,7 +104,7 @@ class Zend_Log_Writer_FirebugTest extends PHPUnit_Framework_TestCase
         Zend_Wildfire_Plugin_FirePhp::getInstance()->setOption('includeLineNumbers', false);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Wildfire_Channel_HttpHeaders::destroyInstance();
         Zend_Wildfire_Plugin_FirePhp::destroyInstance();

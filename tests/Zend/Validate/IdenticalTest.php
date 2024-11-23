@@ -40,7 +40,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Validate
  */
 #[AllowDynamicProperties]
-class Zend_Validate_IdenticalTest extends PHPUnit_Framework_TestCase
+class Zend_Validate_IdenticalTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Zend_Validate_Identical
@@ -49,11 +49,15 @@ class Zend_Validate_IdenticalTest extends PHPUnit_Framework_TestCase
 
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite('Zend_Validate_IdenticalTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty('Zend_Validate_IdenticalTest');
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->validator = new Zend_Validate_Identical;
     }

@@ -37,7 +37,7 @@ require_once __DIR__ . '/../_files/My/ZendDbTable/Row/TestMockRow.php';
  * @group      Zend_Db_Table_Row
  */
 #[AllowDynamicProperties]
-class Zend_Db_Table_Row_StaticTest extends PHPUnit_Framework_TestCase
+class Zend_Db_Table_Row_StaticTest extends \PHPUnit\Framework\TestCase
 {
     public function testTableRowTransformColumnNotUsedInConstructor()
     {

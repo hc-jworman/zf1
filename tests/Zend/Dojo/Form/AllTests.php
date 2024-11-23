@@ -43,12 +43,12 @@ class Zend_Dojo_Form_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Dojo_Form');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Dojo_Form');
 
         $suite->addTest(Zend_Dojo_Form_Decorator_AllTests::suite());
         $suite->addTest(Zend_Dojo_Form_Element_AllTests::suite());

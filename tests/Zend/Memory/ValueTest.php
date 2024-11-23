@@ -60,7 +60,7 @@ class Zend_Memory_Container_Movable_Dummy extends Zend_Memory_Container_Movable
  * @group      Zend_Memory
  */
 #[AllowDynamicProperties]
-class Zend_Memory_ValueTest extends PHPUnit_Framework_TestCase
+class Zend_Memory_ValueTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * tests the Value object creation

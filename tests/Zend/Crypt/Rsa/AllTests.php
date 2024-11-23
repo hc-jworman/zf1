@@ -39,12 +39,12 @@ class Zend_Crypt_Rsa_AllTests
 {
     public static function main()
     {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
+        \PHPUnit\TextUI\TestRunner::run(self::suite());
     }
 
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Zend Framework - Zend_Crypt_Rsa');
+        $suite = \PHPUnit\Framework\TestSuite::empty('Zend Framework - Zend_Crypt_Rsa');
 
         $suite->addTestSuite('Zend_Crypt_RsaTest');
 

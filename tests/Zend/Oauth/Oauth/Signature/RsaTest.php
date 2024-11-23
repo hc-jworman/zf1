@@ -32,7 +32,7 @@
  * @group      Zend_Oauth_Signature
  */
 #[AllowDynamicProperties]
-class Zend_Oauth_Signature_RsaTest extends PHPUnit_Framework_TestCase
+class Zend_Oauth_Signature_RsaTest extends \PHPUnit\Framework\TestCase
 {
 
     public function testSignatureWithoutAccessSecretIsHashedWithConsumerSecret()

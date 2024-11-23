@@ -38,15 +38,19 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
  * @group      Zend_Application
  */
 #[AllowDynamicProperties]
-class Zend_Application_Resource_NavigationTest extends PHPUnit_Framework_TestCase
+class Zend_Application_Resource_NavigationTest extends \PHPUnit\Framework\TestCase
 {
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite(__CLASS__);
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty(__CLASS__);
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         // Store original autoloaders
         $this->loaders = spl_autoload_functions();
@@ -66,7 +70,7 @@ class Zend_Application_Resource_NavigationTest extends PHPUnit_Framework_TestCas
         Zend_Registry::_unsetInstance();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Zend_Navigation_Page::setDefaultPageType();
 

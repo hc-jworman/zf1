@@ -33,7 +33,7 @@
  * @group      Zend_XmlRpc
  */
 #[AllowDynamicProperties]
-class Zend_XmlRpc_ResponseTest extends PHPUnit_Framework_TestCase
+class Zend_XmlRpc_ResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Zend_XmlRpc_Response object
@@ -49,7 +49,7 @@ class Zend_XmlRpc_ResponseTest extends PHPUnit_Framework_TestCase
     /**
      * Setup environment
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->_response = new Zend_XmlRpc_Response();
     }
@@ -57,7 +57,7 @@ class Zend_XmlRpc_ResponseTest extends PHPUnit_Framework_TestCase
     /**
      * Teardown environment
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->_response);
     }
@@ -145,11 +145,15 @@ class Zend_XmlRpc_ResponseTest extends PHPUnit_Framework_TestCase
     public function testExceptionIsThrownWhenInvalidXmlIsReturnedByServer()
     {
         set_error_handler(array($this, 'trackError'));
-        $invalidResponse = 'foo';
-        $response = new Zend_XmlRpc_Response();
-        $this->assertFalse($this->_errorOccured);
-        $this->assertFalse($response->loadXml($invalidResponse));
-        $this->assertFalse($this->_errorOccured);
+        try {
+            $invalidResponse = 'foo';
+            $response = new Zend_XmlRpc_Response();
+            $this->assertFalse($this->_errorOccured);
+            $this->assertFalse($response->loadXml($invalidResponse));
+            $this->assertFalse($this->_errorOccured);
+        } finally {
+            restore_error_handler();
+        }
     }
 
     /**
@@ -265,7 +269,7 @@ EOD;
         $value = $this->_response->getReturnValue();
         $this->assertTrue(empty($value));
         if (is_string($value)) {
-            $this->assertNotContains('Local file inclusion', $value);
+            $this->assertStringNotContainsString('Local file inclusion', $value);
         }
     }
 

@@ -30,11 +30,11 @@
  * @group      Zend_Db
  * @group      Zend_Db_Adapter
  */
-abstract class Zend_Db_Adapter_Skip_CommonTest extends PHPUnit_Framework_TestCase
+abstract class Zend_Db_Adapter_Skip_CommonTest extends \PHPUnit\Framework\TestCase
 {
     abstract public function getDriver();
 
-    public function setUp()
+    public function setUp(): void
     {
         $driver = $this->getDriver();
         $this->markTestSkipped("Testing Zend_Db_Adapter_$driver is not enabled in TestConfiguration.php");

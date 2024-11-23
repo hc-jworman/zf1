@@ -33,17 +33,17 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class Zend_Serializer_Adapter_WddxTest extends PHPUnit_Framework_TestCase
+class Zend_Serializer_Adapter_WddxTest extends \PHPUnit\Framework\TestCase
 {
 
     private $_adapter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_adapter = new Zend_Serializer_Adapter_Wddx();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->_adapter = null;
     }
@@ -204,7 +204,7 @@ class Zend_Serializer_Adapter_WddxTest extends PHPUnit_Framework_TestCase
     public function testUnserialzeInvalid()
     {
         $value = 'not a serialized string';
-        $this->setExpectedException('Zend_Serializer_Exception');
+        $this->expectException('Zend_Serializer_Exception');
         $this->_adapter->unserialize($value);
     }
 
@@ -229,7 +229,7 @@ class Zend_Serializer_Adapter_WddxTest extends PHPUnit_Framework_TestCase
         }
 
         $value = 'not a serialized string';
-        $this->setExpectedException(
+        $this->expectException(
             'Zend_Serializer_Exception',
             'Can\'t unserialize wddx string'
         );
@@ -241,7 +241,7 @@ class Zend_Serializer_Adapter_WddxTest extends PHPUnit_Framework_TestCase
         $value    = '<!DOCTYPE>'
                   . '<wddxPacket version=\'1.0\'><header/>'
                   . '<data><string>test</string></data></wddxPacket>';
-        $this->setExpectedException("Zend_Serializer_Exception");
+        $this->expectException("Zend_Serializer_Exception");
         $data = $this->_adapter->unserialize($value);
     }
 }
@@ -255,11 +255,11 @@ class Zend_Serializer_Adapter_WddxTest extends PHPUnit_Framework_TestCase
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 #[AllowDynamicProperties]
-class Zend_Serializer_Adapter_WddxSkipTest extends PHPUnit_Framework_TestCase
+class Zend_Serializer_Adapter_WddxSkipTest extends \PHPUnit\Framework\TestCase
 {
     public $message = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $message = 'Skipped Zend_Serializer_Adapter_WddxTest';
         if ($this->message) {

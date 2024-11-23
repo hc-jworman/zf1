@@ -32,18 +32,18 @@
  * @group      Zend_Http_Client
  */
 #[AllowDynamicProperties]
-class Zend_Http_Client_ClientTest extends PHPUnit_Framework_TestCase
+class Zend_Http_Client_ClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Set up the test case
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = new Zend_Http_Client();
     }
 
-    public function invalidHeaders()
+    public static function invalidHeaders()
     {
         return array(
             'invalid-name-cr'                      => array("X-Foo-\rBar", 'value'),
@@ -64,7 +64,7 @@ class Zend_Http_Client_ClientTest extends PHPUnit_Framework_TestCase
      */
     public function testHeadersContainingCRLFInjectionRaiseAnException($name, $value)
     {
-        $this->setExpectedException('Zend_Http_Exception');
+        $this->expectException('Zend_Http_Exception');
         $this->client->setHeaders(array(
             $name => $value,
         ));

@@ -34,7 +34,7 @@
  * @group      Zend_Translate
  */
 #[AllowDynamicProperties]
-class Zend_Translate_Adapter_XliffTest extends PHPUnit_Framework_TestCase
+class Zend_Translate_Adapter_XliffTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Runs the test methods of this class.
@@ -43,8 +43,12 @@ class Zend_Translate_Adapter_XliffTest extends PHPUnit_Framework_TestCase
      */
     public static function main()
     {
-        $suite  = new PHPUnit_Framework_TestSuite("Zend_Translate_Adapter_XliffTest");
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
+        $suite  = \PHPUnit\Framework\TestSuite::empty("Zend_Translate_Adapter_XliffTest");
+        (new \PHPUnit\TextUI\TestRunner())->run(
+            \PHPUnit\TextUI\Configuration\Registry::get(),
+            new \PHPUnit\Runner\ResultCache\NullResultCache(),
+            $suite,
+        );
     }
 
     public function testCreate()
@@ -56,14 +60,14 @@ class Zend_Translate_Adapter_XliffTest extends PHPUnit_Framework_TestCase
             $adapter = new Zend_Translate_Adapter_Xliff(__DIR__ . '/_files/nofile.xliff', 'en');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('is not readable', $e->getMessage());
+            $this->assertStringContainsString('is not readable', $e->getMessage());
         }
 
         try {
             $adapter = new Zend_Translate_Adapter_Xliff(__DIR__ . '/_files/failed.xliff', 'en');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('Mismatched tag at line', $e->getMessage(), '', true);
+            $this->assertStringContainsString('Mismatched tag at line', $e->getMessage(), '', true);
         }
     }
 
@@ -76,7 +80,7 @@ class Zend_Translate_Adapter_XliffTest extends PHPUnit_Framework_TestCase
             $adapter = new Zend_Translate_Adapter_Xliff(__DIR__ . '/_files/nofile.xliff', 'en');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('nofile.xliff', $e->getMessage());
+            $this->assertStringContainsString('nofile.xliff', $e->getMessage());
         }
     }
 
@@ -119,7 +123,7 @@ class Zend_Translate_Adapter_XliffTest extends PHPUnit_Framework_TestCase
             $adapter->addTranslation(__DIR__ . '/_files/translation_en.xliff', 'xx');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('does not exist', $e->getMessage());
+            $this->assertStringContainsString('does not exist', $e->getMessage());
         }
 
         $adapter->addTranslation(__DIR__ . '/_files/translation_en2.xliff', 'de', array('clear' => true));
@@ -177,7 +181,7 @@ class Zend_Translate_Adapter_XliffTest extends PHPUnit_Framework_TestCase
             $adapter->setLocale('nolocale');
             $this->fail("exception expected");
         } catch (Zend_Translate_Exception $e) {
-            $this->assertContains('does not exist', $e->getMessage());
+            $this->assertStringContainsString('does not exist', $e->getMessage());
         }
 
         set_error_handler(array($this, 'errorHandlerIgnore'));

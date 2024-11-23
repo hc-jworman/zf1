@@ -35,7 +35,7 @@
  * @group      Zend_Ldap_Dn
  */
 #[AllowDynamicProperties]
-class Zend_Ldap_Dn_MiscTest extends PHPUnit_Framework_TestCase
+class Zend_Ldap_Dn_MiscTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsChildOfIllegalDn1()
     {

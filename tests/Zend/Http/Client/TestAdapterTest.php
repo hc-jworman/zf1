@@ -35,7 +35,7 @@
  * @group      Zend_Http_Client
  */
 #[AllowDynamicProperties]
-class Zend_Http_Client_TestAdapterTest extends PHPUnit_Framework_TestCase
+class Zend_Http_Client_TestAdapterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test adapter
@@ -48,7 +48,7 @@ class Zend_Http_Client_TestAdapterTest extends PHPUnit_Framework_TestCase
      * Set up the test adapter before running the test
      *
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = new Zend_Http_Client_Adapter_Test();
     }
@@ -57,7 +57,7 @@ class Zend_Http_Client_TestAdapterTest extends PHPUnit_Framework_TestCase
      * Tear down the test adapter after running the test
      *
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->adapter = null;
     }
@@ -194,7 +194,7 @@ class Zend_Http_Client_TestAdapterTest extends PHPUnit_Framework_TestCase
             } catch (\Throwable $e) {
                 $class = 'Zend_Http_Client_Adapter_Exception';
                 $this->assertTrue($e instanceof $class);
-                $this->assertRegexp('/out of range/i', $e->getMessage());
+                $this->assertMatchesRegularExpression('/out of range/i', $e->getMessage());
             }
         }
     }

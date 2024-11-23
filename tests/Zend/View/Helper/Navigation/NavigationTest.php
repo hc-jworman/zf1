@@ -267,7 +267,7 @@ class Zend_View_Helper_Navigation_NavigationTest
             $this->fail('An invalid argument was given, but a ' .
                         'Zend_View_Exception was not thrown');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('$role must be a string', $e->getMessage());
+            $this->assertStringContainsString('$role must be a string', $e->getMessage());
         }
     }
 
@@ -278,7 +278,7 @@ class Zend_View_Helper_Navigation_NavigationTest
             $this->fail('An invalid argument was given, but a ' .
                         'Zend_View_Exception was not thrown');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('$role must be a string', $e->getMessage());
+            $this->assertStringContainsString('$role must be a string', $e->getMessage());
         }
     }
 
@@ -319,7 +319,7 @@ class Zend_View_Helper_Navigation_NavigationTest
             $this->fail('An invalid argument was given, but a ' .
                         'Zend_View_Exception was not thrown');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('$role must be', $e->getMessage());
+            $this->assertStringContainsString('$role must be', $e->getMessage());
         }
     }
 
@@ -330,7 +330,7 @@ class Zend_View_Helper_Navigation_NavigationTest
             $this->fail('An invalid argument was given, but a ' .
                         'Zend_View_Exception was not thrown');
         } catch (Zend_View_Exception $e) {
-            $this->assertContains('$role must be', $e->getMessage());
+            $this->assertStringContainsString('$role must be', $e->getMessage());
         }
     }
 
@@ -347,7 +347,7 @@ class Zend_View_Helper_Navigation_NavigationTest
         $this->_helper->__toString();
         restore_error_handler();
 
-        $this->assertContains('array must contain two values', $this->_errorMessage);
+        $this->assertStringContainsString('array must contain two values', $this->_errorMessage);
     }
 
     public function testPageIdShouldBeNormalized()
